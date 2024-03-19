@@ -5,9 +5,12 @@ import java.awt.*;
 
 import models.Database.LivroDatabase;
 import models.Livro.Livro;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
-public class PesquisaLivroView extends JFrame {
+public class PesquisaLivroView extends JFrame implements ActionListener {
 
     private JTextField textFieldPesquisa;
     private JTextArea textAreaResultados;
@@ -24,7 +27,7 @@ public class PesquisaLivroView extends JFrame {
         JPanel searchPanel = new JPanel(new BorderLayout());
         textFieldPesquisa = new JTextField();
         JButton btnPesquisar = new JButton("Pesquisar");
-        btnPesquisar.addActionListener(e->pesquisarLivros());
+        btnPesquisar.addActionListener(this);
         searchPanel.add(textFieldPesquisa, BorderLayout.CENTER);
         searchPanel.add(btnPesquisar, BorderLayout.EAST);
 
@@ -40,7 +43,6 @@ public class PesquisaLivroView extends JFrame {
     private void pesquisarLivros() {
         String pesquisa = textFieldPesquisa.getText();
 
-
         List<Livro> livrosEncontrados = LivroDatabase.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
 
         StringBuilder resultados = new StringBuilder();
@@ -54,5 +56,10 @@ public class PesquisaLivroView extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new PesquisaLivroView().setVisible(true));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        pesquisarLivros();
     }
 }
