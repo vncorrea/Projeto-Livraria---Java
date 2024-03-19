@@ -27,6 +27,7 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
         JPanel searchPanel = new JPanel(new BorderLayout());
         textFieldPesquisa = new JTextField();
         JButton btnPesquisar = new JButton("Pesquisar");
+        btnPesquisar.setActionCommand("pesquisar");
         btnPesquisar.addActionListener(this);
         searchPanel.add(textFieldPesquisa, BorderLayout.CENTER);
         searchPanel.add(btnPesquisar, BorderLayout.EAST);
@@ -60,6 +61,8 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        pesquisarLivros();
+        if (e.getActionCommand().equals("pesquisar")) {
+            pesquisarLivros();
+        }
     }
 }
