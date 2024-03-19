@@ -13,7 +13,7 @@ public class Livro {
     private int paginas;
     private int idLivroStatus;
     private int idLivroCategoria;
-    private int isbn;
+    private String isbn;
     private int prazoEmprestimo;
     private Date dataPublicacao;
     private Date dataCadastro;
@@ -21,7 +21,7 @@ public class Livro {
     private static List<Livro> livros = new ArrayList<>();
 
     public Livro(int idLivro, String titulo, String autor, String editora, String sinopse, int paginas,
-                 int idLivroStatus, int idLivroCategoria, int isbn, int prazoEmprestimo, Date dataPublicacao,
+                 int idLivroStatus, int idLivroCategoria, String isbn, int prazoEmprestimo, Date dataPublicacao,
                  Date dataCadastro) {
         this.idLivro = idLivro;
         this.titulo = titulo;
@@ -101,11 +101,11 @@ public class Livro {
         this.idLivroCategoria = idLivroCategoria;
     }
 
-    public int getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(int isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
@@ -131,71 +131,5 @@ public class Livro {
 
     public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
-    }
-
-    public static Livro criarLivro(int idLivro, String titulo, String autor, String editora, String sinopse,
-                                   int paginas, int idLivroStatus, int idLivroCategoria, int isbn,
-                                   int prazoEmprestimo, Date dataPublicacao, Date dataCadastro) {
-        Livro novoLivro = new Livro(idLivro, titulo, autor, editora, sinopse, paginas, idLivroStatus,
-                idLivroCategoria, isbn, prazoEmprestimo, dataPublicacao, dataCadastro);
-        livros.add(novoLivro);
-        return novoLivro;
-    }
-
-    public static void editarLivro(int idLivro, String novoTitulo, String novoAutor, String novaEditora,
-                                   String novaSinopse, int novasPaginas, int novoIdLivroStatus,
-                                   int novoIdLivroCategoria, int novoIsbn, int novoPrazoEmprestimo,
-                                   Date novaDataPublicacao) {
-        for (Livro livro : livros) {
-            if (livro.getIdLivro() == idLivro) {
-                livro.setTitulo(novoTitulo);
-                livro.setAutor(novoAutor);
-                livro.setEditora(novaEditora);
-                livro.setSinopse(novaSinopse);
-                livro.setPaginas(novasPaginas);
-                livro.setIdLivroStatus(novoIdLivroStatus);
-                livro.setIdLivroCategoria(novoIdLivroCategoria);
-                livro.setIsbn(novoIsbn);
-                livro.setPrazoEmprestimo(novoPrazoEmprestimo);
-                livro.setDataPublicacao(novaDataPublicacao);
-                break;
-            }
-        }
-    }
-
-    public static void excluirLivro(int idLivro) {
-        Livro livroParaRemover = null;
-        for (Livro livro : livros) {
-            if (livro.getIdLivro() == idLivro) {
-                livroParaRemover = livro;
-                break;
-            }
-        }
-        if (livroParaRemover != null) {
-            livros.remove(livroParaRemover);
-        }
-    }
-
-    public static List<Livro> pesquisarLivro(String titulo, String autor, String editora, int idLivroStatus, int idLivroCategoria) {
-        List<Livro> livrosEncontrados = new ArrayList<>();
-        for (Livro livro : livros) {
-            if (titulo != null && !titulo.isEmpty() && !livro.getTitulo().contains(titulo)) {
-                continue;
-            }
-            if (autor != null && !autor.isEmpty() && !livro.getAutor().contains(autor)) {
-                continue;
-            }
-            if (editora != null && !editora.isEmpty() && !livro.getEditora().contains(editora)) {
-                continue;
-            }
-            if (idLivroStatus != 0 && livro.getIdLivroStatus() != idLivroStatus) {
-                continue;
-            }
-            if (idLivroCategoria != 0 && livro.getIdLivroCategoria() != idLivroCategoria) {
-                continue;
-            }
-            livrosEncontrados.add(livro);
-        }
-        return livrosEncontrados;
     }
 }

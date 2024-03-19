@@ -2,6 +2,8 @@ package views;
 
 import javax.swing.*;
 import java.awt.*;
+
+import models.Database.LivroDatabase;
 import models.Livro.Livro;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class PesquisaLivroView extends JFrame {
         JPanel searchPanel = new JPanel(new BorderLayout());
         textFieldPesquisa = new JTextField();
         JButton btnPesquisar = new JButton("Pesquisar");
-        btnPesquisar.addActionListener(e -> pesquisarLivros());
+        btnPesquisar.addActionListener(e->pesquisarLivros());
         searchPanel.add(textFieldPesquisa, BorderLayout.CENTER);
         searchPanel.add(btnPesquisar, BorderLayout.EAST);
 
@@ -37,7 +39,9 @@ public class PesquisaLivroView extends JFrame {
 
     private void pesquisarLivros() {
         String pesquisa = textFieldPesquisa.getText();
-        List<Livro> livrosEncontrados = Livro.pesquisarLivro(pesquisa, null, null, 0, 0);
+
+
+        List<Livro> livrosEncontrados = LivroDatabase.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
 
         StringBuilder resultados = new StringBuilder();
         resultados.append("Resultados para: ").append(pesquisa).append("\n");
