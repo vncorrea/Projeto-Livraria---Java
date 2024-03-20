@@ -63,6 +63,8 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("pesquisar")) {
             pesquisarLivros();
+        } else if (e.getActionCommand().equals("editar")) {
+            // implementar edição
         }
     }
 }
