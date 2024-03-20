@@ -78,7 +78,21 @@ public class CadastroLivroView extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("cadastrar")) {
-            LivroDatabase.criarLivro(1, "O Senhor dos Anéis", "J.R.R. Tolkien", "HarperCollins", "Sinopse", 1000, 1, 1, "978-0-261-10235-4", 14, null, null);
+            // pega os campos de cima e coloca no criarLivro do LivroDatabase
+            LivroDatabase.criarLivro(
+                    Integer.parseInt(textFieldIdLivro.getText()),
+                    textFieldNome.getText(),
+                    textFieldAutor.getText(),
+                    textFieldEditora.getText(),
+                    textFieldSinopse.getText(),
+                    Integer.parseInt(textFieldPagina.getText()),
+                    1,
+                    1,
+                    textFieldIsbn.getText(),
+                    Integer.parseInt(textFieldPrazoEmprestimo.getText()),
+                    null,
+                    null);
+
             JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
         }
     }
