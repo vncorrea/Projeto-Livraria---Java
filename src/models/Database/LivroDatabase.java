@@ -56,23 +56,34 @@ public class LivroDatabase {
 
     public static List<Livro> pesquisarLivro(String titulo, String autor, String editora, String isbn) {
         List<Livro> livrosEncontrados = new ArrayList<>();
+
+        boolean livroEncontrado = false;
+
         for (Livro livro : livros) {
-            if (titulo != null && !titulo.isEmpty() && !Objects.equals(livro.getTitulo(), titulo)) {
-                continue;
-            }
-            if (autor != null && !autor.isEmpty() && !Objects.equals(livro.getAutor(), autor)) {
-                continue;
-            }
-            if (editora != null && !editora.isEmpty() && !Objects.equals(livro.getEditora(), editora)) {
-                continue;
-            }
-            if (isbn != null && !isbn.isEmpty() && !Objects.equals(livro.getIsbn(), isbn)) {
-                continue;
+            livroEncontrado = false;
+
+            if (titulo != null && !titulo.isEmpty() && Objects.equals(livro.getTitulo(), titulo)) {
+                livroEncontrado = true;
             }
 
+            if (autor != null && !autor.isEmpty() && Objects.equals(livro.getAutor(), autor)) {
+                livroEncontrado = true;
+            }
 
-            livrosEncontrados.add(livro);
+            if (editora != null && !editora.isEmpty() && Objects.equals(livro.getEditora(), editora)) {
+                livroEncontrado = true;
+            }
+
+            if (isbn != null && !isbn.isEmpty() && Objects.equals(livro.getIsbn(), isbn)) {
+                livroEncontrado = true;
+            }
+
+            if (livroEncontrado) {
+                livrosEncontrados.add(livro);
+            }
+
         }
+
         return livrosEncontrados;
     }
 }
