@@ -1,6 +1,7 @@
 package views;
 
 import models.Database.LivroDatabase;
+import models.Livro.LivroCategoria;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,8 +10,8 @@ import java.awt.event.ActionListener;
 
 public class CadastroLivroView extends JFrame implements ActionListener {
     private JButton btnCadastrar;
-    JLabel labelNome, labelAutor, labelIdLivro, labelEditora, labelSinopse, labelPagina, labelIsbn, labelPrazoEmprestimo;
-    JTextField textFieldNome, textFieldAutor, textFieldIdLivro, textFieldEditora, textFieldSinopse, textFieldPagina, textFieldIsbn, textFieldPrazoEmprestimo;
+    JLabel labelNome, labelAutor, labelIdLivro, labelEditora, labelSinopse, labelPagina, labelIsbn, labelPrazoEmprestimo, labelCategoria;
+    JTextField textFieldNome, textFieldAutor, textFieldIdLivro, textFieldEditora, textFieldSinopse, textFieldPagina, textFieldIsbn, textFieldPrazoEmprestimo, textFieldCategoria;
 
     public CadastroLivroView() {
         setTitle("Cadastro de Livros");
@@ -47,6 +48,11 @@ public class CadastroLivroView extends JFrame implements ActionListener {
         textFieldSinopse = new JTextField();
         formPanel.add(textFieldSinopse);
 
+        labelCategoria = new JLabel("Categoria do livro:");
+        formPanel.add(labelCategoria);
+        textFieldCategoria = new JTextField();
+        formPanel.add(textFieldCategoria);
+
         labelPagina = new JLabel("Páginas do livro:");
         formPanel.add(labelPagina);
         textFieldPagina = new JTextField();
@@ -78,7 +84,6 @@ public class CadastroLivroView extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("cadastrar")) {
-            // pega os campos de cima e coloca no criarLivro do LivroDatabase
             LivroDatabase.criarLivro(
                     Integer.parseInt(textFieldIdLivro.getText()),
                     textFieldNome.getText(),
@@ -87,13 +92,18 @@ public class CadastroLivroView extends JFrame implements ActionListener {
                     textFieldSinopse.getText(),
                     Integer.parseInt(textFieldPagina.getText()),
                     1,
-                    1,
+                    textFieldCategoria.getText(),
                     textFieldIsbn.getText(),
                     Integer.parseInt(textFieldPrazoEmprestimo.getText()),
                     null,
                     null);
 
             JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
+            SwingUtilities.invokeLater(() -> {
+                PesquisaLivroView pesquisaLivroView = new PesquisaLivroView();
+                pesquisaLivroView.setVisible(true);
+                this.dispose();
+            });
         }
     }
 }

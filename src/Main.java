@@ -11,8 +11,6 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             CadastroLivroView cadastroLivroView = new CadastroLivroView();
             cadastroLivroView.setVisible(true);
-            PesquisaLivroView pesquisaLivroView = new PesquisaLivroView();
-            pesquisaLivroView.setVisible(true);
         });
     }
 }

@@ -32,8 +32,14 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
         searchPanel.add(textFieldPesquisa, BorderLayout.CENTER);
         searchPanel.add(btnPesquisar, BorderLayout.EAST);
 
+        JButton btnMais = new JButton("Adicionar Livro");
+        btnMais.setActionCommand("adicionarLivro");
+        btnMais.addActionListener(this);
+        searchPanel.add(btnMais, BorderLayout.NORTH);
+
         resultadosPanel = new JPanel();
-        resultadosPanel.setLayout(new BoxLayout(resultadosPanel, BoxLayout.Y_AXIS));
+        resultadosPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 10)); // Layout FlowLayout com orientação horizontal
+        resultadosPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         panel.add(searchPanel, BorderLayout.NORTH);
         panel.add(new JScrollPane(resultadosPanel), BorderLayout.CENTER);
@@ -44,28 +50,36 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
     private void pesquisarLivros() {
         String pesquisa = textFieldPesquisa.getText();
 
-        List<Livro> livrosEncontrados = LivroDatabase.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
+        JPanel novoPanel = new JPanel();
+        novoPanel.setLayout(new BoxLayout(novoPanel, BoxLayout.Y_AXIS));
 
-        resultadosPanel.removeAll();
+        List<Livro> livrosEncontrados = LivroDatabase.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
 
         for (Livro livro : livrosEncontrados) {
             JPanel livroPanel = new JPanel(new BorderLayout());
             JLabel lblTitulo = new JLabel(livro.getTitulo());
+
+            JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
             JButton btnEditar = new JButton(new ImageIcon("caminho/para/o/icone/lapis.png"));
             JButton btnExcluir = new JButton(new ImageIcon("caminho/para/o/icone/lixeira.png"));
-            btnEditar.setActionCommand("editar");
-//            btnExcluir.setActionCommand("excluir-" + livro.getId());
+            btnEditar.setPreferredSize(new Dimension(20, 20));
+            btnExcluir.setPreferredSize(new Dimension(20, 20));
             btnEditar.addActionListener(this);
             btnExcluir.addActionListener(this);
 
-            livroPanel.add(lblTitulo, BorderLayout.CENTER);
-            livroPanel.add(btnEditar, BorderLayout.EAST);
-            livroPanel.add(btnExcluir, BorderLayout.WEST);
+            btnPanel.add(btnEditar);
+            btnPanel.add(btnExcluir);
 
-            resultadosPanel.add(livroPanel);
+            livroPanel.add(lblTitulo, BorderLayout.CENTER);
+            livroPanel.add(btnPanel, BorderLayout.WEST);
+
+            novoPanel.add(livroPanel);
         }
 
+        resultadosPanel.removeAll();
+        resultadosPanel.add(novoPanel);
         resultadosPanel.revalidate();
+        resultadosPanel.repaint();
     }
 
     public static void main(String[] args) {
@@ -74,14 +88,23 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("pesquisar")) {
-            pesquisarLivros();
-        } else if (e.getActionCommand().equals("editar")) {
-            // implementar edição
-        } else if (e.getActionCommand().startsWith("excluir-")) {
-            String livroId = e.getActionCommand().substring(8);
-//            LivroDatabase.excluirLivro(livroId);
-            pesquisarLivros();
+        switch (e.getActionCommand()) {
+            case "pesquisar":
+                pesquisarLivros();
+                break;
+            case "editar":
+                // implementar edição
+                break;
+            case "excluir":
+                // implementar exclusão
+                break;
+            case "adicionarLivro":
+                SwingUtilities.invokeLater(() -> {
+                    CadastroLivroView cadastroLivroView = new CadastroLivroView();
+                    cadastroLivroView.setVisible(true);
+                    this.dispose();
+                });
+                break;
         }
     }
 }

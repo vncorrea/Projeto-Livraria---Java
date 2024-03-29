@@ -1,26 +1,29 @@
 package models.Database;
 
 import models.Livro.Livro;
+import models.Livro.LivroCategoria;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class LivroDatabase {
     private static List<Livro> livros = new ArrayList<>();
 
     public static Livro criarLivro(int idLivro, String titulo, String autor, String editora, String sinopse,
-                                   int paginas, int idLivroStatus, int idLivroCategoria, String isbn,
+                                   int paginas, int idLivroStatus, String categoria, String isbn,
                                    int prazoEmprestimo, Date dataPublicacao, Date dataCadastro) {
         Livro novoLivro = new Livro(idLivro, titulo, autor, editora, sinopse, paginas, idLivroStatus,
-                idLivroCategoria, isbn, prazoEmprestimo, dataPublicacao, dataCadastro);
+                categoria, isbn, prazoEmprestimo, dataPublicacao, dataCadastro);
+
         livros.add(novoLivro);
         return novoLivro;
     }
 
     public static void editarLivro(int idLivro, String novoTitulo, String novoAutor, String novaEditora,
                                    String novaSinopse, int novasPaginas, int novoIdLivroStatus,
-                                   int novoIdLivroCategoria, String novoIsbn, int novoPrazoEmprestimo,
+                                   String novaCategoria, String novoIsbn, int novoPrazoEmprestimo,
                                    Date novaDataPublicacao) {
         for (Livro livro : livros) {
             if (livro.getIdLivro() == idLivro) {
@@ -30,7 +33,7 @@ public class LivroDatabase {
                 livro.setSinopse(novaSinopse);
                 livro.setPaginas(novasPaginas);
                 livro.setIdLivroStatus(novoIdLivroStatus);
-                livro.setIdLivroCategoria(novoIdLivroCategoria);
+                livro.setCategoria(novaCategoria);
                 livro.setIsbn(novoIsbn);
                 livro.setPrazoEmprestimo(novoPrazoEmprestimo);
                 livro.setDataPublicacao(novaDataPublicacao);
@@ -52,23 +55,37 @@ public class LivroDatabase {
         }
     }
 
-    public static List<Livro> pesquisarLivro(String titulo, String autor, String editora, String isbn) {
+    public static List<Livro> pesquisarLivro(String titulo, String autor, String categoria, String isbn) {
         List<Livro> livrosEncontrados = new ArrayList<>();
+
+        boolean livroEncontrado = false;
+
         for (Livro livro : livros) {
-            if (titulo != null && !titulo.isEmpty() && !livro.getTitulo().contains(titulo)) {
-                continue;
+            livroEncontrado = false;
+
+            if (titulo != null && !titulo.isEmpty() && Objects.equals(livro.getTitulo(), titulo)) {
+                livroEncontrado = true;
             }
-            if (autor != null && !autor.isEmpty() && !livro.getAutor().contains(autor)) {
-                continue;
+
+            if (autor != null && !autor.isEmpty() && Objects.equals(livro.getAutor(), autor)) {
+                livroEncontrado = true;
             }
-            if (editora != null && !editora.isEmpty() && !livro.getEditora().contains(editora)) {
-                continue;
+
+            if (categoria != null && !categoria.isEmpty() && Objects.equals(livro.getCategoria(), categoria)) {
+                livroEncontrado = true;
             }
-            if (isbn != null && !isbn.isEmpty() && livro.getIsbn() != isbn) {
-                continue;
+
+            if (isbn != null && !isbn.isEmpty() && Objects.equals(livro.getIsbn(), isbn)) {
+                livroEncontrado = true;
             }
-            livrosEncontrados.add(livro);
+
+            if (livroEncontrado) {
+                livrosEncontrados.add(livro);
+            }
+
         }
+
+        System.out.println(livrosEncontrados);
         return livrosEncontrados;
     }
 }
