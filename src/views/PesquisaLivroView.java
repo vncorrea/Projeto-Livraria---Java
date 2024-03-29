@@ -50,9 +50,11 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
     private void pesquisarLivros() {
         String pesquisa = textFieldPesquisa.getText();
 
-        List<Livro> livrosEncontrados = LivroDatabase.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
+        // Criar um novo JPanel para armazenar os livros encontrados
+        JPanel novoPanel = new JPanel();
+        novoPanel.setLayout(new BoxLayout(novoPanel, BoxLayout.Y_AXIS)); // Layout vertical para os livros
 
-        resultadosPanel.removeAll();
+        List<Livro> livrosEncontrados = LivroDatabase.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
 
         for (Livro livro : livrosEncontrados) {
             JPanel livroPanel = new JPanel(new BorderLayout());
@@ -73,9 +75,11 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
             livroPanel.add(lblTitulo, BorderLayout.CENTER);
             livroPanel.add(btnPanel, BorderLayout.WEST);
 
-            resultadosPanel.add(livroPanel);
+            novoPanel.add(livroPanel); // Adicionar o livro ao novo painel
         }
-
+        
+        resultadosPanel.removeAll();
+        resultadosPanel.add(novoPanel);
         resultadosPanel.revalidate();
     }
 
