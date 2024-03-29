@@ -59,7 +59,6 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
             JPanel livroPanel = new JPanel(new BorderLayout());
             JLabel lblTitulo = new JLabel(livro.getTitulo());
 
-            // Painel para os botões
             JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
             JButton btnEditar = new JButton(new ImageIcon("caminho/para/o/icone/lapis.png"));
             JButton btnExcluir = new JButton(new ImageIcon("caminho/para/o/icone/lixeira.png"));
