@@ -78,7 +78,6 @@ public class CadastroLivroView extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("cadastrar")) {
-            // pega os campos de cima e coloca no criarLivro do LivroDatabase
             LivroDatabase.criarLivro(
                     Integer.parseInt(textFieldIdLivro.getText()),
                     textFieldNome.getText(),
@@ -94,6 +93,11 @@ public class CadastroLivroView extends JFrame implements ActionListener {
                     null);
 
             JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
+            SwingUtilities.invokeLater(() -> {
+                PesquisaLivroView pesquisaLivroView = new PesquisaLivroView();
+                pesquisaLivroView.setVisible(true);
+                this.dispose();
+            });
         }
     }
 }

@@ -5,6 +5,7 @@ import models.Livro.Livro;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class LivroDatabase {
     private static List<Livro> livros = new ArrayList<>();
@@ -14,6 +15,7 @@ public class LivroDatabase {
                                    int prazoEmprestimo, Date dataPublicacao, Date dataCadastro) {
         Livro novoLivro = new Livro(idLivro, titulo, autor, editora, sinopse, paginas, idLivroStatus,
                 idLivroCategoria, isbn, prazoEmprestimo, dataPublicacao, dataCadastro);
+
         livros.add(novoLivro);
         return novoLivro;
     }
@@ -55,18 +57,20 @@ public class LivroDatabase {
     public static List<Livro> pesquisarLivro(String titulo, String autor, String editora, String isbn) {
         List<Livro> livrosEncontrados = new ArrayList<>();
         for (Livro livro : livros) {
-            if (titulo != null && !titulo.isEmpty() && !livro.getTitulo().contains(titulo)) {
+            if (titulo != null && !titulo.isEmpty() && !Objects.equals(livro.getTitulo(), titulo)) {
                 continue;
             }
-            if (autor != null && !autor.isEmpty() && !livro.getAutor().contains(autor)) {
+            if (autor != null && !autor.isEmpty() && !Objects.equals(livro.getAutor(), autor)) {
                 continue;
             }
-            if (editora != null && !editora.isEmpty() && !livro.getEditora().contains(editora)) {
+            if (editora != null && !editora.isEmpty() && !Objects.equals(livro.getEditora(), editora)) {
                 continue;
             }
-            if (isbn != null && !isbn.isEmpty() && livro.getIsbn() != isbn) {
+            if (isbn != null && !isbn.isEmpty() && !Objects.equals(livro.getIsbn(), isbn)) {
                 continue;
             }
+
+
             livrosEncontrados.add(livro);
         }
         return livrosEncontrados;
