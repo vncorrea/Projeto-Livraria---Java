@@ -86,10 +86,6 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
         resultadosPanel.repaint();
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new PesquisaLivroView().setVisible(true));
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {

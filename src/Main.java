@@ -1,3 +1,4 @@
+import models.Livro.LivroStatus;
 import views.CadastroLivroView;
 import views.PesquisaLivroView;
 
@@ -7,10 +8,11 @@ import javax.swing.*;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        // quero que assim que acabe o cadastro, ele va para a pesquisa automaticamente
-        SwingUtilities.invokeLater(() -> {
-            CadastroLivroView cadastroLivroView = new CadastroLivroView(null);
-            cadastroLivroView.setVisible(true);
-        });
+        // quero que crie status de livro
+        LivroStatus.criarStatus(1, "Disponível");
+        LivroStatus.criarStatus(2, "Emprestado");
+        LivroStatus.criarStatus(3, "Atrasado");
+
+        SwingUtilities.invokeLater(() -> new PesquisaLivroView().setVisible(true));
     }
 }
