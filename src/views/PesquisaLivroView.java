@@ -60,8 +60,12 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
             JLabel lblTitulo = new JLabel(livro.getTitulo());
 
             JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            JButton btnEditar = new JButton(new ImageIcon("caminho/para/o/icone/lapis.png"));
-            JButton btnExcluir = new JButton(new ImageIcon("caminho/para/o/icone/lixeira.png"));
+            JButton btnEditar = new JButton(new ImageIcon("media/lapis.png"));
+            JButton btnExcluir = new JButton(new ImageIcon("media/lixeira.png"));
+
+            btnEditar.setActionCommand("editar:" + livro.getIdLivro());
+            btnExcluir.setActionCommand("excluir:" + livro.getIdLivro());
+
             btnEditar.setPreferredSize(new Dimension(20, 20));
             btnExcluir.setPreferredSize(new Dimension(20, 20));
             btnEditar.addActionListener(this);
@@ -92,19 +96,32 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
             case "pesquisar":
                 pesquisarLivros();
                 break;
-            case "editar":
-                // implementar edição
-                break;
-            case "excluir":
-                // implementar exclusão
-                break;
             case "adicionarLivro":
                 SwingUtilities.invokeLater(() -> {
-                    CadastroLivroView cadastroLivroView = new CadastroLivroView();
+                    CadastroLivroView cadastroLivroView = new CadastroLivroView(null);
                     cadastroLivroView.setVisible(true);
                     this.dispose();
                 });
                 break;
+            default:
+                if (e.getActionCommand().startsWith("editar:")) {
+                    String idLivroStr = e.getActionCommand().substring("editar:".length());
+                    int idLivroEditar = Integer.parseInt(idLivroStr);
+                    Livro livroEditar = LivroDatabase.buscarLivroPorId(idLivroEditar);
+
+                    if (livroEditar != null) {
+                        SwingUtilities.invokeLater(() -> {
+                            CadastroLivroView cadastroLivroView = new CadastroLivroView(livroEditar);
+                            cadastroLivroView.setVisible(true);
+                            this.dispose();
+                        });
+                    }
+                } else if (e.getActionCommand().startsWith("excluir:")) {
+                    String idLivroStr = e.getActionCommand().substring("excluir:".length());
+                    int idLivroExcluir = Integer.parseInt(idLivroStr);
+                    LivroDatabase.excluirLivro(idLivroExcluir);
+                    pesquisarLivros();
+                }
         }
     }
 }
