@@ -1,7 +1,6 @@
 package models.Database;
 
 import models.Livro.Livro;
-import models.Livro.LivroCategoria;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,5 +86,14 @@ public class LivroDatabase {
 
         System.out.println(livrosEncontrados);
         return livrosEncontrados;
+    }
+
+    public static Livro buscarLivroPorId(int idLivro) {
+        for (Livro livro : livros) {
+            if (livro.getIdLivro() == idLivro) {
+                return livro;
+            }
+        }
+        return null;
     }
 }

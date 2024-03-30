@@ -1,7 +1,7 @@
 package views;
 
 import models.Database.LivroDatabase;
-import models.Livro.LivroCategoria;
+import models.Livro.Livro;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,14 +13,14 @@ public class CadastroLivroView extends JFrame implements ActionListener {
     JLabel labelNome, labelAutor, labelIdLivro, labelEditora, labelSinopse, labelPagina, labelIsbn, labelPrazoEmprestimo, labelCategoria;
     JTextField textFieldNome, textFieldAutor, textFieldIdLivro, textFieldEditora, textFieldSinopse, textFieldPagina, textFieldIsbn, textFieldPrazoEmprestimo, textFieldCategoria;
 
-    public CadastroLivroView() {
+    public CadastroLivroView(Livro livro) {
         setTitle("Cadastro de Livros");
         setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JPanel mainPanel = new JPanel(new BorderLayout()); // Painel principal com layout BorderLayout
-        JPanel formPanel = new JPanel(new GridLayout(10, 2, 10, 10)); // Painel para o formulário com layout GridLayout
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel formPanel = new JPanel(new GridLayout(10, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         labelNome = new JLabel("Nome do livro:");
@@ -71,10 +71,27 @@ public class CadastroLivroView extends JFrame implements ActionListener {
         mainPanel.add(formPanel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        btnCadastrar = new JButton("Cadastrar");
-        btnCadastrar.setActionCommand("cadastrar");
-        btnCadastrar.addActionListener(this);
-        buttonPanel.add(btnCadastrar, BorderLayout.CENTER);
+
+        if (livro != null) {
+            textFieldNome.setText(livro.getTitulo());
+            textFieldAutor.setText(livro.getAutor());
+            textFieldIdLivro.setText(String.valueOf(livro.getIdLivro()));
+            textFieldEditora.setText(livro.getEditora());
+            textFieldSinopse.setText(livro.getSinopse());
+            textFieldPagina.setText(String.valueOf(livro.getPaginas()));
+            textFieldCategoria.setText(livro.getCategoria());
+            textFieldIsbn.setText(livro.getIsbn());
+            textFieldPrazoEmprestimo.setText(String.valueOf(livro.getPrazoEmprestimo()));
+            btnCadastrar = new JButton("Editar");
+            btnCadastrar.setActionCommand("editar");
+            btnCadastrar.addActionListener(this);
+        } else {
+            btnCadastrar = new JButton("Cadastrar");
+            btnCadastrar.setActionCommand("cadastrar");
+            btnCadastrar.addActionListener(this);
+        }
+
+        buttonPanel.add(btnCadastrar);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
@@ -99,6 +116,26 @@ public class CadastroLivroView extends JFrame implements ActionListener {
                     null);
 
             JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
+            SwingUtilities.invokeLater(() -> {
+                PesquisaLivroView pesquisaLivroView = new PesquisaLivroView();
+                pesquisaLivroView.setVisible(true);
+                this.dispose();
+            });
+        } else if(e.getActionCommand().equals("editar")) {
+            LivroDatabase.editarLivro(
+                    Integer.parseInt(textFieldIdLivro.getText()),
+                    textFieldNome.getText(),
+                    textFieldAutor.getText(),
+                    textFieldEditora.getText(),
+                    textFieldSinopse.getText(),
+                    Integer.parseInt(textFieldPagina.getText()),
+                    1,
+                    textFieldCategoria.getText(),
+                    textFieldIsbn.getText(),
+                    Integer.parseInt(textFieldPrazoEmprestimo.getText()),
+                    null);
+
+            JOptionPane.showMessageDialog(this, "Livro editado com sucesso!");
             SwingUtilities.invokeLater(() -> {
                 PesquisaLivroView pesquisaLivroView = new PesquisaLivroView();
                 pesquisaLivroView.setVisible(true);
