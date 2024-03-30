@@ -38,7 +38,7 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
         searchPanel.add(btnMais, BorderLayout.NORTH);
 
         resultadosPanel = new JPanel();
-        resultadosPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 10)); // Layout FlowLayout com orientação horizontal
+        resultadosPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 10));
         resultadosPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         panel.add(searchPanel, BorderLayout.NORTH);

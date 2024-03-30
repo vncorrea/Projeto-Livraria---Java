@@ -71,11 +71,6 @@ public class CadastroLivroView extends JFrame implements ActionListener {
         mainPanel.add(formPanel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        btnCadastrar = new JButton("Cadastrar");
-        btnCadastrar.setActionCommand("cadastrar");
-        btnCadastrar.addActionListener(this);
-        buttonPanel.add(btnCadastrar);
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         if (livro != null) {
             textFieldNome.setText(livro.getTitulo());
@@ -87,7 +82,17 @@ public class CadastroLivroView extends JFrame implements ActionListener {
             textFieldCategoria.setText(livro.getCategoria());
             textFieldIsbn.setText(livro.getIsbn());
             textFieldPrazoEmprestimo.setText(String.valueOf(livro.getPrazoEmprestimo()));
+            btnCadastrar = new JButton("Editar");
+            btnCadastrar.setActionCommand("editar");
+            btnCadastrar.addActionListener(this);
+        } else {
+            btnCadastrar = new JButton("Cadastrar");
+            btnCadastrar.setActionCommand("cadastrar");
+            btnCadastrar.addActionListener(this);
         }
+
+        buttonPanel.add(btnCadastrar);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
     }
@@ -111,6 +116,26 @@ public class CadastroLivroView extends JFrame implements ActionListener {
                     null);
 
             JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
+            SwingUtilities.invokeLater(() -> {
+                PesquisaLivroView pesquisaLivroView = new PesquisaLivroView();
+                pesquisaLivroView.setVisible(true);
+                this.dispose();
+            });
+        } else if(e.getActionCommand().equals("editar")) {
+            LivroDatabase.editarLivro(
+                    Integer.parseInt(textFieldIdLivro.getText()),
+                    textFieldNome.getText(),
+                    textFieldAutor.getText(),
+                    textFieldEditora.getText(),
+                    textFieldSinopse.getText(),
+                    Integer.parseInt(textFieldPagina.getText()),
+                    1,
+                    textFieldCategoria.getText(),
+                    textFieldIsbn.getText(),
+                    Integer.parseInt(textFieldPrazoEmprestimo.getText()),
+                    null);
+
+            JOptionPane.showMessageDialog(this, "Livro editado com sucesso!");
             SwingUtilities.invokeLater(() -> {
                 PesquisaLivroView pesquisaLivroView = new PesquisaLivroView();
                 pesquisaLivroView.setVisible(true);
