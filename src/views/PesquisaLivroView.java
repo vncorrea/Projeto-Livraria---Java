@@ -1,8 +1,11 @@
 package views;
+
 import javax.swing.*;
 import java.awt.*;
+
 import models.Database.LivroDatabase;
 import models.Livro.Livro;
+
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -157,8 +160,13 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
                 } else if (e.getActionCommand().startsWith("excluir:")) {
                     String idLivroStr = e.getActionCommand().substring("excluir:".length());
                     int idLivroExcluir = Integer.parseInt(idLivroStr);
-                    LivroDatabase.excluirLivro(idLivroExcluir);
-                    pesquisarLivros();
+
+                    int opcao = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir?", "Confirmação", JOptionPane.YES_NO_OPTION);
+
+                    if (opcao == JOptionPane.YES_OPTION) {
+                        LivroDatabase.excluirLivro(idLivroExcluir);
+                        pesquisarLivros();
+                    }
                 }
         }
     }

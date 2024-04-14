@@ -116,44 +116,52 @@ public class CadastroLivroView extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("cadastrar")) {
-            LivroDatabase.criarLivro(
-                    Integer.parseInt(textFieldIdLivro.getText()),
-                    textFieldNome.getText(),
-                    textFieldAutor.getText(),
-                    textFieldEditora.getText(),
-                    textFieldSinopse.getText(),
-                    Integer.parseInt(textFieldPagina.getText()),
-                    textFieldCategoria.getText(),
-                    textFieldIsbn.getText(),
-                    Integer.parseInt(textFieldPrazoEmprestimo.getText()),
-                    null,
-                    null, getLivroStatus());
+            if (camposPreenchidos()) {
+                LivroDatabase.criarLivro(
+                        Integer.parseInt(textFieldIdLivro.getText()),
+                        textFieldNome.getText(),
+                        textFieldAutor.getText(),
+                        textFieldEditora.getText(),
+                        textFieldSinopse.getText(),
+                        Integer.parseInt(textFieldPagina.getText()),
+                        textFieldCategoria.getText(),
+                        textFieldIsbn.getText(),
+                        Integer.parseInt(textFieldPrazoEmprestimo.getText()),
+                        null,
+                        null, getLivroStatus());
 
-            JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
-            SwingUtilities.invokeLater(() -> {
-                PesquisaLivroView pesquisaLivroView = new PesquisaLivroView();
-                pesquisaLivroView.setVisible(true);
-                this.dispose();
-            });
+                JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
+                SwingUtilities.invokeLater(() -> {
+                    PesquisaLivroView pesquisaLivroView = new PesquisaLivroView();
+                    pesquisaLivroView.setVisible(true);
+                    this.dispose();
+                });
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos antes de editar o livro.");
+            }
         } else if (e.getActionCommand().equals("editar")) {
-            LivroDatabase.editarLivro(
-                    Integer.parseInt(textFieldIdLivro.getText()),
-                    textFieldNome.getText(),
-                    textFieldAutor.getText(),
-                    textFieldEditora.getText(),
-                    textFieldSinopse.getText(),
-                    Integer.parseInt(textFieldPagina.getText()),
-                    textFieldCategoria.getText(),
-                    textFieldIsbn.getText(),
-                    Integer.parseInt(textFieldPrazoEmprestimo.getText()),
-                    null, getLivroStatus());
+            if (camposPreenchidos()) {
+                LivroDatabase.editarLivro(
+                        Integer.parseInt(textFieldIdLivro.getText()),
+                        textFieldNome.getText(),
+                        textFieldAutor.getText(),
+                        textFieldEditora.getText(),
+                        textFieldSinopse.getText(),
+                        Integer.parseInt(textFieldPagina.getText()),
+                        textFieldCategoria.getText(),
+                        textFieldIsbn.getText(),
+                        Integer.parseInt(textFieldPrazoEmprestimo.getText()),
+                        null, getLivroStatus());
 
-            JOptionPane.showMessageDialog(this, "Livro editado com sucesso!");
-            SwingUtilities.invokeLater(() -> {
-                PesquisaLivroView pesquisaLivroView = new PesquisaLivroView();
-                pesquisaLivroView.setVisible(true);
-                this.dispose();
-            });
+                JOptionPane.showMessageDialog(this, "Livro editado com sucesso!");
+                SwingUtilities.invokeLater(() -> {
+                    PesquisaLivroView pesquisaLivroView = new PesquisaLivroView();
+                    pesquisaLivroView.setVisible(true);
+                    this.dispose();
+                });
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos antes de editar o livro.");
+            }
         } else if (e.getActionCommand().equals("voltar")) {
             SwingUtilities.invokeLater(() -> {
                 PesquisaLivroView pesquisaLivroView = new PesquisaLivroView();
@@ -161,5 +169,17 @@ public class CadastroLivroView extends JFrame implements ActionListener {
                 this.dispose();
             });
         }
+    }
+
+    private boolean camposPreenchidos() {
+        return !textFieldIdLivro.getText().isEmpty() &&
+                !textFieldNome.getText().isEmpty() &&
+                !textFieldAutor.getText().isEmpty() &&
+                !textFieldEditora.getText().isEmpty() &&
+                !textFieldSinopse.getText().isEmpty() &&
+                !textFieldPagina.getText().isEmpty() &&
+                !textFieldCategoria.getText().isEmpty() &&
+                !textFieldIsbn.getText().isEmpty() &&
+                !textFieldPrazoEmprestimo.getText().isEmpty();
     }
 }
