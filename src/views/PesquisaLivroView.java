@@ -12,8 +12,6 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
 
     private JTextField textFieldPesquisa;
     private JPanel resultadosPanel;
-    private DefaultTableModel modeloTabelaExibicaoLivros;
-    private JTable tabelaLivros;
 
     public PesquisaLivroView() {
         JMenuBar menuBar = new JMenuBar();
@@ -41,22 +39,12 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
         searchPanel.add(textFieldPesquisa, BorderLayout.CENTER);
         searchPanel.add(btnPesquisar, BorderLayout.EAST);
 
-        resultadosPanel = new JPanel(new BorderLayout());
-        resultadosPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+        resultadosPanel = new JPanel();
+        resultadosPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 10));
+        resultadosPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         panel.add(searchPanel, BorderLayout.NORTH);
         panel.add(new JScrollPane(resultadosPanel), BorderLayout.CENTER);
-
-        String[] colunas = {"Título", "Autor", "Editora", "Status", "Ações"};
-        modeloTabelaExibicaoLivros = new DefaultTableModel(colunas, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        tabelaLivros = new JTable(modeloTabelaExibicaoLivros);
-        resultadosPanel.add(new JScrollPane(tabelaLivros), BorderLayout.CENTER);
-
-        add(panel);
 
         add(panel);
     }
@@ -64,29 +52,78 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
     private void pesquisarLivros() {
         String pesquisa = textFieldPesquisa.getText();
         List<Livro> livrosEncontrados = LivroDatabase.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
+        JPanel novoPanel = new JPanel();
+        novoPanel.setLayout(new BoxLayout(novoPanel, BoxLayout.Y_AXIS));
 
-        modeloTabelaExibicaoLivros.setRowCount(0);
+        ImageIcon lapisIcon = new ImageIcon(getClass().getResource("/media/lapis.png"));
+        ImageIcon lixeiraIcon = new ImageIcon(getClass().getResource("/media/lixeira.png"));
+
+        JPanel escritaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel lblEscritaTitulo = new JLabel("Título");
+        JLabel lblEscritaCategoria = new JLabel("Categoria");
+        JLabel lblEscritaAutor = new JLabel("Autor");
+        JLabel lblEscritaEditor = new JLabel("Editora");
+        JLabel lblEscritaAcoes = new JLabel("Ações");
+
+        lblEscritaTitulo.setPreferredSize(new Dimension(100, 20));
+        lblEscritaCategoria.setPreferredSize(new Dimension(100, 20));
+        lblEscritaAutor.setPreferredSize(new Dimension(100, 20));
+        lblEscritaEditor.setPreferredSize(new Dimension(100, 20));
+        lblEscritaAcoes.setPreferredSize(new Dimension(100, 20));
+
+        escritaPanel.add(lblEscritaTitulo);
+        escritaPanel.add(lblEscritaCategoria);
+        escritaPanel.add(lblEscritaAutor);
+        escritaPanel.add(lblEscritaEditor);
+        escritaPanel.add(lblEscritaAcoes);
+        escritaPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+
+        novoPanel.add(escritaPanel);
 
         for (Livro livro : livrosEncontrados) {
-            modeloTabelaExibicaoLivros.addRow(new Object[]{
-                    livro.getTitulo(),
-                    livro.getAutor(),
-                    livro.getEditora(),
-                    livro.getLivroStatusDescricao()
-            });
+            JPanel livroPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            JLabel lblTitulo = new JLabel(livro.getTitulo());
+            JLabel lblCategoria = new JLabel(livro.getCategoria());
+            JLabel lblAutor = new JLabel(livro.getAutor());
+            JLabel lblEditora = new JLabel(livro.getEditora());
 
-            JButton btnEditar = new JButton(new ImageIcon("media/lapis.png"));
-            JButton btnExcluir = new JButton(new ImageIcon("media/lixeira.png"));
+            // Definir a largura fixa dos elementos de livro
+            lblTitulo.setPreferredSize(new Dimension(100, 15));
+            lblCategoria.setPreferredSize(new Dimension(100, 15));
+            lblAutor.setPreferredSize(new Dimension(100, 15));
+            lblEditora.setPreferredSize(new Dimension(100, 15));
+
+            livroPanel.add(lblTitulo);
+            livroPanel.add(lblCategoria);
+            livroPanel.add(lblAutor);
+            livroPanel.add(lblEditora);
+
+            JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+            JButton btnEditar = new JButton(lapisIcon);
+            JButton btnExcluir = new JButton(lixeiraIcon);
 
             btnEditar.setActionCommand("editar:" + livro.getIdLivro());
             btnExcluir.setActionCommand("excluir:" + livro.getIdLivro());
 
+            // Definir a largura fixa dos botões
             btnEditar.setPreferredSize(new Dimension(20, 20));
             btnExcluir.setPreferredSize(new Dimension(20, 20));
+
             btnEditar.addActionListener(this);
             btnExcluir.addActionListener(this);
+
+            btnPanel.add(btnEditar);
+            btnPanel.add(btnExcluir);
+
+            livroPanel.add(btnPanel);
+            novoPanel.add(livroPanel);
+
+            novoPanel.add(Box.createRigidArea(new Dimension(0, 1)));
         }
 
+        resultadosPanel.removeAll();
+        resultadosPanel.add(novoPanel);
         resultadosPanel.revalidate();
         resultadosPanel.repaint();
     }

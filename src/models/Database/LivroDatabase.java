@@ -84,7 +84,6 @@ public class LivroDatabase {
 
         }
 
-        System.out.println(livrosEncontrados);
         return livrosEncontrados;
     }
 
