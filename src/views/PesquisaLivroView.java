@@ -1,11 +1,9 @@
 package views;
-
 import javax.swing.*;
 import java.awt.*;
-
 import models.Database.LivroDatabase;
 import models.Livro.Livro;
-
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -14,9 +12,10 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
 
     private JTextField textFieldPesquisa;
     private JPanel resultadosPanel;
+    private DefaultTableModel modeloTabelaExibicaoLivros;
+    private JTable tabelaLivros;
 
     public PesquisaLivroView() {
-        // Cria a barra de menus
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Ações");
         JMenuItem menuItem = new JMenuItem("Adicionar Livro");
@@ -42,29 +41,40 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
         searchPanel.add(textFieldPesquisa, BorderLayout.CENTER);
         searchPanel.add(btnPesquisar, BorderLayout.EAST);
 
-        resultadosPanel = new JPanel();
-        resultadosPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 10));
-        resultadosPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
+        resultadosPanel = new JPanel(new BorderLayout());
+        resultadosPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
         panel.add(searchPanel, BorderLayout.NORTH);
         panel.add(new JScrollPane(resultadosPanel), BorderLayout.CENTER);
+
+        String[] colunas = {"Título", "Autor", "Editora", "Status", "Ações"};
+        modeloTabelaExibicaoLivros = new DefaultTableModel(colunas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tabelaLivros = new JTable(modeloTabelaExibicaoLivros);
+        resultadosPanel.add(new JScrollPane(tabelaLivros), BorderLayout.CENTER);
+
+        add(panel);
 
         add(panel);
     }
 
     private void pesquisarLivros() {
         String pesquisa = textFieldPesquisa.getText();
-
-        JPanel novoPanel = new JPanel();
-        novoPanel.setLayout(new BoxLayout(novoPanel, BoxLayout.Y_AXIS));
-
         List<Livro> livrosEncontrados = LivroDatabase.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
 
-        for (Livro livro : livrosEncontrados) {
-            JPanel livroPanel = new JPanel(new BorderLayout());
-            JLabel lblTitulo = new JLabel(livro.getTitulo());
+        modeloTabelaExibicaoLivros.setRowCount(0);
 
-            JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        for (Livro livro : livrosEncontrados) {
+            modeloTabelaExibicaoLivros.addRow(new Object[]{
+                    livro.getTitulo(),
+                    livro.getAutor(),
+                    livro.getEditora(),
+                    livro.getLivroStatusDescricao()
+            });
+
             JButton btnEditar = new JButton(new ImageIcon("media/lapis.png"));
             JButton btnExcluir = new JButton(new ImageIcon("media/lixeira.png"));
 
@@ -75,18 +85,8 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
             btnExcluir.setPreferredSize(new Dimension(20, 20));
             btnEditar.addActionListener(this);
             btnExcluir.addActionListener(this);
-
-            btnPanel.add(btnEditar);
-            btnPanel.add(btnExcluir);
-
-            livroPanel.add(lblTitulo, BorderLayout.CENTER);
-            livroPanel.add(btnPanel, BorderLayout.WEST);
-
-            novoPanel.add(livroPanel);
         }
 
-        resultadosPanel.removeAll();
-        resultadosPanel.add(novoPanel);
         resultadosPanel.revalidate();
         resultadosPanel.repaint();
     }

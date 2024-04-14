@@ -92,6 +92,10 @@ public class Livro {
         this.status = status;
     }
 
+    public String getLivroStatusDescricao() {
+        return status.getDescricao();
+    }
+
     public String getCategoria() {
         return categoria;
     }
