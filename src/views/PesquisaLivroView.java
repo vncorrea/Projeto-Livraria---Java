@@ -109,7 +109,6 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
             btnEditar.setActionCommand("editar:" + livro.getIdLivro());
             btnExcluir.setActionCommand("excluir:" + livro.getIdLivro());
 
-            // Definir a largura fixa dos botões
             btnEditar.setPreferredSize(new Dimension(20, 20));
             btnExcluir.setPreferredSize(new Dimension(20, 20));
 

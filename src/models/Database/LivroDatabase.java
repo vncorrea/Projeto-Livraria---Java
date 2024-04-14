@@ -58,31 +58,16 @@ public class LivroDatabase {
     public static List<Livro> pesquisarLivro(String titulo, String autor, String categoria, String isbn) {
         List<Livro> livrosEncontrados = new ArrayList<>();
 
-        boolean livroEncontrado = false;
-
         for (Livro livro : livros) {
-            livroEncontrado = false;
-
-            if (titulo != null && !titulo.isEmpty() && Objects.equals(livro.getTitulo(), titulo)) {
-                livroEncontrado = true;
-            }
-
-            if (autor != null && !autor.isEmpty() && Objects.equals(livro.getAutor(), autor)) {
-                livroEncontrado = true;
-            }
-
-            if (categoria != null && !categoria.isEmpty() && Objects.equals(livro.getCategoria(), categoria)) {
-                livroEncontrado = true;
-            }
-
-            if (isbn != null && !isbn.isEmpty() && Objects.equals(livro.getIsbn(), isbn)) {
-                livroEncontrado = true;
-            }
-
-            if (livroEncontrado) {
+            if (titulo != null && !titulo.isEmpty() && livro.getTitulo().toLowerCase().contains(titulo.toLowerCase())) {
+                livrosEncontrados.add(livro);
+            } else if (autor != null && !autor.isEmpty() && livro.getAutor().toLowerCase().contains(autor.toLowerCase())) {
+                livrosEncontrados.add(livro);
+            } else if (categoria != null && !categoria.isEmpty() && LivroCategoria.buscarCategoriaPorDescricao(categoria) != null && livro.getCategoria().getDescricao(LivroCategoria.buscarCategoriaPorDescricao(categoria)).toLowerCase().contains(categoria.toLowerCase())) {
+                livrosEncontrados.add(livro);
+            } else if (isbn != null && !isbn.isEmpty() && livro.getIsbn().toLowerCase().contains(isbn.toLowerCase())) {
                 livrosEncontrados.add(livro);
             }
-
         }
 
         return livrosEncontrados;
