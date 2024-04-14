@@ -13,6 +13,10 @@ public class LivroStatus {
         this.descricao = descricao;
     }
 
+    public static String getStatus(LivroStatus status) {
+        return status.descricao;
+    }
+
     public int getIdLivroStatus() {
         return idLivroStatus;
     }

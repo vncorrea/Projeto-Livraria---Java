@@ -13,9 +13,6 @@ public class LivroCategoria {
         this.descricao = descricao;
     }
 
-    public int getIdLivroCategoria() {
-        return idLivroCategoria;
-    }
 
     public static String getDescricao(LivroCategoria categoria) {
         return categoria.descricao;

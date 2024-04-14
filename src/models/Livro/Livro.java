@@ -84,8 +84,8 @@ public class Livro {
         this.paginas = paginas;
     }
 
-    public int getLivroStatus() {
-        return status.getIdLivroStatus();
+    public LivroStatus getStatus() {
+        return status;
     }
 
     public void setLivroStatus(LivroStatus status) {

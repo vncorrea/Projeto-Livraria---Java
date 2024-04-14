@@ -94,6 +94,8 @@ public class CadastroLivroView extends JFrame implements ActionListener {
             textFieldPagina.setText(String.valueOf(livro.getPaginas()));
             textFieldIsbn.setText(livro.getIsbn());
             textFieldPrazoEmprestimo.setText(String.valueOf(livro.getPrazoEmprestimo()));
+            comboBoxCategoria.setSelectedItem(LivroCategoria.getDescricao(livro.getCategoria()));
+            comboBoxStatus.setSelectedItem(LivroStatus.getStatus(livro.getStatus()));
             btnCadastrar = new JButton("Editar");
             btnCadastrar.setActionCommand("editar");
             btnCadastrar.addActionListener(this);
