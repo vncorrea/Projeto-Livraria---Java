@@ -11,7 +11,7 @@ public class Livro {
     private String editora;
     private String sinopse;
     private int paginas;
-    private int idLivroStatus;
+    private LivroStatus status;
     private String categoria;
     private String isbn;
     private int prazoEmprestimo;
@@ -20,21 +20,20 @@ public class Livro {
 
     private static List<Livro> livros = new ArrayList<>();
 
-    public Livro(int idLivro, String titulo, String autor, String editora, String sinopse, int paginas,
-                 int idLivroStatus, String categoria, String isbn, int prazoEmprestimo, Date dataPublicacao,
-                 Date dataCadastro) {
+    public Livro(int idLivro, String titulo, String autor, String editora, String sinopse, int paginas, String categoria, String isbn, int prazoEmprestimo, Date dataPublicacao,
+                 Date dataCadastro, LivroStatus status) {
         this.idLivro = idLivro;
         this.titulo = titulo;
         this.autor = autor;
         this.editora = editora;
         this.sinopse = sinopse;
         this.paginas = paginas;
-        this.idLivroStatus = idLivroStatus;
         this.categoria = categoria;
         this.isbn = isbn;
         this.prazoEmprestimo = prazoEmprestimo;
         this.dataPublicacao = dataPublicacao;
         this.dataCadastro = dataCadastro;
+        this.status = status;
     }
 
     public int getIdLivro() {
@@ -85,12 +84,12 @@ public class Livro {
         this.paginas = paginas;
     }
 
-    public int getIdLivroStatus() {
-        return idLivroStatus;
+    public int getLivroStatus() {
+        return status.getIdLivroStatus();
     }
 
-    public void setIdLivroStatus(int idLivroStatus) {
-        this.idLivroStatus = idLivroStatus;
+    public void setLivroStatus(LivroStatus status) {
+        this.status = status;
     }
 
     public String getCategoria() {

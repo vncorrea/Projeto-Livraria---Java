@@ -2,6 +2,7 @@ package views;
 
 import models.Database.LivroDatabase;
 import models.Livro.Livro;
+import models.Livro.LivroStatus;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,9 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CadastroLivroView extends JFrame implements ActionListener {
-    private JButton btnCadastrar;
-    JLabel labelNome, labelAutor, labelIdLivro, labelEditora, labelSinopse, labelPagina, labelIsbn, labelPrazoEmprestimo, labelCategoria;
+    private JButton btnCadastrar, btnVoltar;
+    JLabel labelNome, labelAutor, labelIdLivro, labelEditora, labelSinopse, labelPagina, labelIsbn, labelPrazoEmprestimo, labelCategoria, labelStatus;
     JTextField textFieldNome, textFieldAutor, textFieldIdLivro, textFieldEditora, textFieldSinopse, textFieldPagina, textFieldIsbn, textFieldPrazoEmprestimo, textFieldCategoria;
+    JComboBox comboBoxStatus;
 
     public CadastroLivroView(Livro livro) {
         setTitle("Cadastro de Livros");
@@ -68,9 +70,19 @@ public class CadastroLivroView extends JFrame implements ActionListener {
         textFieldPrazoEmprestimo = new JTextField();
         formPanel.add(textFieldPrazoEmprestimo);
 
+        labelStatus = new JLabel("Prazo de empréstimo do livro:");
+        formPanel.add(labelStatus);
+        comboBoxStatus = new JComboBox<>(LivroStatus.listarDescricaoStatus(LivroStatus.listarStatus()).toArray());
+        formPanel.add(comboBoxStatus);
+
         mainPanel.add(formPanel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        btnVoltar = new JButton("Voltar");
+        btnVoltar.setActionCommand("voltar");
+        btnVoltar.addActionListener(this);
+        buttonPanel.add(btnVoltar);
 
         if (livro != null) {
             textFieldNome.setText(livro.getTitulo());
@@ -97,6 +109,9 @@ public class CadastroLivroView extends JFrame implements ActionListener {
         add(mainPanel);
     }
 
+    public LivroStatus getLivroStatus() {
+        return LivroStatus.buscarStatusPorDescricao(comboBoxStatus.getSelectedItem().toString());
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -108,12 +123,11 @@ public class CadastroLivroView extends JFrame implements ActionListener {
                     textFieldEditora.getText(),
                     textFieldSinopse.getText(),
                     Integer.parseInt(textFieldPagina.getText()),
-                    1,
                     textFieldCategoria.getText(),
                     textFieldIsbn.getText(),
                     Integer.parseInt(textFieldPrazoEmprestimo.getText()),
                     null,
-                    null);
+                    null, getLivroStatus());
 
             JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
             SwingUtilities.invokeLater(() -> {
@@ -121,7 +135,7 @@ public class CadastroLivroView extends JFrame implements ActionListener {
                 pesquisaLivroView.setVisible(true);
                 this.dispose();
             });
-        } else if(e.getActionCommand().equals("editar")) {
+        } else if (e.getActionCommand().equals("editar")) {
             LivroDatabase.editarLivro(
                     Integer.parseInt(textFieldIdLivro.getText()),
                     textFieldNome.getText(),
@@ -129,13 +143,18 @@ public class CadastroLivroView extends JFrame implements ActionListener {
                     textFieldEditora.getText(),
                     textFieldSinopse.getText(),
                     Integer.parseInt(textFieldPagina.getText()),
-                    1,
                     textFieldCategoria.getText(),
                     textFieldIsbn.getText(),
                     Integer.parseInt(textFieldPrazoEmprestimo.getText()),
-                    null);
+                    null, getLivroStatus());
 
             JOptionPane.showMessageDialog(this, "Livro editado com sucesso!");
+            SwingUtilities.invokeLater(() -> {
+                PesquisaLivroView pesquisaLivroView = new PesquisaLivroView();
+                pesquisaLivroView.setVisible(true);
+                this.dispose();
+            });
+        } else if (e.getActionCommand().equals("voltar")) {
             SwingUtilities.invokeLater(() -> {
                 PesquisaLivroView pesquisaLivroView = new PesquisaLivroView();
                 pesquisaLivroView.setVisible(true);

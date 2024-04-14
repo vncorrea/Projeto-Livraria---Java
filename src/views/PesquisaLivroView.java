@@ -16,6 +16,16 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
     private JPanel resultadosPanel;
 
     public PesquisaLivroView() {
+        // Cria a barra de menus
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("Ações");
+        JMenuItem menuItem = new JMenuItem("Adicionar Livro");
+        menuItem.setActionCommand("adicionarLivro");
+        menuItem.addActionListener(this);
+        menu.add(menuItem);
+        menuBar.add(menu);
+        setJMenuBar(menuBar);
+
         setTitle("Pesquisar Livros");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,11 +41,6 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
         btnPesquisar.addActionListener(this);
         searchPanel.add(textFieldPesquisa, BorderLayout.CENTER);
         searchPanel.add(btnPesquisar, BorderLayout.EAST);
-
-        JButton btnMais = new JButton("Adicionar Livro");
-        btnMais.setActionCommand("adicionarLivro");
-        btnMais.addActionListener(this);
-        searchPanel.add(btnMais, BorderLayout.NORTH);
 
         resultadosPanel = new JPanel();
         resultadosPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 10));
