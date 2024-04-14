@@ -2,6 +2,7 @@ package views;
 
 import models.Database.LivroDatabase;
 import models.Livro.Livro;
+import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
 
 import javax.swing.*;
@@ -12,8 +13,8 @@ import java.awt.event.ActionListener;
 public class CadastroLivroView extends JFrame implements ActionListener {
     private JButton btnCadastrar, btnVoltar;
     JLabel labelNome, labelAutor, labelIdLivro, labelEditora, labelSinopse, labelPagina, labelIsbn, labelPrazoEmprestimo, labelCategoria, labelStatus;
-    JTextField textFieldNome, textFieldAutor, textFieldIdLivro, textFieldEditora, textFieldSinopse, textFieldPagina, textFieldIsbn, textFieldPrazoEmprestimo, textFieldCategoria;
-    JComboBox comboBoxStatus;
+    JTextField textFieldNome, textFieldAutor, textFieldIdLivro, textFieldEditora, textFieldSinopse, textFieldPagina, textFieldIsbn, textFieldPrazoEmprestimo;
+    JComboBox comboBoxStatus, comboBoxCategoria;
 
     public CadastroLivroView(Livro livro) {
         setTitle("Cadastro de Livros");
@@ -50,11 +51,6 @@ public class CadastroLivroView extends JFrame implements ActionListener {
         textFieldSinopse = new JTextField();
         formPanel.add(textFieldSinopse);
 
-        labelCategoria = new JLabel("Categoria do livro:");
-        formPanel.add(labelCategoria);
-        textFieldCategoria = new JTextField();
-        formPanel.add(textFieldCategoria);
-
         labelPagina = new JLabel("Páginas do livro:");
         formPanel.add(labelPagina);
         textFieldPagina = new JTextField();
@@ -70,7 +66,12 @@ public class CadastroLivroView extends JFrame implements ActionListener {
         textFieldPrazoEmprestimo = new JTextField();
         formPanel.add(textFieldPrazoEmprestimo);
 
-        labelStatus = new JLabel("Prazo de empréstimo do livro:");
+        labelCategoria = new JLabel("Categoria do livro:");
+        formPanel.add(labelCategoria);
+        comboBoxCategoria = new JComboBox<>(LivroCategoria.listarDescricaoCategorias(LivroCategoria.listarCategorias()).toArray());
+        formPanel.add(comboBoxCategoria);
+
+        labelStatus = new JLabel("Status do livro:");
         formPanel.add(labelStatus);
         comboBoxStatus = new JComboBox<>(LivroStatus.listarDescricaoStatus(LivroStatus.listarStatus()).toArray());
         formPanel.add(comboBoxStatus);
@@ -91,7 +92,6 @@ public class CadastroLivroView extends JFrame implements ActionListener {
             textFieldEditora.setText(livro.getEditora());
             textFieldSinopse.setText(livro.getSinopse());
             textFieldPagina.setText(String.valueOf(livro.getPaginas()));
-            textFieldCategoria.setText(livro.getCategoria());
             textFieldIsbn.setText(livro.getIsbn());
             textFieldPrazoEmprestimo.setText(String.valueOf(livro.getPrazoEmprestimo()));
             btnCadastrar = new JButton("Editar");
@@ -113,6 +113,10 @@ public class CadastroLivroView extends JFrame implements ActionListener {
         return LivroStatus.buscarStatusPorDescricao(comboBoxStatus.getSelectedItem().toString());
     }
 
+    public LivroCategoria getLivroCategoria() {
+        return LivroCategoria.buscarCategoriaPorDescricao(comboBoxCategoria.getSelectedItem().toString());
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("cadastrar")) {
@@ -124,7 +128,7 @@ public class CadastroLivroView extends JFrame implements ActionListener {
                         textFieldEditora.getText(),
                         textFieldSinopse.getText(),
                         Integer.parseInt(textFieldPagina.getText()),
-                        textFieldCategoria.getText(),
+                        getLivroCategoria(),
                         textFieldIsbn.getText(),
                         Integer.parseInt(textFieldPrazoEmprestimo.getText()),
                         null,
@@ -148,7 +152,7 @@ public class CadastroLivroView extends JFrame implements ActionListener {
                         textFieldEditora.getText(),
                         textFieldSinopse.getText(),
                         Integer.parseInt(textFieldPagina.getText()),
-                        textFieldCategoria.getText(),
+                        getLivroCategoria(),
                         textFieldIsbn.getText(),
                         Integer.parseInt(textFieldPrazoEmprestimo.getText()),
                         null, getLivroStatus());
@@ -178,7 +182,6 @@ public class CadastroLivroView extends JFrame implements ActionListener {
                 !textFieldEditora.getText().isEmpty() &&
                 !textFieldSinopse.getText().isEmpty() &&
                 !textFieldPagina.getText().isEmpty() &&
-                !textFieldCategoria.getText().isEmpty() &&
                 !textFieldIsbn.getText().isEmpty() &&
                 !textFieldPrazoEmprestimo.getText().isEmpty();
     }

@@ -12,7 +12,7 @@ public class Livro {
     private String sinopse;
     private int paginas;
     private LivroStatus status;
-    private String categoria;
+    private LivroCategoria categoria;
     private String isbn;
     private int prazoEmprestimo;
     private Date dataPublicacao;
@@ -20,7 +20,7 @@ public class Livro {
 
     private static List<Livro> livros = new ArrayList<>();
 
-    public Livro(int idLivro, String titulo, String autor, String editora, String sinopse, int paginas, String categoria, String isbn, int prazoEmprestimo, Date dataPublicacao,
+    public Livro(int idLivro, String titulo, String autor, String editora, String sinopse, int paginas, LivroCategoria categoria, String isbn, int prazoEmprestimo, Date dataPublicacao,
                  Date dataCadastro, LivroStatus status) {
         this.idLivro = idLivro;
         this.titulo = titulo;
@@ -96,11 +96,11 @@ public class Livro {
         return status.getDescricao();
     }
 
-    public String getCategoria() {
+    public LivroCategoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(LivroCategoria categoria) {
         this.categoria = categoria;
     }
 

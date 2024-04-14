@@ -5,6 +5,7 @@ import java.awt.*;
 
 import models.Database.LivroDatabase;
 import models.Livro.Livro;
+import models.Livro.LivroCategoria;
 
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -86,11 +87,10 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
         for (Livro livro : livrosEncontrados) {
             JPanel livroPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             JLabel lblTitulo = new JLabel(livro.getTitulo());
-            JLabel lblCategoria = new JLabel(livro.getCategoria());
+            JLabel lblCategoria = new JLabel(LivroCategoria.getDescricao(livro.getCategoria()));
             JLabel lblAutor = new JLabel(livro.getAutor());
             JLabel lblEditora = new JLabel(livro.getEditora());
 
-            // Definir a largura fixa dos elementos de livro
             lblTitulo.setPreferredSize(new Dimension(100, 15));
             lblCategoria.setPreferredSize(new Dimension(100, 15));
             lblAutor.setPreferredSize(new Dimension(100, 15));

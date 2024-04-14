@@ -1,6 +1,7 @@
 package models.Database;
 
 import models.Livro.Livro;
+import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class LivroDatabase {
     private static List<Livro> livros = new ArrayList<>();
 
     public static Livro criarLivro(int idLivro, String titulo, String autor, String editora, String sinopse,
-                                   int paginas, String categoria, String isbn, int prazoEmprestimo, Date dataPublicacao, Date dataCadastro, LivroStatus status) {
+                                   int paginas, LivroCategoria categoria, String isbn, int prazoEmprestimo, Date dataPublicacao, Date dataCadastro, LivroStatus status) {
 
         Livro novoLivro = new Livro(idLivro, titulo, autor, editora, sinopse, paginas,
                 categoria, isbn, prazoEmprestimo, dataPublicacao, dataCadastro, status);
@@ -21,7 +22,7 @@ public class LivroDatabase {
     }
 
     public static void editarLivro(int idLivro, String novoTitulo, String novoAutor, String novaEditora,
-                                   String novaSinopse, int novasPaginas, String novaCategoria, String novoIsbn,
+                                   String novaSinopse, int novasPaginas, LivroCategoria novaCategoria, String novoIsbn,
                                    int novoPrazoEmprestimo, Date novaDataPublicacao, LivroStatus novoStatus) {
         for (Livro livro : livros) {
             if (livro.getIdLivro() == idLivro) {
