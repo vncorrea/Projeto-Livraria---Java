@@ -11,6 +11,6 @@ Feito por:
 Vídeo mostrando o projeto na prática:
 https://www.youtube.com/watch?v=THjAnyQmGBE&ab_channel=Vin%C3%ADciusCorr%C3%AAa
 
-Foto do UML:
+Foto do diagrama de classes:
 https://drive.google.com/file/d/1Bme9NLk7gaQS0BNzzefoeltWkh34DLDk/view?usp=sharing
 
