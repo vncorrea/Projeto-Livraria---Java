@@ -53,11 +53,20 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
         add(panel);
     }
 
-    private void pesquisarLivros() {
+    private void pesquisarLivros(boolean validaBuscaDeLivros) {
         String pesquisa = textFieldPesquisa.getText();
         List<Livro> livrosEncontrados = LivroDatabase.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
         JPanel novoPanel = new JPanel();
         novoPanel.setLayout(new BoxLayout(novoPanel, BoxLayout.Y_AXIS));
+
+        if (livrosEncontrados.isEmpty() && validaBuscaDeLivros) {
+            JOptionPane.showMessageDialog(this, "Nenhum livro encontrado.");
+            resultadosPanel.removeAll();
+            resultadosPanel.add(novoPanel);
+            resultadosPanel.revalidate();
+            resultadosPanel.repaint();
+            return;
+        }
 
         ImageIcon lapisIcon = new ImageIcon(getClass().getResource("/media/lapis.png"));
         ImageIcon lixeiraIcon = new ImageIcon(getClass().getResource("/media/lixeira.png"));
@@ -134,7 +143,7 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "pesquisar":
-                pesquisarLivros();
+                pesquisarLivros(true);
                 break;
             case "adicionarLivro":
                 SwingUtilities.invokeLater(() -> {
@@ -164,7 +173,7 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
 
                     if (opcao == JOptionPane.YES_OPTION) {
                         LivroDatabase.excluirLivro(idLivroExcluir);
-                        pesquisarLivros();
+                        pesquisarLivros(false);
                     }
                 }
         }
