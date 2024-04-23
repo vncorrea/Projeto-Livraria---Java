@@ -17,7 +17,7 @@ public class DatabaseManager {
             statement.execute("CREATE TABLE IF NOT EXISTS pessoa (id_pessoa INTEGER PRIMARY KEY, nome TEXT, logradouro TEXT, cpf TEXT, cidade TEXT, estado TEXT, uf TEXT, email TEXT, telefone TEXT, data_nascimento DATE, data_cadastro DATE)");
             statement.execute("CREATE TABLE IF NOT EXISTS livro_emprestimo (id_livro_emprestimo INTEGER PRIMARY KEY, id_livro INTEGER, id_pessoa INTEGER, multa BOOLEAN, data_emprestimo DATE, data_devolucao DATE, FOREIGN KEY (id_livro) REFERENCES livro(id_livro), FOREIGN KEY (id_pessoa) REFERENCES pessoa(id_pessoa))");
             statement.execute("CREATE TABLE IF NOT EXISTS colaborador (id_colaborador INTEGER PRIMARY KEY, cargo TEXT, id_pessoa INTEGER, data_registro DATE, pis TEXT, rg TEXT, senha TEXT, FOREIGN KEY (id_pessoa) REFERENCES pessoa(id_pessoa))");
-            
+
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
