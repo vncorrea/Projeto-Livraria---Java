@@ -26,9 +26,20 @@ public class LivroStatus {
     }
 
     public static void criarStatus(int idLivroStatus, String descricao) {
+
         LivroStatus novoStatus = new LivroStatus(idLivroStatus, descricao);
         status.add(novoStatus);
     }
+
+    public static int getIdStatus(LivroStatus statusLivro) {
+        for (LivroStatus stat : status) {
+            if (stat.idLivroStatus == statusLivro.idLivroStatus) {
+                return stat.idLivroStatus;
+            }
+        }
+        return 0;
+    }
+
 
     public static List<LivroStatus> listarStatus() {
         return status;

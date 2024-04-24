@@ -35,6 +35,15 @@ public class LivroCategoria {
         return descricaoCategorias;
     }
 
+    public static int getIdCategoria(LivroCategoria categoria) {
+        for (LivroCategoria cat : categorias) {
+            if (cat.idLivroCategoria == categoria.idLivroCategoria) {
+                return cat.idLivroCategoria;
+            }
+        }
+        return 0;
+    }
+
   public static LivroCategoria buscarCategoriaPorDescricao(String descricao) {
         for (LivroCategoria categoria : categorias) {
             if (getDescricao(categoria).equals(descricao)) {
