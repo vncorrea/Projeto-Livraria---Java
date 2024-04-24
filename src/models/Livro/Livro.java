@@ -11,8 +11,8 @@ public class Livro {
     private String editora;
     private String sinopse;
     private int paginas;
-    private LivroStatus status;
-    private LivroCategoria categoria;
+    private int idLivroStatus;
+    private int idLivroCategoria;
     private String isbn;
     private int prazoEmprestimo;
     private Date dataPublicacao;
@@ -20,20 +20,20 @@ public class Livro {
 
     private static List<Livro> livros = new ArrayList<>();
 
-    public Livro(int idLivro, String titulo, String autor, String editora, String sinopse, int paginas, LivroCategoria categoria, String isbn, int prazoEmprestimo, Date dataPublicacao,
-                 Date dataCadastro, LivroStatus status) {
+    public Livro(int idLivro, String titulo, String autor, String editora, String sinopse, int paginas, int idLivroCategoria, String isbn, int prazoEmprestimo, Date dataPublicacao,
+                 Date dataCadastro, int idLivroStatus) {
         this.idLivro = idLivro;
         this.titulo = titulo;
         this.autor = autor;
         this.editora = editora;
         this.sinopse = sinopse;
         this.paginas = paginas;
-        this.categoria = categoria;
+        this.idLivroCategoria = idLivroCategoria;
         this.isbn = isbn;
         this.prazoEmprestimo = prazoEmprestimo;
         this.dataPublicacao = dataPublicacao;
         this.dataCadastro = dataCadastro;
-        this.status = status;
+        this.idLivroStatus = idLivroStatus;
     }
 
     public int getIdLivro() {
@@ -84,25 +84,23 @@ public class Livro {
         this.paginas = paginas;
     }
 
-    public LivroStatus getStatus() {
-        return status;
+    public int getStatus() {
+        return idLivroStatus;
     }
 
-    public void setLivroStatus(LivroStatus status) {
-        this.status = status;
+
+    public void setIdLivroCategoria(int idLivroCategoria) {
+        this.idLivroCategoria = idLivroCategoria;
     }
 
-    public String getLivroStatusDescricao() {
-        return status.getDescricao();
+    public int getIdLivroCategoria() {
+        return idLivroCategoria;
     }
 
-    public LivroCategoria getCategoria() {
-        return categoria;
+    public void setIdLivroStatus(int idLivroStatus) {
+        this.idLivroStatus = idLivroStatus;
     }
 
-    public void setCategoria(LivroCategoria categoria) {
-        this.categoria = categoria;
-    }
 
     public String getIsbn() {
         return isbn;
