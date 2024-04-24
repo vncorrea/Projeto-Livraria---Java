@@ -84,21 +84,10 @@ public class Livro {
         this.paginas = paginas;
     }
 
-    public LivroStatus getStatus() {
-        return status;
+    public int getStatus() {
+        return idLivroStatus;
     }
 
-    public void setLivroStatus(LivroStatus status) {
-        this.status = status;
-    }
-
-    public String getLivroStatusDescricao() {
-        return status.getDescricao();
-    }
-
-    public LivroCategoria getCategoria() {
-        return categoria;
-    }
 
     public void setIdLivroCategoria(int idLivroCategoria) {
         this.idLivroCategoria = idLivroCategoria;
@@ -112,9 +101,6 @@ public class Livro {
         this.idLivroStatus = idLivroStatus;
     }
 
-    public void setCategoria(LivroCategoria categoria) {
-        this.categoria = categoria;
-    }
 
     public String getIsbn() {
         return isbn;

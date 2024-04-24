@@ -115,45 +115,43 @@ public class DatabaseManager {
     }
 
     public static List<Livro> pesquisarLivros(String titulo, String autor, String editora, String isbn, int idLivroCategoria, int idLivroStatus) {
-        public static List<Livro> pesquisarLivros (String titulo, String autor, String editora, String isbn,
-        int idLivroCategoria, int idLivroStatus){
-            List<Livro> livrosEncontrados = new ArrayList<>();
+        List<Livro> livrosEncontrados = new ArrayList<>();
 
-            try (Connection connection = DriverManager.getConnection(URL)) {
-                String sql = "SELECT * FROM livro WHERE titulo LIKE ? AND autor LIKE ? AND editora LIKE ? AND isbn LIKE ? AND id_livro_categoria = ? AND id_livro_status = ?";
-                try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                    statement.setString(1, "%" + titulo + "%");
-                    statement.setString(2, "%" + autor + "%");
-                    statement.setString(3, "%" + editora + "%");
-                    statement.setString(4, "%" + isbn + "%");
-                    statement.setInt(5, idLivroCategoria);
-                    statement.setInt(6, idLivroStatus);
+        try (Connection connection = DriverManager.getConnection(URL)) {
+            String sql = "SELECT * FROM livro WHERE titulo LIKE ? AND autor LIKE ? AND editora LIKE ? AND isbn LIKE ? AND id_livro_categoria = ? AND id_livro_status = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, "%" + titulo + "%");
+                statement.setString(2, "%" + autor + "%");
+                statement.setString(3, "%" + editora + "%");
+                statement.setString(4, "%" + isbn + "%");
+                statement.setInt(5, idLivroCategoria);
+                statement.setInt(6, idLivroStatus);
 
-                    try (ResultSet resultSet = statement.executeQuery()) {
-                        while (resultSet.next()) {
-                            Livro livro = new Livro(
-                                    resultSet.getInt("id_livro"),
-                                    resultSet.getString("titulo"),
-                                    resultSet.getString("autor"),
-                                    resultSet.getString("editora"),
-                                    resultSet.getString("sinopse"),
-                                    resultSet.getInt("paginas"),
-                                    resultSet.getString("isbn"),
-                                    resultSet.getDate("data_publicacao"),
-                                    resultSet.getDate("data_cadastro"),
-                                    resultSet.getInt("id_livro_categoria"),
-                                    resultSet.getInt("id_livro_status")
-                            );
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Livro livro = new Livro(
+                                resultSet.getInt("id_livro"),
+                                resultSet.getString("titulo"),
+                                resultSet.getString("autor"),
+                                resultSet.getString("editora"),
+                                resultSet.getString("sinopse"),
+                                resultSet.getInt("paginas"),
+                                resultSet.getInt("id_livro_categoria"),
+                                resultSet.getString("isbn"),
+                                resultSet.getInt("prazo_emprestimo"),
+                                resultSet.getDate("data_publicacao"),
+                                resultSet.getDate("data_cadastro"),
+                                resultSet.getInt("id_livro_status")
+                        );
 
-                            livrosEncontrados.add(livro);
-                        }
+                        livrosEncontrados.add(livro);
                     }
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-
-            return livrosEncontrados;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        return livrosEncontrados;
     }
 }
