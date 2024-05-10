@@ -96,7 +96,7 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
         for (Livro livro : livrosEncontrados) {
             JPanel livroPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             JLabel lblTitulo = new JLabel(livro.getTitulo());
-            JLabel lblCategoria = new JLabel(LivroCategoria.getDescricao(livro.getCategoria()));
+            JLabel lblCategoria = new JLabel(LivroCategoria.getDescricao(livro.getIdLivroCategoria()));
             JLabel lblAutor = new JLabel(livro.getAutor());
             JLabel lblEditora = new JLabel(livro.getEditora());
 

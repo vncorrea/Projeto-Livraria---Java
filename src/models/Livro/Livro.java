@@ -84,7 +84,7 @@ public class Livro {
         this.paginas = paginas;
     }
 
-    public int getStatus() {
+    public int getIdLivroStatus() {
         return idLivroStatus;
     }
 
@@ -100,7 +100,6 @@ public class Livro {
     public void setIdLivroStatus(int idLivroStatus) {
         this.idLivroStatus = idLivroStatus;
     }
-
 
     public String getIsbn() {
         return isbn;

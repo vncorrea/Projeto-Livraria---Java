@@ -13,17 +13,17 @@ public class LivroDatabase {
     private static List<Livro> livros = new ArrayList<>();
 
     public static Livro criarLivro(int idLivro, String titulo, String autor, String editora, String sinopse,
-                                   int paginas, LivroCategoria categoria, String isbn, int prazoEmprestimo, Date dataPublicacao, Date dataCadastro, LivroStatus status) {
+                                   int paginas, int id_livro_categoria, String isbn, int prazoEmprestimo, Date dataPublicacao, Date dataCadastro, int id_livro_status) {
 
         Livro novoLivro = new Livro(idLivro, titulo, autor, editora, sinopse, paginas,
-                categoria, isbn, prazoEmprestimo, dataPublicacao, dataCadastro, status);
+                id_livro_categoria, isbn, prazoEmprestimo, dataPublicacao, dataCadastro, id_livro_status);
         livros.add(novoLivro);
         return novoLivro;
     }
 
     public static void editarLivro(int idLivro, String novoTitulo, String novoAutor, String novaEditora,
-                                   String novaSinopse, int novasPaginas, LivroCategoria novaCategoria, String novoIsbn,
-                                   int novoPrazoEmprestimo, Date novaDataPublicacao, LivroStatus novoStatus) {
+                                   String novaSinopse, int novasPaginas, int novaCategoria, String novoIsbn,
+                                   int novoPrazoEmprestimo, Date novaDataPublicacao, int novoStatus) {
         for (Livro livro : livros) {
             if (livro.getIdLivro() == idLivro) {
                 livro.setTitulo(novoTitulo);
@@ -31,11 +31,11 @@ public class LivroDatabase {
                 livro.setEditora(novaEditora);
                 livro.setSinopse(novaSinopse);
                 livro.setPaginas(novasPaginas);
-                livro.setCategoria(novaCategoria);
+                livro.setIdLivroCategoria(novaCategoria);
                 livro.setIsbn(novoIsbn);
                 livro.setPrazoEmprestimo(novoPrazoEmprestimo);
                 livro.setDataPublicacao(novaDataPublicacao);
-                livro.setLivroStatus(novoStatus);
+                livro.setIdLivroStatus(novoStatus);
                 break;
             }
         }
@@ -63,7 +63,7 @@ public class LivroDatabase {
                 livrosEncontrados.add(livro);
             } else if (autor != null && !autor.isEmpty() && livro.getAutor().toLowerCase().contains(autor.toLowerCase())) {
                 livrosEncontrados.add(livro);
-            } else if (categoria != null && !categoria.isEmpty() && LivroCategoria.buscarCategoriaPorDescricao(categoria) != null && livro.getCategoria().getDescricao(LivroCategoria.buscarCategoriaPorDescricao(categoria)).toLowerCase().contains(categoria.toLowerCase())) {
+            } else if (categoria != null && !categoria.isEmpty() && LivroCategoria.buscarCategoriaPorDescricao(categoria) != null) {
                 livrosEncontrados.add(livro);
             } else if (isbn != null && !isbn.isEmpty() && livro.getIsbn().toLowerCase().contains(isbn.toLowerCase())) {
                 livrosEncontrados.add(livro);

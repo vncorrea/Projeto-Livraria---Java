@@ -14,8 +14,13 @@ public class LivroCategoria {
     }
 
 
-    public static String getDescricao(LivroCategoria categoria) {
-        return categoria.descricao;
+    public static String getDescricao(int idLivroCategoria) {
+        for (LivroCategoria categoria : categorias) {
+            if (categoria.idLivroCategoria == idLivroCategoria) {
+                return categoria.descricao;
+            }
+        }
+        return null;
     }
 
     public static void criarCategoria(int idLivroCategoria, String descricao) {
@@ -30,7 +35,7 @@ public class LivroCategoria {
     public static List<String> listarDescricaoCategorias(List<LivroCategoria> listaCategorias) {
         List<String> descricaoCategorias = new ArrayList<>();
         for (LivroCategoria categoria : listaCategorias) {
-            descricaoCategorias.add(getDescricao(categoria));
+            descricaoCategorias.add(getDescricao(categoria.idLivroCategoria));
         }
         return descricaoCategorias;
     }
@@ -46,7 +51,7 @@ public class LivroCategoria {
 
   public static LivroCategoria buscarCategoriaPorDescricao(String descricao) {
         for (LivroCategoria categoria : categorias) {
-            if (getDescricao(categoria).equals(descricao)) {
+            if (getDescricao(categoria.idLivroCategoria).equals(descricao)) {
                 return categoria;
             }
         }

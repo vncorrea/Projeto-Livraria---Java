@@ -1,4 +1,5 @@
 package models.Livro;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +14,13 @@ public class LivroStatus {
         this.descricao = descricao;
     }
 
-    public static String getStatus(LivroStatus status) {
-        return status.descricao;
+    public static String getStatus(int idLivroStatus) {
+        for (LivroStatus livroStatus : status) {
+            if (livroStatus.idLivroStatus == idLivroStatus) {
+                return livroStatus.descricao;
+            }
+        }
+        return null;
     }
 
     public int getIdLivroStatus() {
