@@ -2,6 +2,7 @@ package models.Database;
 
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
+import models.Livro.LivroStatus;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -79,6 +80,16 @@ public class DatabaseManager {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             var livroCategoria = new LivroCategoria(descricao);
+            int id = (int) session.save(livroCategoria);
+            session.getTransaction().commit();
+            return id;
+        }
+    }
+
+    public static int criarLivroStatus(String descricao) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            var livroCategoria = new LivroStatus(descricao);
             int id = (int) session.save(livroCategoria);
             session.getTransaction().commit();
             return id;

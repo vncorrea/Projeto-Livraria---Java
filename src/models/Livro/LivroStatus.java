@@ -9,8 +9,7 @@ public class LivroStatus {
 
     private static List<LivroStatus> status = new ArrayList<>();
 
-    public LivroStatus(int idLivroStatus, String descricao) {
-        this.idLivroStatus = idLivroStatus;
+    public LivroStatus(String descricao) {
         this.descricao = descricao;
     }
 
