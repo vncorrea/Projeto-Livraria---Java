@@ -20,9 +20,8 @@ public class Livro {
 
     private static List<Livro> livros = new ArrayList<>();
 
-    public Livro(int idLivro, String titulo, String autor, String editora, String sinopse, int paginas, int idLivroCategoria, String isbn, int prazoEmprestimo, Date dataPublicacao,
+    public Livro(String titulo, String autor, String editora, String sinopse, int paginas, int idLivroCategoria, String isbn, int prazoEmprestimo, Date dataPublicacao,
                  Date dataCadastro, int idLivroStatus) {
-        this.idLivro = idLivro;
         this.titulo = titulo;
         this.autor = autor;
         this.editora = editora;

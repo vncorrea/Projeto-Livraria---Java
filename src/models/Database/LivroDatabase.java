@@ -12,14 +12,7 @@ import java.util.Objects;
 public class LivroDatabase {
     private static List<Livro> livros = new ArrayList<>();
 
-    public static Livro criarLivro(int idLivro, String titulo, String autor, String editora, String sinopse,
-                                   int paginas, int id_livro_categoria, String isbn, int prazoEmprestimo, Date dataPublicacao, Date dataCadastro, int id_livro_status) {
 
-        Livro novoLivro = new Livro(idLivro, titulo, autor, editora, sinopse, paginas,
-                id_livro_categoria, isbn, prazoEmprestimo, dataPublicacao, dataCadastro, id_livro_status);
-        livros.add(novoLivro);
-        return novoLivro;
-    }
 
     public static void editarLivro(int idLivro, String novoTitulo, String novoAutor, String novaEditora,
                                    String novaSinopse, int novasPaginas, int novaCategoria, String novoIsbn,

@@ -8,8 +8,7 @@ public class LivroCategoria {
 
     private static List<LivroCategoria> categorias = new ArrayList<>();
 
-    public LivroCategoria(int idLivroCategoria, String descricao) {
-        this.idLivroCategoria = idLivroCategoria;
+    public LivroCategoria(String descricao) {
         this.descricao = descricao;
     }
 
@@ -24,7 +23,7 @@ public class LivroCategoria {
     }
 
     public static void criarCategoria(int idLivroCategoria, String descricao) {
-        LivroCategoria novaCategoria = new LivroCategoria(idLivroCategoria, descricao);
+        LivroCategoria novaCategoria = new LivroCategoria(descricao);
         categorias.add(novaCategoria);
     }
 

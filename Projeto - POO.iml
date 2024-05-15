@@ -9,5 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="xerial.sqlite.jdbc" level="project" />
+    <orderEntry type="library" exported="" name="hibernate.core" level="project" />
   </component>
 </module>

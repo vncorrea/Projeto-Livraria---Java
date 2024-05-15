@@ -9,21 +9,18 @@ import javax.swing.*;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        DatabaseManager.createDatabase();
-        DatabaseManager.criarStatus("Disponível");
-        DatabaseManager.criarStatus("Emprestado");
-        DatabaseManager.criarStatus("Atrasado");
+        DatabaseManager.init();
 
-        DatabaseManager.criarCategoria("Romance");
-        DatabaseManager.criarCategoria("Ficção Científica");
-        DatabaseManager.criarCategoria("Terror");
-        DatabaseManager.criarCategoria("Fantasia");
-        DatabaseManager.criarCategoria("Biografia");
-        DatabaseManager.criarCategoria("Ação");
-        DatabaseManager.criarCategoria("Aventura");
-        DatabaseManager.criarCategoria("Comédia");
-        DatabaseManager.criarCategoria("Drama");
-        DatabaseManager.criarCategoria("Suspense");
+        DatabaseManager.criarLivroCategoria("Romance");
+        DatabaseManager.criarLivroCategoria("Ficção Científica");
+        DatabaseManager.criarLivroCategoria("Terror");
+        DatabaseManager.criarLivroCategoria("Fantasia");
+        DatabaseManager.criarLivroCategoria("Biografia");
+        DatabaseManager.criarLivroCategoria("Ação");
+        DatabaseManager.criarLivroCategoria("Aventura");
+        DatabaseManager.criarLivroCategoria("Comédia");
+        DatabaseManager.criarLivroCategoria("Drama");
+        DatabaseManager.criarLivroCategoria("Suspense");
 
         SwingUtilities.invokeLater(() -> new PesquisaLivroView().setVisible(true));
     }

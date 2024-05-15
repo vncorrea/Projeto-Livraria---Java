@@ -1,6 +1,8 @@
 package views;
 
+import Controller.LivroController;
 import models.Database.DatabaseManager;
+import models.Database.LivroDAO;
 import models.Database.LivroDatabase;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
@@ -12,6 +14,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CadastroLivroView extends JFrame implements ActionListener {
+
+    private final LivroController livroController;
+    private final LivroDAO livroDAO;
     private JButton btnCadastrar, btnVoltar;
     JLabel labelNome, labelAutor, labelIdLivro, labelEditora, labelSinopse, labelPagina, labelIsbn, labelPrazoEmprestimo, labelCategoria, labelStatus;
     JTextField textFieldNome, textFieldAutor, textFieldIdLivro, textFieldEditora, textFieldSinopse, textFieldPagina, textFieldIsbn, textFieldPrazoEmprestimo;
@@ -101,6 +106,9 @@ public class CadastroLivroView extends JFrame implements ActionListener {
             btnCadastrar.addActionListener(this);
         }
 
+        livroDAO = new LivroDAO();
+        livroController = new LivroController(this, livroDAO);
+
         buttonPanel.add(btnCadastrar);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
@@ -120,15 +128,16 @@ public class CadastroLivroView extends JFrame implements ActionListener {
         if (e.getActionCommand().equals("cadastrar")) {
             if (camposPreenchidos()) {
                 // cria um livro com o DatabaseManager
-                DatabaseManager.criarLivro(
+                livroController.addLivro(
                         textFieldNome.getText(),
                         textFieldAutor.getText(),
                         textFieldEditora.getText(),
                         textFieldSinopse.getText(),
                         Integer.parseInt(textFieldPagina.getText()),
-                        1,
+                        LivroCategoria.getIdCategoria(getLivroCategoria()),
                         textFieldIsbn.getText(),
-                        getLivroStatus().getIdLivroStatus());
+                        Integer.parseInt(textFieldPrazoEmprestimo.getText()),
+                        null, null, 1);
 
                 JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
                 SwingUtilities.invokeLater(() -> {
@@ -141,7 +150,7 @@ public class CadastroLivroView extends JFrame implements ActionListener {
             }
         } else if (e.getActionCommand().equals("editar")) {
             if (camposPreenchidos()) {
-                DatabaseManager.editarLivro(
+                livroController.editarLivro(
                         1,
                         textFieldNome.getText(),
                         textFieldAutor.getText(),
@@ -179,5 +188,13 @@ public class CadastroLivroView extends JFrame implements ActionListener {
                 !textFieldPagina.getText().isEmpty() &&
                 !textFieldIsbn.getText().isEmpty() &&
                 !textFieldPrazoEmprestimo.getText().isEmpty();
+    }
+
+    public void mostrarMensagemErro(String mensagem) {
+        JOptionPane.showMessageDialog(this, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void mostrarMensagemSucesso(String mensagem) {
+        JOptionPane.showMessageDialog(this, mensagem, "Sucesso", JOptionPane.INFORMATION_MESSAGE);
     }
 }
