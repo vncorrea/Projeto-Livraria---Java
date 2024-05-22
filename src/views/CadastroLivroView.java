@@ -1,9 +1,6 @@
 package views;
 
-import Controller.LivroController;
-import models.Database.DatabaseManager;
 import models.Database.LivroDAO;
-import models.Database.LivroDatabase;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
