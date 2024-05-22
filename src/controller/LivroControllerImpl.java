@@ -1,5 +1,6 @@
 package controller;
 
+import database.LivroDAO;
 import models.Database.DatabaseManager;
 import views.CadastroLivroView;
 
@@ -7,8 +8,10 @@ import java.util.Date;
 
 public class LivroControllerImpl implements LivroController {
     private final CadastroLivroView cadastroLivroView;
-    private final
-    public LivroControllerImpl() {
+    private final LivroDAO livroDAO;
+    public LivroControllerImpl(CadastroLivroView cadastroLivroView, LivroDAO livroDAO) {
+        this.cadastroLivroView = cadastroLivroView;
+        this.livroDAO = livroDAO;
     }
     public void cadastrarLivro(String titulo, String autor, String editora, String sinopse, int paginas, int id_livro_categoria, String isbn, int prazoEmprestimo, Date dataPublicacao, Date dataCadastro, int id_livro_status) {
         DatabaseManager.criarLivro(titulo, autor, editora, sinopse, paginas, id_livro_categoria, isbn, prazoEmprestimo, dataPublicacao, dataCadastro, id_livro_status);

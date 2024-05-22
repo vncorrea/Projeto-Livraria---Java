@@ -3,11 +3,9 @@ package views;
 import javax.swing.*;
 import java.awt.*;
 
-import models.Database.LivroDatabase;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;

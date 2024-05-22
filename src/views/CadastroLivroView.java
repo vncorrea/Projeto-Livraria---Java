@@ -1,6 +1,7 @@
 package views;
 
-import models.Database.LivroDAO;
+import controller.LivroControllerImpl;
+import database.LivroDAO;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
@@ -12,7 +13,7 @@ import java.awt.event.ActionListener;
 
 public class CadastroLivroView extends JFrame implements ActionListener {
 
-    private final LivroController livroController;
+    private final LivroControllerImpl livroControllerImpl;
     private final LivroDAO livroDAO;
     private JButton btnCadastrar, btnVoltar;
     JLabel labelNome, labelAutor, labelIdLivro, labelEditora, labelSinopse, labelPagina, labelIsbn, labelPrazoEmprestimo, labelCategoria, labelStatus;
@@ -104,7 +105,7 @@ public class CadastroLivroView extends JFrame implements ActionListener {
         }
 
         livroDAO = new LivroDAO();
-        livroController = new LivroController(this, livroDAO);
+        livroControllerImpl = new LivroControllerImpl(this, livroDAO);
 
         buttonPanel.add(btnCadastrar);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -125,7 +126,7 @@ public class CadastroLivroView extends JFrame implements ActionListener {
         if (e.getActionCommand().equals("cadastrar")) {
             if (camposPreenchidos()) {
                 // cria um livro com o DatabaseManager
-                livroController.addLivro(
+                livroControllerImpl.cadastrarLivro(
                         textFieldNome.getText(),
                         textFieldAutor.getText(),
                         textFieldEditora.getText(),
@@ -147,7 +148,7 @@ public class CadastroLivroView extends JFrame implements ActionListener {
             }
         } else if (e.getActionCommand().equals("editar")) {
             if (camposPreenchidos()) {
-                livroController.editarLivro(
+                livroControllerImpl.editarLivro(
                         1,
                         textFieldNome.getText(),
                         textFieldAutor.getText(),
