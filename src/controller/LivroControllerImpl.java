@@ -6,6 +6,7 @@ import views.CadastroLivroView;
 import views.CadastroLivroViewImpl;
 import views.PesquisaLivroView;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class LivroControllerImpl implements LivroController {
@@ -39,7 +40,7 @@ public class LivroControllerImpl implements LivroController {
         livroDatabase.excluirLivro(idLivro);
     }
 
-    public void pesquisarLivro(String titulo, String autor, String categoria, String isbn) {
-        livroDatabase.pesquisarLivro(titulo, autor, categoria, isbn);
+    public ArrayList pesquisarLivro(String titulo, String autor, String categoria, String isbn) {
+       return livroDatabase.pesquisarLivro(titulo, autor, categoria, isbn);
     }
 }

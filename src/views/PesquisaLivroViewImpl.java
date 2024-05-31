@@ -9,6 +9,7 @@ import models.Livro.LivroCategoria;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PesquisaLivroViewImpl extends JFrame implements ActionListener, PesquisaLivroView {
@@ -16,11 +17,15 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
     private JTextField textFieldPesquisa;
     private LivroController livroController;
 
+    private ArrayList<Livro> livrosEncontrados;
+
     private JPanel resultadosPanel;
 
-    public PesquisaLivroViewImpl() {
+    public PesquisaLivroViewImpl(LivroController livroController) {
         initializeUI();
+
         this.livroController = livroController;
+
         livroController.setPesquisaView(this);
     }
 
@@ -62,8 +67,8 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
 
     private void pesquisarLivros(boolean validaBuscaDeLivros) {
         String pesquisa = textFieldPesquisa.getText();
-        
-        pesquisaLivros = livroController.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
+
+        livrosEncontrados = livroController.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
         JPanel novoPanel = new JPanel();
         novoPanel.setLayout(new BoxLayout(novoPanel, BoxLayout.Y_AXIS));
 
@@ -175,5 +180,10 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
                     }
                 }
         }
+    }
+
+    @Override
+    public void abrir() {
+        setVisible(true);
     }
 }

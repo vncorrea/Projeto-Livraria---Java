@@ -2,6 +2,7 @@ package controller;
 import views.CadastroLivroView;
 import views.PesquisaLivroView;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public interface LivroController {
@@ -11,7 +12,7 @@ public interface LivroController {
 
     void excluirLivro(int idLivro);
 
-    void pesquisarLivro(String titulo, String autor, String categoria, String isbn);
+    ArrayList pesquisarLivro(String titulo, String autor, String categoria, String isbn);
 
     void setCadastroView(CadastroLivroView view);
 

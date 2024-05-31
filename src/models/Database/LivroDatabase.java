@@ -1,5 +1,7 @@
 package models.Database;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
 
 public interface LivroDatabase {
@@ -9,5 +11,5 @@ public interface LivroDatabase {
 
     void excluirLivro(int idLivro);
 
-    void pesquisarLivro(String titulo, String autor, String categoria, String isbn);
+    ArrayList pesquisarLivro(String titulo, String autor, String categoria, String isbn);
 }

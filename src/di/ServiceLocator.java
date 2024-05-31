@@ -6,6 +6,8 @@ import models.Database.LivroDAO;
 import models.Database.LivroDatabase;
 import views.CadastroLivroView;
 import views.CadastroLivroViewImpl;
+import views.PesquisaLivroView;
+import views.PesquisaLivroViewImpl;
 
 public class ServiceLocator {
 
@@ -40,5 +42,9 @@ public class ServiceLocator {
 
     public CadastroLivroView getCadastroLivroView() {
         return new CadastroLivroViewImpl(getLivroController());
+    }
+
+    public PesquisaLivroView getPesquisaLivroView() {
+        return new PesquisaLivroViewImpl(getLivroController());
     }
 }

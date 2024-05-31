@@ -120,7 +120,7 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
 
                 JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
                 SwingUtilities.invokeLater(() -> {
-                    PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl();
+                    PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController);
                     PesquisaLivroViewImpl.setVisible(true);
                     this.dispose();
                 });
@@ -143,7 +143,7 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
 
                 JOptionPane.showMessageDialog(this, "Livro editado com sucesso!");
                 SwingUtilities.invokeLater(() -> {
-                    PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl();
+                    PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController);
                     PesquisaLivroViewImpl.setVisible(true);
                     this.dispose();
                 });
@@ -152,7 +152,7 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
             }
         } else if (e.getActionCommand().equals("voltar")) {
             SwingUtilities.invokeLater(() -> {
-                PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl();
+                PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController);
                 PesquisaLivroViewImpl.setVisible(true);
                 this.dispose();
             });
@@ -175,5 +175,10 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
 
     public void mostrarMensagemSucesso(String mensagem) {
         JOptionPane.showMessageDialog(this, mensagem, "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public void abrir() {
+        setVisible(true);
     }
 }
