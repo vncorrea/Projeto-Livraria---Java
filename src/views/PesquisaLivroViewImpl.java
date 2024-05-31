@@ -11,14 +11,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class testeeeee extends JFrame implements ActionListener {
+public class PesquisaLivroViewImpl extends JFrame implements ActionListener, PesquisaLivroView {
 
     private JTextField textFieldPesquisa;
     private LivroController livroController;
 
     private JPanel resultadosPanel;
 
-    public testeeeee() {
+    public PesquisaLivroViewImpl() {
+        initializeUI();
+        this.livroController = livroController;
+        livroController.setPesquisaView(this);
+    }
+
+    private void initializeUI() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Ações");
         JMenuItem menuItem = new JMenuItem("Adicionar Livro");
@@ -56,7 +62,8 @@ public class testeeeee extends JFrame implements ActionListener {
 
     private void pesquisarLivros(boolean validaBuscaDeLivros) {
         String pesquisa = textFieldPesquisa.getText();
-        List<Livro> livrosEncontrados = LivroDatabase.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
+        
+        pesquisaLivros = livroController.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
         JPanel novoPanel = new JPanel();
         novoPanel.setLayout(new BoxLayout(novoPanel, BoxLayout.Y_AXIS));
 
@@ -155,17 +162,7 @@ public class testeeeee extends JFrame implements ActionListener {
                 break;
             default:
                 if (e.getActionCommand().startsWith("editar:")) {
-                    String idLivroStr = e.getActionCommand().substring("editar:".length());
-                    int idLivroEditar = Integer.parseInt(idLivroStr);
-                    Livro livroEditar = livro.buscarLivroPorId(idLivroEditar);
 
-                    if (livroEditar != null) {
-                        SwingUtilities.invokeLater(() -> {
-                            CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(livroEditar);
-                            cadastroLivroViewImpl.setVisible(true);
-                            this.dispose();
-                        });
-                    }
                 } else if (e.getActionCommand().startsWith("excluir:")) {
                     String idLivroStr = e.getActionCommand().substring("excluir:".length());
                     int idLivroExcluir = Integer.parseInt(idLivroStr);
@@ -173,7 +170,7 @@ public class testeeeee extends JFrame implements ActionListener {
                     int opcao = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir?", "Confirmação", JOptionPane.YES_NO_OPTION);
 
                     if (opcao == JOptionPane.YES_OPTION) {
-                        LivroDatabase.excluirLivro(idLivroExcluir);
+                        livroController.excluirLivro(idLivroExcluir);
                         pesquisarLivros(false);
                     }
                 }

@@ -3,8 +3,9 @@ package models.Database;
 import models.Livro.Livro;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class LivroDAO implements LivroDatabase {
     @Override
@@ -97,19 +98,26 @@ public class LivroDAO implements LivroDatabase {
         }
     }
 
+    // No método pesquisarLivro na classe LivroDAO
     @Override
-    public void pesquisarLivro(String titulo, String autor, String categoria, String isbn) {
+    public ArrayList<Livro> pesquisarLivro(String titulo, String autor, String categoria, String isbn) {
+        ArrayList<Livro> livros = new ArrayList<>();
         try {
             Session session = DatabaseManager.getDatabaseSessionFactory().openSession();
             session.beginTransaction();
 
-            String query = "SELECT * FROM Livro WHERE titulo = :titulo AND autor = :autor AND id_livro_categoria = :categoria AND isbn = :isbn";
-            session.createSQLQuery(query)
+            String query = "FROM Livro WHERE titulo = :titulo AND autor = :autor AND idLivroCategoria = :categoria AND isbn = :isbn";
+            List result = session.createQuery(query)
                     .setParameter("titulo", titulo)
                     .setParameter("autor", autor)
                     .setParameter("categoria", categoria)
                     .setParameter("isbn", isbn)
                     .list();
+
+            for (Object o : result) {
+                Livro livro = (Livro) o;
+                livros.add(livro);
+            }
 
             session.getTransaction().commit();
             session.close();
@@ -119,5 +127,7 @@ public class LivroDAO implements LivroDatabase {
         } finally {
             DatabaseManager.getDatabaseSessionFactory().close();
         }
+
+        return livros;
     }
 }

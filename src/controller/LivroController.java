@@ -1,5 +1,6 @@
 package controller;
 import views.CadastroLivroView;
+import views.PesquisaLivroView;
 
 import java.util.Date;
 
@@ -13,4 +14,6 @@ public interface LivroController {
     void pesquisarLivro(String titulo, String autor, String categoria, String isbn);
 
     void setCadastroView(CadastroLivroView view);
+
+    void setPesquisaView(PesquisaLivroView view);
 }

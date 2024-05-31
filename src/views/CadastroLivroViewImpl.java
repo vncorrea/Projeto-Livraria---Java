@@ -1,7 +1,6 @@
 package views;
 
 import controller.LivroController;
-import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
 
@@ -19,6 +18,21 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
     JComboBox comboBoxStatus, comboBoxCategoria;
 
     public CadastroLivroViewImpl(LivroController livroController) {
+        initializeUI();
+
+        this.livroController = livroController;
+        livroController.setCadastroView(this);
+    }
+
+    public LivroStatus getLivroStatus() {
+        return LivroStatus.buscarStatusPorDescricao(comboBoxStatus.getSelectedItem().toString());
+    }
+
+    public LivroCategoria getLivroCategoria() {
+        return LivroCategoria.buscarCategoriaPorDescricao(comboBoxCategoria.getSelectedItem().toString());
+    }
+
+    private void initializeUI() {
         setTitle("Cadastro de Livros");
         setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,41 +96,10 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
         btnVoltar.addActionListener(this);
         buttonPanel.add(btnVoltar);
 
-        if (livro != null) {
-            textFieldNome.setText(livro.getTitulo());
-            textFieldAutor.setText(livro.getAutor());
-            textFieldIdLivro.setText(String.valueOf(livro.getIdLivro()));
-            textFieldEditora.setText(livro.getEditora());
-            textFieldSinopse.setText(livro.getSinopse());
-            textFieldPagina.setText(String.valueOf(livro.getPaginas()));
-            textFieldIsbn.setText(livro.getIsbn());
-            textFieldPrazoEmprestimo.setText(String.valueOf(livro.getPrazoEmprestimo()));
-            comboBoxCategoria.setSelectedItem(LivroCategoria.getDescricao(livro.getIdLivroCategoria()));
-            comboBoxStatus.setSelectedItem(LivroStatus.getStatus(livro.getIdLivroStatus()));
-            btnCadastrar = new JButton("Editar");
-            btnCadastrar.setActionCommand("editar");
-            btnCadastrar.addActionListener(this);
-        } else {
-            btnCadastrar = new JButton("Cadastrar");
-            btnCadastrar.setActionCommand("cadastrar");
-            btnCadastrar.addActionListener(this);
-        }
-
-        this.livroController = livroController;
-
-
         buttonPanel.add(btnCadastrar);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
-    }
-
-    public LivroStatus getLivroStatus() {
-        return LivroStatus.buscarStatusPorDescricao(comboBoxStatus.getSelectedItem().toString());
-    }
-
-    public LivroCategoria getLivroCategoria() {
-        return LivroCategoria.buscarCategoriaPorDescricao(comboBoxCategoria.getSelectedItem().toString());
     }
 
     @Override
@@ -137,8 +120,8 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
 
                 JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
                 SwingUtilities.invokeLater(() -> {
-                    testeeeee testeeeee = new testeeeee();
-                    testeeeee.setVisible(true);
+                    PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl();
+                    PesquisaLivroViewImpl.setVisible(true);
                     this.dispose();
                 });
             } else {
@@ -160,8 +143,8 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
 
                 JOptionPane.showMessageDialog(this, "Livro editado com sucesso!");
                 SwingUtilities.invokeLater(() -> {
-                    testeeeee testeeeee = new testeeeee();
-                    testeeeee.setVisible(true);
+                    PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl();
+                    PesquisaLivroViewImpl.setVisible(true);
                     this.dispose();
                 });
             } else {
@@ -169,8 +152,8 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
             }
         } else if (e.getActionCommand().equals("voltar")) {
             SwingUtilities.invokeLater(() -> {
-                testeeeee testeeeee = new testeeeee();
-                testeeeee.setVisible(true);
+                PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl();
+                PesquisaLivroViewImpl.setVisible(true);
                 this.dispose();
             });
         }
