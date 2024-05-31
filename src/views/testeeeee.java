@@ -3,6 +3,7 @@ package views;
 import javax.swing.*;
 import java.awt.*;
 
+import controller.LivroController;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 
@@ -10,12 +11,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class PesquisaLivroView extends JFrame implements ActionListener {
+public class testeeeee extends JFrame implements ActionListener {
 
     private JTextField textFieldPesquisa;
+    private LivroController livroController;
+
     private JPanel resultadosPanel;
 
-    public PesquisaLivroView() {
+    public testeeeee() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Ações");
         JMenuItem menuItem = new JMenuItem("Adicionar Livro");
@@ -145,8 +148,8 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
                 break;
             case "adicionarLivro":
                 SwingUtilities.invokeLater(() -> {
-                    CadastroLivroView cadastroLivroView = new CadastroLivroView(null);
-                    cadastroLivroView.setVisible(true);
+                    CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(null);
+                    cadastroLivroViewImpl.setVisible(true);
                     this.dispose();
                 });
                 break;
@@ -154,12 +157,12 @@ public class PesquisaLivroView extends JFrame implements ActionListener {
                 if (e.getActionCommand().startsWith("editar:")) {
                     String idLivroStr = e.getActionCommand().substring("editar:".length());
                     int idLivroEditar = Integer.parseInt(idLivroStr);
-                    Livro livroEditar = LivroDatabase.buscarLivroPorId(idLivroEditar);
+                    Livro livroEditar = livro.buscarLivroPorId(idLivroEditar);
 
                     if (livroEditar != null) {
                         SwingUtilities.invokeLater(() -> {
-                            CadastroLivroView cadastroLivroView = new CadastroLivroView(livroEditar);
-                            cadastroLivroView.setVisible(true);
+                            CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(livroEditar);
+                            cadastroLivroViewImpl.setVisible(true);
                             this.dispose();
                         });
                     }

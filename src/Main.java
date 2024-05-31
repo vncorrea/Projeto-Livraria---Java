@@ -1,7 +1,5 @@
 import models.Database.DatabaseManager;
-import models.Livro.LivroCategoria;
-import models.Livro.LivroStatus;
-import views.PesquisaLivroView;
+import views.testeeeee;
 
 import javax.swing.*;
 
@@ -11,6 +9,6 @@ public class Main {
     public static void main(String[] args) {
         DatabaseManager.createSessionFactory();
 
-        SwingUtilities.invokeLater(() -> new PesquisaLivroView().setVisible(true));
+        SwingUtilities.invokeLater(() -> new testeeeee().setVisible(true));
     }
 }
