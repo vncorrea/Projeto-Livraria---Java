@@ -1,6 +1,4 @@
 import di.ServiceLocator;
-import models.Database.DatabaseManager;
-import views.PesquisaLivroViewImpl;
 
 import javax.swing.*;
 
