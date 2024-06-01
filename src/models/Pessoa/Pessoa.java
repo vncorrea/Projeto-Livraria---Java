@@ -1,8 +1,6 @@
 package models.Pessoa;
 
 import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
 
 public class Pessoa {
     protected int idPessoa;

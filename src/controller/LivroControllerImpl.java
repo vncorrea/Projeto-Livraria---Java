@@ -3,7 +3,6 @@ package controller;
 
 import models.Database.LivroDatabase;
 import views.CadastroLivroView;
-import views.CadastroLivroViewImpl;
 import views.PesquisaLivroView;
 
 import java.util.ArrayList;

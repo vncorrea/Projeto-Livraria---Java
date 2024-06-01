@@ -1,9 +1,9 @@
 package models.Database;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
 
 public class DatabaseManager {
 
@@ -22,9 +22,7 @@ public class DatabaseManager {
                 .configure()
                 .build();
         try {
-            sessionFactory = new MetadataSources(registry)
-                    .buildMetadata()
-                    .buildSessionFactory();
+            sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
 
         }
         catch (Exception e) {

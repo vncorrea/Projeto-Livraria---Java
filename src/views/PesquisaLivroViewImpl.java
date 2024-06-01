@@ -1,16 +1,14 @@
 package views;
 
-import javax.swing.*;
-import java.awt.*;
-
 import controller.LivroController;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PesquisaLivroViewImpl extends JFrame implements ActionListener, PesquisaLivroView {
 
