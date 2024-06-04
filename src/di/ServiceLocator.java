@@ -24,7 +24,7 @@ public class ServiceLocator {
 
     private LivroDAO livroDAO;
 
-    private LivroDAO getTaskDao() {
+    private LivroDAO getLivroDAO() {
         if(livroDAO == null) {
             livroDAO = new LivroDAO();
         }
@@ -33,7 +33,7 @@ public class ServiceLocator {
     }
 
     public LivroDatabase getLivroDatabase() {
-        return getTaskDao();
+        return getLivroDAO();
     }
 
     public LivroController getLivroController() {
