@@ -107,13 +107,15 @@ public class LivroDAO implements LivroDatabase {
             Session session = DatabaseManager.getDatabaseSessionFactory().openSession();
             session.beginTransaction();
 
-            String query = "FROM livro WHERE titulo = :titulo AND autor = :autor AND idLivroCategoria = :categoria AND isbn = :isbn";
+            String query = "FROM Livro WHERE titulo = :titulo AND autor = :autor AND idLivroCategoria = :categoria AND isbn = :isbn";
             List result = session.createQuery(query)
                     .setParameter("titulo", titulo)
                     .setParameter("autor", autor)
-                    .setParameter("categoria", Integer.parseInt(categoria)) // Convert to integer
+                    .setParameter("categoria", Integer.parseInt(categoria))
                     .setParameter("isbn", isbn)
                     .list();
+
+            System.out.println(result);
 
             for (Object o : result) {
                 Livro livro = (Livro) o;

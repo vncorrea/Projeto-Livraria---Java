@@ -3,8 +3,16 @@ package models.Livro;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "livro")
 public class Livro {
+    @Id
+    @GeneratedValue
     private int idLivro;
     private String titulo;
     private String autor;
@@ -33,6 +41,10 @@ public class Livro {
         this.dataPublicacao = dataPublicacao;
         this.dataCadastro = dataCadastro;
         this.idLivroStatus = idLivroStatus;
+    }
+
+    public Livro() {
+
     }
 
     public int getIdLivro() {
