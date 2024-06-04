@@ -40,6 +40,7 @@ public class LivroControllerImpl implements LivroController {
     }
 
     public ArrayList pesquisarLivro(String titulo, String autor, String categoria, String isbn) {
+        System.out.println(livroDatabase.pesquisarLivro(titulo, autor, categoria, isbn));
        return livroDatabase.pesquisarLivro(titulo, autor, categoria, isbn);
     }
 }
