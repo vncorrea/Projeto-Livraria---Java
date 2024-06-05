@@ -9,11 +9,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "livro")
+@Table(name = "Livro")
 public class Livro {
     @Id
     @GeneratedValue
     private int idLivro;
+    
     private String titulo;
     private String autor;
     private String editora;
