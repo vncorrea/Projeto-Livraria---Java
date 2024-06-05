@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.hibernate.query.Query;
 
 public class LivroDAO implements LivroDatabase {
     @Override
@@ -105,8 +106,11 @@ public class LivroDAO implements LivroDatabase {
         ArrayList<Livro> livros = new ArrayList<>();
         try {
             livros = (ArrayList<Livro>) DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
-                return session.createSelectionQuery("from Livro where titulo = titulo or autor = autor or isbn = isbn", Livro.class)
-                        .getResultList();
+                Query<Livro> query = session.createQuery("from Livro where titulo = :titulo or autor = :autor or isbn = :isbn", Livro.class);
+                query.setParameter("titulo", titulo);
+                query.setParameter("autor", autor);
+                query.setParameter("isbn", isbn);
+                return query.getResultList();
             });
         } catch (Exception e) {
             e.printStackTrace();

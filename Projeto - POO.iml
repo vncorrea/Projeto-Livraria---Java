@@ -29,7 +29,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="xerial.sqlite.jdbc" level="project" />
-    <orderEntry type="library" name="hibernate.orm.community.dialects" level="application" />
-    <orderEntry type="library" name="slf4j.migrator" level="project" />
+    <orderEntry type="library" name="hibernate.core" level="project" />
+    <orderEntry type="library" name="hibernate.orm.core" level="project" />
+    <orderEntry type="library" name="github.gwenn.sqlite.dialect" level="project" />
   </component>
 </module>

@@ -14,7 +14,6 @@ public class Livro {
     @Id
     @GeneratedValue
     private int idLivro;
-    
     private String titulo;
     private String autor;
     private String editora;

@@ -3,8 +3,16 @@ package models.Livro;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "LivroEmprestimo")
 public class LivroEmprestimo {
+    @Id
+    @GeneratedValue
     private int idLivroEmprestimo;
     private int idLivro;
     private int idPessoa;
@@ -22,6 +30,10 @@ public class LivroEmprestimo {
     }
 
     private static List<LivroEmprestimo> livroEmprestimos = new ArrayList<>();
+
+    public LivroEmprestimo() {
+
+    }
 
     public int getIdLivroEmprestimo() {
         return idLivroEmprestimo;

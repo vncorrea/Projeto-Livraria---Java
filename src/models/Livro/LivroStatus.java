@@ -1,9 +1,18 @@
 package models.Livro;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "LivroStatus")
 public class LivroStatus {
+    @Id
+    @GeneratedValue
     private int idLivroStatus;
     private String descricao;
 
@@ -11,6 +20,10 @@ public class LivroStatus {
 
     public LivroStatus(String descricao) {
         this.descricao = descricao;
+    }
+
+    public LivroStatus() {
+
     }
 
     public static String getStatus(int idLivroStatus) {
