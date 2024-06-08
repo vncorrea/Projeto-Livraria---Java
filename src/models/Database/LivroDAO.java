@@ -260,17 +260,17 @@ public class LivroDAO implements LivroDatabase {
 
         try {
             session = DatabaseManager.getDatabaseSessionFactory().openSession();
+
             transaction = session.beginTransaction();
-
             Livro livro = session.get(Livro.class, idLivro);
-            LivroEmprestimo emprestimo = new LivroEmprestimo(idLivro, idPessoa, dataEmprestimo, dataDevolucao, false, observacao);
-
             livro.setIdLivroStatus(2);
-
-            session.update(livro);
-            session.save(emprestimo);
-
             transaction.commit();
+
+            transaction = session.beginTransaction();
+            LivroEmprestimo emprestimo = new LivroEmprestimo(idLivro, idPessoa, dataEmprestimo, dataDevolucao, false, observacao);
+            session.save(emprestimo);
+            transaction.commit();
+
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();

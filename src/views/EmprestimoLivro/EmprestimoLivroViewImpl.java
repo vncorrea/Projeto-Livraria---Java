@@ -90,6 +90,15 @@ public class EmprestimoLivroViewImpl extends JFrame implements ActionListener, E
     public void actionPerformed(ActionEvent e) {
         if ("emprestar".equals(e.getActionCommand())) {
             livroController.emprestarLivro(idLivroAtual, comboBoxPessoa.getSelectedIndex(), jDateEmprestimo.getDate(), jDateDevolucao.getDate(), textFieldObservacoes.getText());
+
+            JOptionPane.showMessageDialog(this, "Emprestimo cadastrado com sucesso!");
+
+            SwingUtilities.invokeLater(() -> {
+                PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
+                PesquisaLivroViewImpl.setVisible(true);
+                this.dispose();
+            });
+
         } else if ("voltar".equals(e.getActionCommand())) {
             SwingUtilities.invokeLater(() -> {
                 PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
