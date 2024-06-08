@@ -1,5 +1,7 @@
 package models.Database;
 
+import models.Livro.LivroCategoria;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,4 +19,6 @@ public interface LivroDatabase {
     void criarStatus(String descricao);
     List pesquisarStatus();
     List pesquisarCategorias();
+
+    LivroCategoria pesquisarCategoria(int idLivroCategoria);
 }

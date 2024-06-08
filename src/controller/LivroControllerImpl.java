@@ -2,6 +2,7 @@ package controller;
 
 
 import models.Database.LivroDatabase;
+import models.Livro.LivroCategoria;
 import views.CadastroLivroView;
 import views.PesquisaLivroView;
 
@@ -46,6 +47,10 @@ public class LivroControllerImpl implements LivroController {
 
     public List pesquisarCategorias() {
         return livroDatabase.pesquisarCategorias();
+    }
+
+    public LivroCategoria pesquisarCategoria(int idLivroCategoria) {
+        return livroDatabase.pesquisarCategoria(idLivroCategoria);
     }
 
     public List pesquisarStatus() {

@@ -25,14 +25,8 @@ public class LivroCategoria {
 
     }
 
-
-    public static String getDescricao(int idLivroCategoria) {
-        for (LivroCategoria categoria : categorias) {
-            if (categoria.idLivroCategoria == idLivroCategoria) {
-                return categoria.descricao;
-            }
-        }
-        return null;
+    public String getDescricao() {
+        return descricao;
     }
 
     public static void criarCategoria(int idLivroCategoria, String descricao) {
@@ -42,14 +36,6 @@ public class LivroCategoria {
 
     public static List<LivroCategoria> listarCategorias() {
         return categorias;
-    }
-
-    public static List<String> listarDescricaoCategorias(List<LivroCategoria> listaCategorias) {
-        List<String> descricaoCategorias = new ArrayList<>();
-        for (LivroCategoria categoria : listaCategorias) {
-            descricaoCategorias.add(getDescricao(categoria.idLivroCategoria));
-        }
-        return descricaoCategorias;
     }
 
     public static int getIdCategoria(LivroCategoria categoria) {
@@ -63,7 +49,7 @@ public class LivroCategoria {
 
   public static LivroCategoria buscarCategoriaPorDescricao(String descricao) {
         for (LivroCategoria categoria : categorias) {
-            if (getDescricao(categoria.idLivroCategoria).equals(descricao)) {
+            if (categoria.getDescricao().equals(descricao)) {
                 return categoria;
             }
         }

@@ -109,6 +109,7 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("cadastrar")) {
             if (camposPreenchidos()) {
+                System.out.println(comboBoxCategoria.getSelectedItem());
                 // cria um livro com o DatabaseManager
                 livroController.cadastrarLivro(
                         textFieldNome.getText(),
@@ -116,7 +117,7 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
                         textFieldEditora.getText(),
                         textFieldSinopse.getText(),
                         Integer.parseInt(textFieldPagina.getText()),
-                        LivroCategoria.getIdCategoria(getLivroCategoria()),
+                        LivroCategoria.getIdCategoria((LivroCategoria) comboBoxCategoria.getSelectedItem()),
                         textFieldIsbn.getText(),
                         Integer.parseInt(textFieldPrazoEmprestimo.getText()),
                         null, null, 1);

@@ -103,9 +103,10 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
         novoPanel.add(escritaPanel);
 
         for (Livro livro : livrosEncontrados) {
+            LivroCategoria livroCategoria = livroController.pesquisarCategoria(livro.getIdLivroCategoria());
             JPanel livroPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             JLabel lblTitulo = new JLabel(livro.getTitulo());
-            JLabel lblCategoria = new JLabel(LivroCategoria.getDescricao(livro.getIdLivroCategoria()));
+            JLabel lblCategoria = new JLabel(livroCategoria.getDescricao());
             JLabel lblAutor = new JLabel(livro.getAutor());
             JLabel lblEditora = new JLabel(livro.getEditora());
 

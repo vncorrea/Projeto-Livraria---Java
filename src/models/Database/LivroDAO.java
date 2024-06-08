@@ -26,12 +26,10 @@ public class LivroDAO implements LivroDatabase {
             session.save(livro);
 
             transaction.commit();
-            System.out.println("Livro criado com sucesso!");
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println("Erro ao criar livro: ");
             e.printStackTrace();
         } finally {
             if (session != null) {
@@ -62,12 +60,10 @@ public class LivroDAO implements LivroDatabase {
             livro.setIdLivroStatus(novoStatus);
 
             transaction.commit();
-            System.out.println("Livro editado com sucesso!");
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println("Erro ao criar livro: ");
             e.printStackTrace();
         } finally {
             if (session != null) {
@@ -89,12 +85,10 @@ public class LivroDAO implements LivroDatabase {
             session.delete(livro);
 
             transaction.commit();
-            System.out.println("Livro excluído com sucesso!");
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println("Erro ao criar livro: ");
             e.printStackTrace();
         } finally {
             if (session != null) {
@@ -135,13 +129,11 @@ public class LivroDAO implements LivroDatabase {
             session.save(categoria);
 
             transaction.commit();
-            System.out.println("Categoria criada com sucesso!");
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
 
-            System.out.println("Erro ao criar categoria: ");
             e.printStackTrace();
         }
     }
@@ -159,13 +151,11 @@ public class LivroDAO implements LivroDatabase {
             session.save(status);
 
             transaction.commit();
-            System.out.println("Status criada com sucesso!");
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
 
-            System.out.println("Erro ao criar Status: ");
             e.printStackTrace();
         }
     }
@@ -198,5 +188,21 @@ public class LivroDAO implements LivroDatabase {
         }
 
         return status;
+    }
+
+    @Override
+    public LivroCategoria pesquisarCategoria(int idLivroCategoria) {
+        LivroCategoria categoria = null;
+        try {
+            categoria = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
+                Query<LivroCategoria> query = session.createQuery("from LivroCategoria where idLivroCategoria = :idLivroCategoria", LivroCategoria.class);
+                query.setParameter("idLivroCategoria", idLivroCategoria);
+                return query.getSingleResult();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return categoria;
     }
 }

@@ -1,4 +1,5 @@
 package controller;
+import models.Livro.LivroCategoria;
 import views.CadastroLivroView;
 import views.PesquisaLivroView;
 
@@ -21,4 +22,6 @@ public interface LivroController {
 
     List pesquisarCategorias();
     List pesquisarStatus();
+
+    LivroCategoria pesquisarCategoria(int idLivroCategoria);
 }
