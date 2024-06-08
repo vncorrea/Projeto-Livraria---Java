@@ -31,6 +31,6 @@
     <orderEntry type="library" exported="" name="xerial.sqlite.jdbc" level="project" />
     <orderEntry type="library" name="hibernate.core" level="project" />
     <orderEntry type="library" name="hibernate.orm.core" level="project" />
-    <orderEntry type="library" name="github.gwenn.sqlite.dialect" level="project" />
+    <orderEntry type="library" name="hibernate.orm.community.dialects" level="application" />
   </component>
 </module>
