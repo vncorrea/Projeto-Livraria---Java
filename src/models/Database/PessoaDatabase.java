@@ -2,6 +2,7 @@ package models.Database;
 
 import models.Pessoa.Pessoa;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public interface PessoaDatabase {
@@ -9,4 +10,6 @@ public interface PessoaDatabase {
     void editarPessoa(int idPessoa, String novoNome, String novoCpf, String novoEmail, String novoTelefone, String novoLogradouro, String novaCidade, String novoCep, Date novaDataCadastro, Date novaDataNascimento, String novoUf, String novaSenha);
 
     Pessoa pesquisarPessoa(int idPessoa, String nome, String cpf, String telefone);
+
+    ArrayList pesquisarPessoas();
 }

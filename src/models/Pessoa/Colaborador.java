@@ -13,14 +13,17 @@ public class Colaborador extends Pessoa {
     @Id
     @GeneratedValue
 
+    private int idPessoa;
+
     private String cargo;
     private Date dataRegistro;
     private String pis;
     private String rg;
 
 
-    public Colaborador(String nome, String cpf, String email, String telefone, String logradouro, String cidade, String estado, String cep, Date dataCadastro, Date dataNascimento, String uf, String cargo, Date dataRegistro, String pis, String rg, String senha) {
+    public Colaborador(String nome, String cpf, String email, String telefone, String logradouro, String cidade, String estado, String cep, Date dataCadastro, Date dataNascimento, String uf, String cargo, Date dataRegistro, String pis, String rg, String senha, int idPessoa) {
         super(nome, cpf, email, telefone, logradouro, cidade, estado, cep, dataCadastro, dataNascimento, uf, senha);
+        this.idPessoa = idPessoa;
         this.cargo = cargo;
         this.dataRegistro = dataRegistro;
         this.pis = pis;

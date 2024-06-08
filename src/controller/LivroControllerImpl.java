@@ -5,9 +5,9 @@ import models.Database.LivroDatabase;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
-import views.CadastroLivroView;
-import views.EmprestimoLivroView;
-import views.PesquisaLivroView;
+import views.CadastroLivro.CadastroLivroView;
+import views.EmprestimoLivro.EmprestimoLivroView;
+import views.PesquisaLivro.PesquisaLivroView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,5 +71,9 @@ public class LivroControllerImpl implements LivroController {
     }
     public List pesquisarStatus() {
         return livroDatabase.pesquisarStatus();
+    }
+
+    public void emprestarLivro(int idLivro, int idPessoa, Date dataEmprestimo, Date dataDevolucao, String observacao) {
+        livroDatabase.emprestarLivro(idLivro, idPessoa, dataEmprestimo, dataDevolucao, observacao);
     }
 }

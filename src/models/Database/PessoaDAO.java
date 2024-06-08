@@ -4,6 +4,7 @@ import models.Pessoa.Pessoa;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class PessoaDAO implements PessoaDatabase {
@@ -87,6 +88,32 @@ public class PessoaDAO implements PessoaDatabase {
 
             transaction.commit();
             return pessoa;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    @Override
+    public ArrayList pesquisarPessoas() {
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            session = DatabaseManager.getDatabaseSessionFactory().openSession();
+            transaction = session.beginTransaction();
+
+            ArrayList<Pessoa> pessoas = (ArrayList<Pessoa>) session.createQuery("FROM Pessoa").list();
+
+            transaction.commit();
+            return pessoas;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();

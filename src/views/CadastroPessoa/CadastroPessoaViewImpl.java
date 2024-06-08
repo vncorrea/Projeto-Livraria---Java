@@ -1,18 +1,15 @@
-package views;
+package views.CadastroPessoa;
 
 import com.toedter.calendar.JDateChooser;
 import controller.LivroController;
 import controller.PessoaController;
-import models.Livro.Livro;
-import models.Livro.LivroCategoria;
-import models.Livro.LivroStatus;
 import models.Pessoa.Pessoa;
+import views.PesquisaLivro.PesquisaLivroViewImpl;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView, ActionListener {
     private final PessoaController pessoaController;

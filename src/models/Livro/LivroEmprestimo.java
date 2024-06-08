@@ -21,8 +21,7 @@ public class LivroEmprestimo {
     private boolean multa;
     private String observacao;
 
-    public LivroEmprestimo(int idLivroEmprestimo, int idLivro, int idPessoa, Date dataEmprestimo, Date dataDevolucao, boolean multa, String observacao) {
-        this.idLivroEmprestimo = idLivroEmprestimo;
+    public LivroEmprestimo(int idLivro, int idPessoa, Date dataEmprestimo, Date dataDevolucao, boolean multa, String observacao) {
         this.idLivro = idLivro;
         this.idPessoa = idPessoa;
         this.dataEmprestimo = dataEmprestimo;

@@ -1,10 +1,13 @@
-package views;
+package views.PesquisaLivro;
 
 import controller.LivroController;
 import controller.PessoaController;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
+import views.CadastroLivro.CadastroLivroViewImpl;
+import views.CadastroPessoa.CadastroPessoaViewImpl;
+import views.EmprestimoLivro.EmprestimoLivroViewImpl;
 
 import javax.swing.*;
 import java.awt.*;

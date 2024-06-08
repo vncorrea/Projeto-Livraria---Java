@@ -4,8 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import models.Livro.LivroStatus;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Pessoa")
@@ -163,5 +166,11 @@ public class Pessoa {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public static List<String> listarNomePessoas(List<Pessoa> pessoas) {
+        return pessoas.stream()
+                .map(Pessoa::getNome)
+                .collect(Collectors.toList());
     }
 }

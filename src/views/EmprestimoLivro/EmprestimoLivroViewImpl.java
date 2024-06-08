@@ -1,11 +1,11 @@
-package views;
+package views.EmprestimoLivro;
 
 import controller.LivroController;
 import controller.PessoaController;
-import models.Livro.Livro;
-import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
 import com.toedter.calendar.JDateChooser;
+import models.Pessoa.Pessoa;
+import views.PesquisaLivro.PesquisaLivroViewImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,7 +44,7 @@ public class EmprestimoLivroViewImpl extends JFrame implements ActionListener, E
 
         labelPessoa = new JLabel("Pessoa emprestada:");
         formPanel.add(labelPessoa);
-        comboBoxPessoa = new JComboBox<>(LivroStatus.listarDescricaoStatus(livroController.pesquisarStatus()).toArray());
+        comboBoxPessoa = new JComboBox<>(Pessoa.listarNomePessoas(pessoaController.pesquisarPessoas()).toArray());
         formPanel.add(comboBoxPessoa);
 
         labelDataEmprestimo = new JLabel("Data de empréstimo:");
@@ -89,7 +89,7 @@ public class EmprestimoLivroViewImpl extends JFrame implements ActionListener, E
     @Override
     public void actionPerformed(ActionEvent e) {
         if ("emprestar".equals(e.getActionCommand())) {
-//            livroController.emprestarLivro(idLivroAtual, comboBoxStatus.getSelectedIndex(), jDateEmprestimo.getDate());
+            livroController.emprestarLivro(idLivroAtual, comboBoxPessoa.getSelectedIndex(), jDateEmprestimo.getDate(), jDateDevolucao.getDate(), textFieldObservacoes.getText());
         } else if ("voltar".equals(e.getActionCommand())) {
             SwingUtilities.invokeLater(() -> {
                 PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);

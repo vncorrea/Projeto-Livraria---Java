@@ -2,9 +2,9 @@ package controller;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
-import views.CadastroLivroView;
-import views.EmprestimoLivroView;
-import views.PesquisaLivroView;
+import views.CadastroLivro.CadastroLivroView;
+import views.EmprestimoLivro.EmprestimoLivroView;
+import views.PesquisaLivro.PesquisaLivroView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,4 +31,6 @@ public interface LivroController {
     Livro pesquisarLivro(int idLivro);
 
     LivroStatus pesquisarUmStatus(int idLivroStatus, String descricao);
+
+    void emprestarLivro(int idLivro, int idPessoa, Date dataEmprestimo, Date dataDevolucao, String observacao);
 }

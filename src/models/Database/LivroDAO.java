@@ -2,6 +2,7 @@ package models.Database;
 
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
+import models.Livro.LivroEmprestimo;
 import models.Livro.LivroStatus;
 import models.Pessoa.Pessoa;
 import org.hibernate.Session;
@@ -250,5 +251,35 @@ public class LivroDAO implements LivroDatabase {
         }
 
         return status;
+    }
+
+    @Override
+    public void emprestarLivro(int idLivro, int idPessoa, Date dataEmprestimo, Date dataDevolucao, String observacao) {
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            session = DatabaseManager.getDatabaseSessionFactory().openSession();
+            transaction = session.beginTransaction();
+
+            Livro livro = session.get(Livro.class, idLivro);
+            LivroEmprestimo emprestimo = new LivroEmprestimo(idLivro, idPessoa, dataEmprestimo, dataDevolucao, false, observacao);
+
+            livro.setIdLivroStatus(2);
+
+            session.update(livro);
+            session.save(emprestimo);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }

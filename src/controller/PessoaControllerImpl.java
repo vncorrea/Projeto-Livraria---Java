@@ -3,6 +3,7 @@ package controller;
 import models.Database.PessoaDatabase;
 import models.Pessoa.Pessoa;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class PessoaControllerImpl implements PessoaController {
@@ -25,5 +26,10 @@ public class PessoaControllerImpl implements PessoaController {
     @Override
     public Pessoa pesquisarPessoa(int idPessoa, String nome, String cpf, String telefone) {
         return pessoaDatabase.pesquisarPessoa(idPessoa, nome, cpf, telefone);
+    }
+
+    @Override
+    public ArrayList pesquisarPessoas() {
+        return pessoaDatabase.pesquisarPessoas();
     }
 }
