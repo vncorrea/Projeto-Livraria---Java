@@ -1,8 +1,10 @@
 package views;
 
 import controller.LivroController;
+import controller.PessoaController;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
+import models.Livro.LivroStatus;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,13 +16,14 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
 
     private JTextField textFieldPesquisa;
     private final LivroController livroController;
-
+    private final PessoaController pessoaController;
     private JPanel resultadosPanel;
 
-    public PesquisaLivroViewImpl(LivroController livroController) {
+    public PesquisaLivroViewImpl(LivroController livroController, PessoaController pessoaController) {
         initializeUI();
 
         this.livroController = livroController;
+        this.pessoaController = pessoaController;
 
         livroController.setPesquisaView(this);
     }
@@ -28,10 +31,14 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
     private void initializeUI() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Ações");
-        JMenuItem menuItem = new JMenuItem("Adicionar Livro");
-        menuItem.setActionCommand("adicionarLivro");
-        menuItem.addActionListener(this);
-        menu.add(menuItem);
+        JMenuItem menuItemAdicionarLivro = new JMenuItem("Adicionar Livro");
+        JMenuItem menuItemAdicionarPessoa = new JMenuItem("Cadastrar Pessoa");
+        menuItemAdicionarLivro.setActionCommand("adicionarLivro");
+        menuItemAdicionarPessoa.setActionCommand("adicionarPessoa");
+        menuItemAdicionarLivro.addActionListener(this);
+        menuItemAdicionarPessoa.addActionListener(this);
+        menu.add(menuItemAdicionarLivro);
+        menu.add(menuItemAdicionarPessoa);
         menuBar.add(menu);
         setJMenuBar(menuBar);
 
@@ -79,74 +86,86 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
 
         ImageIcon lapisIcon = new ImageIcon(getClass().getResource("/media/lapis.png"));
         ImageIcon lixeiraIcon = new ImageIcon(getClass().getResource("/media/lixeira.png"));
+        ImageIcon livroEmprestimoIcon = new ImageIcon(getClass().getResource("/media/emprestar-livro.png"));
 
         JPanel escritaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel lblEscritaTitulo = new JLabel("Título");
         JLabel lblEscritaCategoria = new JLabel("Categoria");
         JLabel lblEscritaAutor = new JLabel("Autor");
-        JLabel lblEscritaEditor = new JLabel("Editora");
+        JLabel lblEscritaStatus = new JLabel("Status");
         JLabel lblEscritaAcoes = new JLabel("Ações");
 
         lblEscritaTitulo.setPreferredSize(new Dimension(100, 20));
         lblEscritaCategoria.setPreferredSize(new Dimension(100, 20));
         lblEscritaAutor.setPreferredSize(new Dimension(100, 20));
-        lblEscritaEditor.setPreferredSize(new Dimension(100, 20));
+        lblEscritaStatus.setPreferredSize(new Dimension(100, 20));
         lblEscritaAcoes.setPreferredSize(new Dimension(100, 20));
 
         escritaPanel.add(lblEscritaTitulo);
         escritaPanel.add(lblEscritaCategoria);
         escritaPanel.add(lblEscritaAutor);
-        escritaPanel.add(lblEscritaEditor);
+        escritaPanel.add(lblEscritaStatus);
         escritaPanel.add(lblEscritaAcoes);
         escritaPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
         novoPanel.add(escritaPanel);
 
         for (Livro livro : livrosEncontrados) {
-            LivroCategoria livroCategoria = livroController.pesquisarCategoria(livro.getIdLivroCategoria(), null);
-            JPanel livroPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            JLabel lblTitulo = new JLabel(livro.getTitulo());
-            JLabel lblCategoria = new JLabel(livroCategoria.getDescricao());
-            JLabel lblAutor = new JLabel(livro.getAutor());
-            JLabel lblEditora = new JLabel(livro.getEditora());
-
-            lblTitulo.setPreferredSize(new Dimension(100, 15));
-            lblCategoria.setPreferredSize(new Dimension(100, 15));
-            lblAutor.setPreferredSize(new Dimension(100, 15));
-            lblEditora.setPreferredSize(new Dimension(100, 15));
-
-            livroPanel.add(lblTitulo);
-            livroPanel.add(lblCategoria);
-            livroPanel.add(lblAutor);
-            livroPanel.add(lblEditora);
-
-            JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-            JButton btnEditar = new JButton(lapisIcon);
-            JButton btnExcluir = new JButton(lixeiraIcon);
-
-            btnEditar.setActionCommand("editar:" + livro.getIdLivro());
-            btnExcluir.setActionCommand("excluir:" + livro.getIdLivro());
-
-            btnEditar.setPreferredSize(new Dimension(20, 20));
-            btnExcluir.setPreferredSize(new Dimension(20, 20));
-
-            btnEditar.addActionListener(this);
-            btnExcluir.addActionListener(this);
-
-            btnPanel.add(btnEditar);
-            btnPanel.add(btnExcluir);
-
-            livroPanel.add(btnPanel);
-            novoPanel.add(livroPanel);
-
-            novoPanel.add(Box.createRigidArea(new Dimension(0, 1)));
+            carregarLivro(livro, novoPanel, lapisIcon, lixeiraIcon, livroEmprestimoIcon);
         }
 
         resultadosPanel.removeAll();
         resultadosPanel.add(novoPanel);
         resultadosPanel.revalidate();
         resultadosPanel.repaint();
+    }
+
+    public void carregarLivro(Livro livro, JPanel novoPanel, ImageIcon lapisIcon, ImageIcon lixeiraIcon, ImageIcon livroEmprestimoIcon) {
+        LivroCategoria livroCategoria = livroController.pesquisarCategoria(livro.getIdLivroCategoria(), null);
+        LivroStatus livrostatus = livroController.pesquisarUmStatus(livro.getIdLivroStatus(), null);
+
+        JPanel livroPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel lblTitulo = new JLabel(livro.getTitulo());
+        JLabel lblCategoria = new JLabel(livroCategoria.getDescricao());
+        JLabel lblAutor = new JLabel(livro.getAutor());
+        JLabel lblStatus = new JLabel(livrostatus.getDescricao());
+
+        lblTitulo.setPreferredSize(new Dimension(100, 15));
+        lblCategoria.setPreferredSize(new Dimension(100, 15));
+        lblAutor.setPreferredSize(new Dimension(100, 15));
+        lblStatus.setPreferredSize(new Dimension(100, 15));
+
+        livroPanel.add(lblTitulo);
+        livroPanel.add(lblCategoria);
+        livroPanel.add(lblAutor);
+        livroPanel.add(lblStatus);
+
+        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+        JButton btnEditar = new JButton(lapisIcon);
+        JButton btnExcluir = new JButton(lixeiraIcon);
+        JButton btnEmprestarLivro = new JButton(livroEmprestimoIcon);
+
+        btnEditar.setActionCommand("editar:" + livro.getIdLivro());
+        btnExcluir.setActionCommand("excluir:" + livro.getIdLivro());
+        btnEmprestarLivro.setActionCommand("emprestar:" + livro.getIdLivro());
+
+        btnEditar.setPreferredSize(new Dimension(20, 20));
+        btnExcluir.setPreferredSize(new Dimension(20, 20));
+        btnEmprestarLivro.setPreferredSize(new Dimension(20, 20));
+
+        btnEditar.addActionListener(this);
+        btnExcluir.addActionListener(this);
+        btnEmprestarLivro.addActionListener(this);
+
+        btnPanel.add(btnEditar);
+        btnPanel.add(btnExcluir);
+        btnPanel.add(btnEmprestarLivro);
+
+        livroPanel.add(btnPanel);
+        novoPanel.add(livroPanel);
+
+        novoPanel.add(Box.createRigidArea(new Dimension(0, 1)));
     }
 
     @Override
@@ -157,8 +176,15 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
                 break;
             case "adicionarLivro":
                 SwingUtilities.invokeLater(() -> {
-                    CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(livroController, 0);
+                    CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(livroController, pessoaController, 0);
                     cadastroLivroViewImpl.setVisible(true);
+                    this.dispose();
+                });
+                break;
+            case "adicionarPessoa":
+                SwingUtilities.invokeLater(() -> {
+                    CadastroPessoaViewImpl cadastroPessoaViewImpl = new CadastroPessoaViewImpl(pessoaController, livroController, 0);
+                    cadastroPessoaViewImpl.setVisible(true);
                     this.dispose();
                 });
                 break;
@@ -168,7 +194,7 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
                     int idLivroEditar = Integer.parseInt(idLivroStr);
 
                     SwingUtilities.invokeLater(() -> {
-                        CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(livroController, idLivroEditar);
+                        CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(livroController, pessoaController, idLivroEditar);
                         cadastroLivroViewImpl.setVisible(true);
                         this.dispose();
                     });
@@ -182,8 +208,16 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
                         livroController.excluirLivro(idLivroExcluir);
                         pesquisarLivros(false);
                     }
-                }
+                } else if (e.getActionCommand().startsWith("emprestar:")) {
+                    String idLivroStr = e.getActionCommand().substring("emprestar:".length());
+                    int idLivroEmprestar = Integer.parseInt(idLivroStr);
 
+                    SwingUtilities.invokeLater(() -> {
+                        EmprestimoLivroViewImpl emprestimoLivroViewImpl = new EmprestimoLivroViewImpl(livroController, pessoaController, idLivroEmprestar);
+                        emprestimoLivroViewImpl.setVisible(true);
+                        this.dispose();
+                    });
+                }
         }
     }
 

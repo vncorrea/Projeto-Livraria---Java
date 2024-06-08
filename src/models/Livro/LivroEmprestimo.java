@@ -19,14 +19,16 @@ public class LivroEmprestimo {
     private Date dataEmprestimo;
     private Date dataDevolucao;
     private boolean multa;
+    private String observacao;
 
-    public LivroEmprestimo(int idLivroEmprestimo, int idLivro, int idPessoa, Date dataEmprestimo, Date dataDevolucao, boolean multa) {
+    public LivroEmprestimo(int idLivroEmprestimo, int idLivro, int idPessoa, Date dataEmprestimo, Date dataDevolucao, boolean multa, String observacao) {
         this.idLivroEmprestimo = idLivroEmprestimo;
         this.idLivro = idLivro;
         this.idPessoa = idPessoa;
         this.dataEmprestimo = dataEmprestimo;
         this.dataDevolucao = dataDevolucao;
         this.multa = multa;
+        this.observacao = observacao;
     }
 
     private static List<LivroEmprestimo> livroEmprestimos = new ArrayList<>();
@@ -97,5 +99,13 @@ public void setIdLivroEmprestimo(int idLivroEmprestimo) {
 
     public static void removerLivroEmprestimo(LivroEmprestimo livroEmprestimo) {
         livroEmprestimos.remove(livroEmprestimo);
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 }

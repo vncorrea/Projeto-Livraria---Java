@@ -3,6 +3,7 @@ import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
 import views.CadastroLivroView;
+import views.EmprestimoLivroView;
 import views.PesquisaLivroView;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public interface LivroController {
     void setCadastroView(CadastroLivroView view, int idLivro);
 
     void setPesquisaView(PesquisaLivroView view);
+    void setEmprestimoLivroView(EmprestimoLivroView view, int idLivro);
 
     List pesquisarCategorias();
     List pesquisarStatus();

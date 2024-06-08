@@ -3,6 +3,7 @@ package models.Database;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
+import models.Pessoa.Pessoa;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 

@@ -1,8 +1,17 @@
 package models.Pessoa;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.util.Date;
 
+@Entity
+@Table(name = "Colaborador")
 public class Colaborador extends Pessoa {
+    @Id
+    @GeneratedValue
 
     private String cargo;
     private Date dataRegistro;
@@ -10,12 +19,16 @@ public class Colaborador extends Pessoa {
     private String rg;
 
 
-    public Colaborador(int idPessoa, String nome, String cpf, String email, String telefone, String logradouro, String cidade, String estado, String cep, Date dataCadastro, Date dataNascimento, String uf, String cargo, Date dataRegistro, String pis, String rg, String senha) {
-        super(idPessoa, nome, cpf, email, telefone, logradouro, cidade, estado, cep, dataCadastro, dataNascimento, uf, senha);
+    public Colaborador(String nome, String cpf, String email, String telefone, String logradouro, String cidade, String estado, String cep, Date dataCadastro, Date dataNascimento, String uf, String cargo, Date dataRegistro, String pis, String rg, String senha) {
+        super(nome, cpf, email, telefone, logradouro, cidade, estado, cep, dataCadastro, dataNascimento, uf, senha);
         this.cargo = cargo;
         this.dataRegistro = dataRegistro;
         this.pis = pis;
         this.rg = rg;
+    }
+
+    public Colaborador() {
+
     }
 
     public String getCargo() {

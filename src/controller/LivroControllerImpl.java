@@ -6,6 +6,7 @@ import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
 import views.CadastroLivroView;
+import views.EmprestimoLivroView;
 import views.PesquisaLivroView;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 public class LivroControllerImpl implements LivroController {
     private CadastroLivroView cadastroLivroView;
     private PesquisaLivroView pesquisaLivroView;
+    private EmprestimoLivroView emprestimoLivroView;
     private final LivroDatabase livroDatabase;
 
     @Override
@@ -25,6 +27,11 @@ public class LivroControllerImpl implements LivroController {
     @Override
     public void setPesquisaView(PesquisaLivroView view) {
         this.pesquisaLivroView = view;
+    }
+
+    @Override
+    public void setEmprestimoLivroView(EmprestimoLivroView view, int idLivro) {
+        this.emprestimoLivroView = view;
     }
 
     public LivroControllerImpl(LivroDatabase livroDatabase) {

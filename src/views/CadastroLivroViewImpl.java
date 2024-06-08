@@ -1,6 +1,7 @@
 package views;
 
 import controller.LivroController;
+import controller.PessoaController;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
@@ -13,14 +14,16 @@ import java.awt.event.ActionListener;
 public class CadastroLivroViewImpl extends JFrame implements ActionListener, CadastroLivroView {
 
     private final LivroController livroController;
+    private final PessoaController pessoaController;
     private int idLivroAtual;
     private JButton btnCadastrar, btnVoltar, btnEditar;
     JLabel labelNome, labelAutor, labelIdLivro, labelEditora, labelSinopse, labelPagina, labelIsbn, labelPrazoEmprestimo, labelCategoria, labelStatus;
     JTextField textFieldNome, textFieldAutor, textFieldIdLivro, textFieldEditora, textFieldSinopse, textFieldPagina, textFieldIsbn, textFieldPrazoEmprestimo;
     JComboBox comboBoxStatus, comboBoxCategoria;
 
-    public CadastroLivroViewImpl(LivroController livroController, int idLivro) {
+    public CadastroLivroViewImpl(LivroController livroController, PessoaController pessoaController, int idLivro) {
         this.livroController = livroController;
+        this.pessoaController = pessoaController;
         this.idLivroAtual = idLivro;
         livroController.setCadastroView(this, idLivro);
 
@@ -157,7 +160,7 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
 
                 JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
                 SwingUtilities.invokeLater(() -> {
-                    PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController);
+                    PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
                     PesquisaLivroViewImpl.setVisible(true);
                     this.dispose();
                 });
@@ -183,7 +186,7 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
 
                 JOptionPane.showMessageDialog(this, "Livro editado com sucesso!");
                 SwingUtilities.invokeLater(() -> {
-                    PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController);
+                    PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
                     PesquisaLivroViewImpl.setVisible(true);
                     this.dispose();
                 });
@@ -192,7 +195,7 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
             }
         } else if (e.getActionCommand().equals("voltar")) {
             SwingUtilities.invokeLater(() -> {
-                PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController);
+                PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
                 PesquisaLivroViewImpl.setVisible(true);
                 this.dispose();
             });
