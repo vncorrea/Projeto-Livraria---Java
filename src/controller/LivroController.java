@@ -25,8 +25,8 @@ public interface LivroController {
     List pesquisarCategorias();
     List pesquisarStatus();
 
-    LivroCategoria pesquisarCategoria(int idLivroCategoria);
+    LivroCategoria pesquisarCategoria(int idLivroCategoria, String descricao);
     Livro pesquisarLivro(int idLivro);
 
-    LivroStatus pesquisarUmStatus(int idLivroStatus);
+    LivroStatus pesquisarUmStatus(int idLivroStatus, String descricao);
 }

@@ -27,6 +27,10 @@ public class LivroCategoria {
 
     }
 
+    public int getId() {
+        return idLivroCategoria;
+    }
+
     public String getDescricao() {
         return descricao;
     }

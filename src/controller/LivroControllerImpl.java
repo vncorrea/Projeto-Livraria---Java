@@ -51,16 +51,16 @@ public class LivroControllerImpl implements LivroController {
         return livroDatabase.pesquisarCategorias();
     }
 
-    public LivroCategoria pesquisarCategoria(int idLivroCategoria) {
-        return livroDatabase.pesquisarCategoria(idLivroCategoria);
+    public LivroCategoria pesquisarCategoria(int idLivroCategoria, String descricao) {
+        return livroDatabase.pesquisarCategoria(idLivroCategoria, descricao);
     }
 
     public Livro pesquisarLivro(int idLivro) {
         return livroDatabase.pesquisarLivro(idLivro);
     }
 
-    public LivroStatus pesquisarUmStatus(int idLivroStatus) {
-        return livroDatabase.pesquisarUmStatus(idLivroStatus);
+    public LivroStatus pesquisarUmStatus(int idLivroStatus, String descricao) {
+        return livroDatabase.pesquisarUmStatus(idLivroStatus, descricao);
     }
     public List pesquisarStatus() {
         return livroDatabase.pesquisarStatus();

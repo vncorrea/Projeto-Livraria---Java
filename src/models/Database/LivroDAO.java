@@ -192,12 +192,18 @@ public class LivroDAO implements LivroDatabase {
     }
 
     @Override
-    public LivroCategoria pesquisarCategoria(int idLivroCategoria) {
+    public LivroCategoria pesquisarCategoria(int idLivroCategoria, String descricao) {
         LivroCategoria categoria = null;
         try {
             categoria = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
-                Query<LivroCategoria> query = session.createQuery("from LivroCategoria where idLivroCategoria = :idLivroCategoria", LivroCategoria.class);
-                query.setParameter("idLivroCategoria", idLivroCategoria);
+                Query<LivroCategoria> query;
+                if (idLivroCategoria == 0) {
+                    query = session.createQuery("from LivroCategoria where descricao = :descricao", LivroCategoria.class);
+                    query.setParameter("descricao", descricao);
+                } else {
+                    query = session.createQuery("from LivroCategoria where idLivroCategoria = :idLivroCategoria", LivroCategoria.class);
+                    query.setParameter("idLivroCategoria", idLivroCategoria);
+                }
                 return query.getSingleResult();
             });
         } catch (Exception e) {
@@ -224,17 +230,24 @@ public class LivroDAO implements LivroDatabase {
     }
 
     @Override
-    public LivroStatus pesquisarUmStatus(int idLivroStatus) {
+    public LivroStatus pesquisarUmStatus(int idLivroStatus, String descricao) {
         LivroStatus status = null;
         try {
             status = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
-                Query<LivroStatus> query = session.createQuery("from LivroStatus where idLivroStatus = :idLivroStatus", LivroStatus.class);
-                query.setParameter("idLivroStatus", idLivroStatus);
+                Query<LivroStatus> query;
+                if (idLivroStatus == 0) {
+                    query = session.createQuery("from LivroStatus where descricao = :descricao", LivroStatus.class);
+                    query.setParameter("descricao", descricao);
+                } else {
+                    query = session.createQuery("from LivroStatus where idLivroStatus = :idLivroStatus", LivroStatus.class);
+                    query.setParameter("idLivroStatus", idLivroStatus);
+                }
                 return query.getSingleResult();
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return status;
     }
 }

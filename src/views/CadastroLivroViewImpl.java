@@ -122,8 +122,8 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
 
     private void carregarLivroSelecionado(int idLivro) {
         Livro livro = livroController.pesquisarLivro(idLivro);
-        LivroCategoria categoria = livroController.pesquisarCategoria(livro.getIdLivroCategoria());
-        LivroStatus status = livroController.pesquisarUmStatus(livro.getIdLivroStatus());
+        LivroCategoria categoria = livroController.pesquisarCategoria(livro.getIdLivroCategoria(), null);
+        LivroStatus status = livroController.pesquisarUmStatus(livro.getIdLivroStatus(), null);
 
         textFieldNome.setText(livro.getTitulo());
         textFieldAutor.setText(livro.getAutor());
@@ -140,6 +140,9 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("cadastrar")) {
             if (camposPreenchidos()) {
+                LivroCategoria categoria = livroController.pesquisarCategoria(0, (String) comboBoxCategoria.getSelectedItem());
+                LivroStatus status = livroController.pesquisarUmStatus(0, (String) comboBoxStatus.getSelectedItem());
+
                 // cria um livro com o DatabaseManager
                 livroController.cadastrarLivro(
                         textFieldNome.getText(),
@@ -147,10 +150,10 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
                         textFieldEditora.getText(),
                         textFieldSinopse.getText(),
                         Integer.parseInt(textFieldPagina.getText()),
-                        LivroCategoria.getIdCategoria((String) comboBoxCategoria.getSelectedItem()),
+                        categoria.getId(),
                         textFieldIsbn.getText(),
                         Integer.parseInt(textFieldPrazoEmprestimo.getText()),
-                        null, null, LivroStatus.getIdStatus((String) comboBoxStatus.getSelectedItem()));
+                        null, null, status.getIdLivroStatus());
 
                 JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
                 SwingUtilities.invokeLater(() -> {
@@ -163,6 +166,9 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
             }
         } else if (e.getActionCommand().equals("editar")) {
             if (camposPreenchidos()) {
+                LivroCategoria categoria = livroController.pesquisarCategoria(0, (String) comboBoxCategoria.getSelectedItem());
+                LivroStatus status = livroController.pesquisarUmStatus(0, (String) comboBoxStatus.getSelectedItem());
+
                 livroController.editarLivro(
                         idLivroAtual,
                         textFieldNome.getText(),
@@ -170,10 +176,10 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
                         textFieldEditora.getText(),
                         textFieldSinopse.getText(),
                         Integer.parseInt(textFieldPagina.getText()),
-                        LivroCategoria.getIdCategoria((String) comboBoxCategoria.getSelectedItem()),
+                        categoria.getId(),
                         textFieldIsbn.getText(),
                         Integer.parseInt(textFieldPrazoEmprestimo.getText()),
-                        null, LivroStatus.getIdStatus((String) comboBoxStatus.getSelectedItem()));
+                        null, status.getIdLivroStatus());
 
                 JOptionPane.showMessageDialog(this, "Livro editado com sucesso!");
                 SwingUtilities.invokeLater(() -> {
