@@ -1,6 +1,8 @@
 package models.Database;
 
+import models.Livro.Livro;
 import models.Livro.LivroCategoria;
+import models.Livro.LivroStatus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +15,7 @@ public interface LivroDatabase {
 
     void excluirLivro(int idLivro);
 
-    ArrayList pesquisarLivro(String titulo, String autor, String categoria, String isbn);
+    ArrayList pesquisarLivros(String titulo, String autor, String categoria, String isbn);
 
     void criarCategoria(String descricao);
     void criarStatus(String descricao);
@@ -21,4 +23,7 @@ public interface LivroDatabase {
     List pesquisarCategorias();
 
     LivroCategoria pesquisarCategoria(int idLivroCategoria);
+    Livro pesquisarLivro(int idLivro);
+
+    LivroStatus pesquisarUmStatus(int idLivroStatus);
 }

@@ -157,14 +157,21 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
                 break;
             case "adicionarLivro":
                 SwingUtilities.invokeLater(() -> {
-                    CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(livroController);
+                    CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(livroController, 0);
                     cadastroLivroViewImpl.setVisible(true);
                     this.dispose();
                 });
                 break;
             default:
                 if (e.getActionCommand().startsWith("editar:")) {
+                    String idLivroStr = e.getActionCommand().substring("editar:".length());
+                    int idLivroEditar = Integer.parseInt(idLivroStr);
 
+                    SwingUtilities.invokeLater(() -> {
+                        CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(livroController, idLivroEditar);
+                        cadastroLivroViewImpl.setVisible(true);
+                        this.dispose();
+                    });
                 } else if (e.getActionCommand().startsWith("excluir:")) {
                     String idLivroStr = e.getActionCommand().substring("excluir:".length());
                     int idLivroExcluir = Integer.parseInt(idLivroStr);
@@ -176,6 +183,7 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
                         pesquisarLivros(false);
                     }
                 }
+
         }
     }
 

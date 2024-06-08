@@ -40,10 +40,10 @@ public class LivroCategoria {
         return categorias;
     }
 
-    public static int getIdCategoria(LivroCategoria categoria) {
-        for (LivroCategoria cat : categorias) {
-            if (cat.idLivroCategoria == categoria.idLivroCategoria) {
-                return cat.idLivroCategoria;
+    public static int getIdCategoria(String descricao) {
+        for (LivroCategoria categoria : categorias) {
+            if (categoria.getDescricao().equals(descricao)) {
+                return categoria.idLivroCategoria;
             }
         }
         return 0;

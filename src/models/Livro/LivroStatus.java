@@ -44,16 +44,6 @@ public class LivroStatus {
         return descricao;
     }
 
-    public static int getIdStatus(LivroStatus statusLivro) {
-        for (LivroStatus stat : status) {
-            if (stat.idLivroStatus == statusLivro.idLivroStatus) {
-                return stat.idLivroStatus;
-            }
-        }
-        return 0;
-    }
-
-
     public static List<LivroStatus> listarStatus() {
         return status;
     }
@@ -80,5 +70,14 @@ public class LivroStatus {
         return status.stream()
                 .map(LivroStatus::getDescricao)
                 .collect(Collectors.toList());
+    }
+
+    public static int getIdStatus(String descricao) {
+        for (LivroStatus status : status) {
+            if (status.getDescricao().equals(descricao)) {
+                return status.idLivroStatus;
+            }
+        }
+        return 0;
     }
 }

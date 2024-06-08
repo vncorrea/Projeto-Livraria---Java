@@ -48,6 +48,7 @@ public class LivroDAO implements LivroDatabase {
             transaction = session.beginTransaction();
 
             Livro livro = session.get(Livro.class, idLivro);
+
             livro.setTitulo(novoTitulo);
             livro.setAutor(novoAutor);
             livro.setEditora(novaEditora);
@@ -99,7 +100,7 @@ public class LivroDAO implements LivroDatabase {
 
     // No método pesquisarLivro na classe LivroDAO
     @Override
-    public ArrayList<Livro> pesquisarLivro(String titulo, String autor, String categoria, String isbn) {
+    public ArrayList<Livro> pesquisarLivros(String titulo, String autor, String categoria, String isbn) {
         ArrayList<Livro> livros = new ArrayList<>();
         try {
             livros = (ArrayList<Livro>) DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
@@ -204,5 +205,36 @@ public class LivroDAO implements LivroDatabase {
         }
 
         return categoria;
+    }
+
+    @Override
+    public Livro pesquisarLivro(int idLivro) {
+        Livro livro = null;
+        try {
+            livro = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
+                Query<Livro> query = session.createQuery("from Livro where idLivro = :idLivro", Livro.class);
+                query.setParameter("idLivro", idLivro);
+                return query.getSingleResult();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return livro;
+    }
+
+    @Override
+    public LivroStatus pesquisarUmStatus(int idLivroStatus) {
+        LivroStatus status = null;
+        try {
+            status = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
+                Query<LivroStatus> query = session.createQuery("from LivroStatus where idLivroStatus = :idLivroStatus", LivroStatus.class);
+                query.setParameter("idLivroStatus", idLivroStatus);
+                return query.getSingleResult();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
     }
 }

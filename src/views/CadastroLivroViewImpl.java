@@ -1,6 +1,7 @@
 package views;
 
 import controller.LivroController;
+import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
 
@@ -12,16 +13,18 @@ import java.awt.event.ActionListener;
 public class CadastroLivroViewImpl extends JFrame implements ActionListener, CadastroLivroView {
 
     private final LivroController livroController;
-    private JButton btnCadastrar, btnVoltar;
+    private int idLivroAtual;
+    private JButton btnCadastrar, btnVoltar, btnEditar;
     JLabel labelNome, labelAutor, labelIdLivro, labelEditora, labelSinopse, labelPagina, labelIsbn, labelPrazoEmprestimo, labelCategoria, labelStatus;
     JTextField textFieldNome, textFieldAutor, textFieldIdLivro, textFieldEditora, textFieldSinopse, textFieldPagina, textFieldIsbn, textFieldPrazoEmprestimo;
     JComboBox comboBoxStatus, comboBoxCategoria;
 
-    public CadastroLivroViewImpl(LivroController livroController) {
+    public CadastroLivroViewImpl(LivroController livroController, int idLivro) {
         this.livroController = livroController;
-        livroController.setCadastroView(this);
+        this.idLivroAtual = idLivro;
+        livroController.setCadastroView(this, idLivro);
 
-        initializeUI();
+        initializeUI(idLivro);
     }
 
     public LivroStatus getLivroStatus() {
@@ -32,7 +35,7 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
         return LivroCategoria.buscarCategoriaPorDescricao(comboBoxCategoria.getSelectedItem().toString());
     }
 
-    private void initializeUI() {
+    private void initializeUI(int idLivro) {
         setTitle("Cadastro de Livros");
         setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,20 +99,47 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
         btnVoltar.addActionListener(this);
         buttonPanel.add(btnVoltar);
 
-        btnCadastrar = new JButton("Cadastrar");
-        btnCadastrar.setActionCommand("cadastrar");
-        btnCadastrar.addActionListener(this);
-        buttonPanel.add(btnCadastrar);
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+
+        if(idLivro != 0) {
+            carregarLivroSelecionado(idLivro);
+
+            btnEditar = new JButton("Editar");
+            btnEditar.setActionCommand("editar");
+            btnEditar.addActionListener(this);
+            buttonPanel.add(btnEditar);
+            mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        } else {
+            btnCadastrar = new JButton("Cadastrar");
+            btnCadastrar.setActionCommand("cadastrar");
+            btnCadastrar.addActionListener(this);
+            buttonPanel.add(btnCadastrar);
+            mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        }
 
         add(mainPanel);
+    }
+
+    private void carregarLivroSelecionado(int idLivro) {
+        Livro livro = livroController.pesquisarLivro(idLivro);
+        LivroCategoria categoria = livroController.pesquisarCategoria(livro.getIdLivroCategoria());
+        LivroStatus status = livroController.pesquisarUmStatus(livro.getIdLivroStatus());
+
+        textFieldNome.setText(livro.getTitulo());
+        textFieldAutor.setText(livro.getAutor());
+        textFieldEditora.setText(livro.getEditora());
+        textFieldSinopse.setText(livro.getSinopse());
+        textFieldPagina.setText(String.valueOf(livro.getPaginas()));
+        textFieldIsbn.setText(livro.getIsbn());
+        textFieldPrazoEmprestimo.setText(String.valueOf(livro.getPrazoEmprestimo()));
+        comboBoxCategoria.setSelectedItem(categoria.getDescricao());
+        comboBoxStatus.setSelectedItem(status.getDescricao());
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("cadastrar")) {
             if (camposPreenchidos()) {
-                System.out.println(comboBoxCategoria.getSelectedItem());
                 // cria um livro com o DatabaseManager
                 livroController.cadastrarLivro(
                         textFieldNome.getText(),
@@ -117,10 +147,10 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
                         textFieldEditora.getText(),
                         textFieldSinopse.getText(),
                         Integer.parseInt(textFieldPagina.getText()),
-                        LivroCategoria.getIdCategoria((LivroCategoria) comboBoxCategoria.getSelectedItem()),
+                        LivroCategoria.getIdCategoria((String) comboBoxCategoria.getSelectedItem()),
                         textFieldIsbn.getText(),
                         Integer.parseInt(textFieldPrazoEmprestimo.getText()),
-                        null, null, 1);
+                        null, null, LivroStatus.getIdStatus((String) comboBoxStatus.getSelectedItem()));
 
                 JOptionPane.showMessageDialog(this, "Livro cadastrado com sucesso!");
                 SwingUtilities.invokeLater(() -> {
@@ -134,16 +164,16 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
         } else if (e.getActionCommand().equals("editar")) {
             if (camposPreenchidos()) {
                 livroController.editarLivro(
-                        1,
+                        idLivroAtual,
                         textFieldNome.getText(),
                         textFieldAutor.getText(),
                         textFieldEditora.getText(),
                         textFieldSinopse.getText(),
                         Integer.parseInt(textFieldPagina.getText()),
-                        LivroCategoria.getIdCategoria(getLivroCategoria()),
+                        LivroCategoria.getIdCategoria((String) comboBoxCategoria.getSelectedItem()),
                         textFieldIsbn.getText(),
                         Integer.parseInt(textFieldPrazoEmprestimo.getText()),
-                        null, LivroStatus.getIdStatus(getLivroStatus()));
+                        null, LivroStatus.getIdStatus((String) comboBoxStatus.getSelectedItem()));
 
                 JOptionPane.showMessageDialog(this, "Livro editado com sucesso!");
                 SwingUtilities.invokeLater(() -> {
