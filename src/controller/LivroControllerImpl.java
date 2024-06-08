@@ -7,6 +7,7 @@ import views.PesquisaLivroView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class LivroControllerImpl implements LivroController {
     private CadastroLivroView cadastroLivroView;
@@ -41,5 +42,13 @@ public class LivroControllerImpl implements LivroController {
 
     public ArrayList pesquisarLivro(String titulo, String autor, String categoria, String isbn) {
        return livroDatabase.pesquisarLivro(titulo, autor, categoria, isbn);
+    }
+
+    public List pesquisarCategorias() {
+        return livroDatabase.pesquisarCategorias();
+    }
+
+    public List pesquisarStatus() {
+        return livroDatabase.pesquisarStatus();
     }
 }

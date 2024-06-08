@@ -18,10 +18,10 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
     JComboBox comboBoxStatus, comboBoxCategoria;
 
     public CadastroLivroViewImpl(LivroController livroController) {
-        initializeUI();
-
         this.livroController = livroController;
         livroController.setCadastroView(this);
+
+        initializeUI();
     }
 
     public LivroStatus getLivroStatus() {
@@ -79,12 +79,12 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
 
         labelCategoria = new JLabel("Categoria do livro:");
         formPanel.add(labelCategoria);
-        comboBoxCategoria = new JComboBox<>(LivroCategoria.listarDescricaoCategorias(LivroCategoria.listarCategorias()).toArray());
+        comboBoxCategoria = new JComboBox<>(livroController.pesquisarCategorias().toArray());
         formPanel.add(comboBoxCategoria);
 
         labelStatus = new JLabel("Status do livro:");
         formPanel.add(labelStatus);
-        comboBoxStatus = new JComboBox<>(LivroStatus.listarDescricaoStatus(LivroStatus.listarStatus()).toArray());
+        comboBoxStatus = new JComboBox<>(livroController.pesquisarStatus().toArray());
         formPanel.add(comboBoxStatus);
 
         mainPanel.add(formPanel, BorderLayout.CENTER);
@@ -96,6 +96,9 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
         btnVoltar.addActionListener(this);
         buttonPanel.add(btnVoltar);
 
+        btnCadastrar = new JButton("Cadastrar");
+        btnCadastrar.setActionCommand("cadastrar");
+        btnCadastrar.addActionListener(this);
         buttonPanel.add(btnCadastrar);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 

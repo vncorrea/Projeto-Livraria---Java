@@ -13,9 +13,7 @@ import java.util.ArrayList;
 public class PesquisaLivroViewImpl extends JFrame implements ActionListener, PesquisaLivroView {
 
     private JTextField textFieldPesquisa;
-    private LivroController livroController;
-
-    private ArrayList<Livro> livrosEncontrados;
+    private final LivroController livroController;
 
     private JPanel resultadosPanel;
 
@@ -66,7 +64,7 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
     private void pesquisarLivros(boolean validaBuscaDeLivros) {
         String pesquisa = textFieldPesquisa.getText();
 
-        livrosEncontrados = livroController.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
+        ArrayList<Livro> livrosEncontrados = livroController.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
         JPanel novoPanel = new JPanel();
         novoPanel.setLayout(new BoxLayout(novoPanel, BoxLayout.Y_AXIS));
 
@@ -158,7 +156,7 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
                 break;
             case "adicionarLivro":
                 SwingUtilities.invokeLater(() -> {
-                    CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(null);
+                    CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(livroController);
                     cadastroLivroViewImpl.setVisible(true);
                     this.dispose();
                 });

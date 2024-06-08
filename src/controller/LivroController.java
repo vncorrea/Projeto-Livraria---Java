@@ -4,6 +4,7 @@ import views.PesquisaLivroView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public interface LivroController {
     void cadastrarLivro(String titulo, String autor, String editora, String sinopse, int paginas, int id_livro_categoria, String isbn, int prazoEmprestimo, Date dataPublicacao, Date dataCadastro, int id_livro_status);
@@ -17,4 +18,7 @@ public interface LivroController {
     void setCadastroView(CadastroLivroView view);
 
     void setPesquisaView(PesquisaLivroView view);
+
+    List pesquisarCategorias();
+    List pesquisarStatus();
 }

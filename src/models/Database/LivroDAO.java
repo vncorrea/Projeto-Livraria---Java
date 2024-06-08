@@ -1,12 +1,15 @@
 package models.Database;
 
 import models.Livro.Livro;
+import models.Livro.LivroCategoria;
+import models.Livro.LivroStatus;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.hibernate.query.Query;
 
 public class LivroDAO implements LivroDatabase {
@@ -117,5 +120,83 @@ public class LivroDAO implements LivroDatabase {
         }
 
         return livros;
+    }
+
+    @Override
+    public void criarCategoria(String descricao) {
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            session = DatabaseManager.getDatabaseSessionFactory().openSession();
+            transaction = session.beginTransaction();
+
+            LivroCategoria categoria = new LivroCategoria(descricao);
+            session.save(categoria);
+
+            transaction.commit();
+            System.out.println("Categoria criada com sucesso!");
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            System.out.println("Erro ao criar categoria: ");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void criarStatus(String descricao) {
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            session = DatabaseManager.getDatabaseSessionFactory().openSession();
+            transaction = session.beginTransaction();
+
+            LivroStatus status = new LivroStatus(descricao);
+            session.save(status);
+
+            transaction.commit();
+            System.out.println("Status criada com sucesso!");
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            System.out.println("Erro ao criar Status: ");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<LivroCategoria> pesquisarCategorias() {
+        List<LivroCategoria> categorias = new ArrayList<>();
+        try {
+            categorias = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
+                Query<LivroCategoria> query = session.createQuery("from LivroCategoria", LivroCategoria.class);
+                return query.getResultList();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return categorias;
+    }
+
+    @Override
+    public List<LivroStatus> pesquisarStatus() {
+        List<LivroStatus> status = new ArrayList<>();
+        try {
+            status = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
+                Query<LivroStatus> query = session.createQuery("from LivroStatus", LivroStatus.class);
+                return query.getResultList();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return status;
     }
 }
