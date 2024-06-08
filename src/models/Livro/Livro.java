@@ -3,8 +3,16 @@ package models.Livro;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "Livro")
 public class Livro {
+    @Id
+    @GeneratedValue
     private int idLivro;
     private String titulo;
     private String autor;
@@ -20,9 +28,8 @@ public class Livro {
 
     private static List<Livro> livros = new ArrayList<>();
 
-    public Livro(int idLivro, String titulo, String autor, String editora, String sinopse, int paginas, int idLivroCategoria, String isbn, int prazoEmprestimo, Date dataPublicacao,
+    public Livro(String titulo, String autor, String editora, String sinopse, int paginas, int idLivroCategoria, String isbn, int prazoEmprestimo, Date dataPublicacao,
                  Date dataCadastro, int idLivroStatus) {
-        this.idLivro = idLivro;
         this.titulo = titulo;
         this.autor = autor;
         this.editora = editora;
@@ -34,6 +41,10 @@ public class Livro {
         this.dataPublicacao = dataPublicacao;
         this.dataCadastro = dataCadastro;
         this.idLivroStatus = idLivroStatus;
+    }
+
+    public Livro() {
+
     }
 
     public int getIdLivro() {
@@ -84,7 +95,7 @@ public class Livro {
         this.paginas = paginas;
     }
 
-    public int getStatus() {
+    public int getIdLivroStatus() {
         return idLivroStatus;
     }
 
@@ -100,7 +111,6 @@ public class Livro {
     public void setIdLivroStatus(int idLivroStatus) {
         this.idLivroStatus = idLivroStatus;
     }
-
 
     public String getIsbn() {
         return isbn;

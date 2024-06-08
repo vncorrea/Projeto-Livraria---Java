@@ -1,10 +1,17 @@
 package models.Pessoa;
 
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+import java.util.Date;
+
+@Entity
+@Table(name = "Pessoa")
 public class Pessoa {
+    @Id
+    @GeneratedValue
     protected int idPessoa;
     protected String nome;
     protected String cpf;
@@ -49,6 +56,10 @@ public class Pessoa {
         this.dataNascimento = dataNascimento;
         this.uf = uf;
         this.senha = senha;
+    }
+
+    public Pessoa() {
+
     }
 
     public int getIdPessoa() {

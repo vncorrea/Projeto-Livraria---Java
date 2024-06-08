@@ -1,25 +1,42 @@
 package models.Livro;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "LivroCategoria")
 public class LivroCategoria {
+    @Id
+    @GeneratedValue
     private int idLivroCategoria;
     private String descricao;
 
     private static List<LivroCategoria> categorias = new ArrayList<>();
 
-    public LivroCategoria(int idLivroCategoria, String descricao) {
-        this.idLivroCategoria = idLivroCategoria;
+    public LivroCategoria(String descricao) {
         this.descricao = descricao;
     }
 
+    public LivroCategoria() {
 
-    public static String getDescricao(LivroCategoria categoria) {
-        return categoria.descricao;
+    }
+
+
+    public static String getDescricao(int idLivroCategoria) {
+        for (LivroCategoria categoria : categorias) {
+            if (categoria.idLivroCategoria == idLivroCategoria) {
+                return categoria.descricao;
+            }
+        }
+        return null;
     }
 
     public static void criarCategoria(int idLivroCategoria, String descricao) {
-        LivroCategoria novaCategoria = new LivroCategoria(idLivroCategoria, descricao);
+        LivroCategoria novaCategoria = new LivroCategoria(descricao);
         categorias.add(novaCategoria);
     }
 
@@ -30,7 +47,7 @@ public class LivroCategoria {
     public static List<String> listarDescricaoCategorias(List<LivroCategoria> listaCategorias) {
         List<String> descricaoCategorias = new ArrayList<>();
         for (LivroCategoria categoria : listaCategorias) {
-            descricaoCategorias.add(getDescricao(categoria));
+            descricaoCategorias.add(getDescricao(categoria.idLivroCategoria));
         }
         return descricaoCategorias;
     }
@@ -46,7 +63,7 @@ public class LivroCategoria {
 
   public static LivroCategoria buscarCategoriaPorDescricao(String descricao) {
         for (LivroCategoria categoria : categorias) {
-            if (getDescricao(categoria).equals(descricao)) {
+            if (getDescricao(categoria.idLivroCategoria).equals(descricao)) {
                 return categoria;
             }
         }
