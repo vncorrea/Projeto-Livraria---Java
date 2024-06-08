@@ -4,8 +4,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "LivroCategoria")
@@ -54,5 +56,11 @@ public class LivroCategoria {
             }
         }
         return null;
+    }
+
+    public static List<String> listarDescricaoCategorias(List<LivroCategoria> categorias) {
+        return categorias.stream()
+                .map(LivroCategoria::getDescricao)
+                .collect(Collectors.toList());
     }
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.Table;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "LivroStatus")
@@ -57,14 +58,6 @@ public class LivroStatus {
         return status;
     }
 
-    public static List<String> listarDescricaoStatus(List<LivroStatus> listaStatus) {
-        List<String> descricaoStatus = new ArrayList<>();
-        for (LivroStatus status : listaStatus) {
-            descricaoStatus.add(status.getDescricao());
-        }
-        return descricaoStatus;
-    }
-
     public static LivroStatus buscarStatusPorId(int idLivroStatus) {
         for (LivroStatus status : status) {
             if (status.getIdLivroStatus() == idLivroStatus) {
@@ -81,5 +74,11 @@ public class LivroStatus {
             }
         }
         return null;
+    }
+
+    public static List<String> listarDescricaoStatus(List<LivroStatus> status) {
+        return status.stream()
+                .map(LivroStatus::getDescricao)
+                .collect(Collectors.toList());
     }
 }

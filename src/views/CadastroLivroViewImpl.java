@@ -79,12 +79,12 @@ public class CadastroLivroViewImpl extends JFrame implements ActionListener, Cad
 
         labelCategoria = new JLabel("Categoria do livro:");
         formPanel.add(labelCategoria);
-        comboBoxCategoria = new JComboBox<>(livroController.pesquisarCategorias().toArray());
+        comboBoxCategoria = new JComboBox<>(LivroCategoria.listarDescricaoCategorias(livroController.pesquisarCategorias()).toArray());
         formPanel.add(comboBoxCategoria);
 
         labelStatus = new JLabel("Status do livro:");
         formPanel.add(labelStatus);
-        comboBoxStatus = new JComboBox<>(livroController.pesquisarStatus().toArray());
+        comboBoxStatus = new JComboBox<>(LivroStatus.listarDescricaoStatus(livroController.pesquisarStatus()).toArray());
         formPanel.add(comboBoxStatus);
 
         mainPanel.add(formPanel, BorderLayout.CENTER);
