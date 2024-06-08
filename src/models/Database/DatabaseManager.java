@@ -1,6 +1,8 @@
 package models.Database;
 
 import models.Livro.Livro;
+import models.Livro.LivroCategoria;
+import models.Livro.LivroStatus;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -25,6 +27,8 @@ public class DatabaseManager {
         try {
             sessionFactory = new MetadataSources(registry)
                     .addAnnotatedClass(Livro.class)
+                    .addAnnotatedClass(LivroCategoria.class)
+                    .addAnnotatedClass(LivroStatus.class)
                     .buildMetadata()
                     .buildSessionFactory();
 

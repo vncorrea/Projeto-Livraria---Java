@@ -1,9 +1,13 @@
 package controller;
+import models.Livro.Livro;
+import models.Livro.LivroCategoria;
+import models.Livro.LivroStatus;
 import views.CadastroLivroView;
 import views.PesquisaLivroView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public interface LivroController {
     void cadastrarLivro(String titulo, String autor, String editora, String sinopse, int paginas, int id_livro_categoria, String isbn, int prazoEmprestimo, Date dataPublicacao, Date dataCadastro, int id_livro_status);
@@ -14,7 +18,15 @@ public interface LivroController {
 
     ArrayList pesquisarLivro(String titulo, String autor, String categoria, String isbn);
 
-    void setCadastroView(CadastroLivroView view);
+    void setCadastroView(CadastroLivroView view, int idLivro);
 
     void setPesquisaView(PesquisaLivroView view);
+
+    List pesquisarCategorias();
+    List pesquisarStatus();
+
+    LivroCategoria pesquisarCategoria(int idLivroCategoria, String descricao);
+    Livro pesquisarLivro(int idLivro);
+
+    LivroStatus pesquisarUmStatus(int idLivroStatus, String descricao);
 }

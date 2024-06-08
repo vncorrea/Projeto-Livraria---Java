@@ -1,12 +1,15 @@
 package models.Database;
 
 import models.Livro.Livro;
+import models.Livro.LivroCategoria;
+import models.Livro.LivroStatus;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.hibernate.query.Query;
 
 public class LivroDAO implements LivroDatabase {
@@ -23,12 +26,10 @@ public class LivroDAO implements LivroDatabase {
             session.save(livro);
 
             transaction.commit();
-            System.out.println("Livro criado com sucesso!");
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println("Erro ao criar livro: ");
             e.printStackTrace();
         } finally {
             if (session != null) {
@@ -47,6 +48,7 @@ public class LivroDAO implements LivroDatabase {
             transaction = session.beginTransaction();
 
             Livro livro = session.get(Livro.class, idLivro);
+
             livro.setTitulo(novoTitulo);
             livro.setAutor(novoAutor);
             livro.setEditora(novaEditora);
@@ -59,12 +61,10 @@ public class LivroDAO implements LivroDatabase {
             livro.setIdLivroStatus(novoStatus);
 
             transaction.commit();
-            System.out.println("Livro editado com sucesso!");
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println("Erro ao criar livro: ");
             e.printStackTrace();
         } finally {
             if (session != null) {
@@ -86,12 +86,10 @@ public class LivroDAO implements LivroDatabase {
             session.delete(livro);
 
             transaction.commit();
-            System.out.println("Livro excluído com sucesso!");
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println("Erro ao criar livro: ");
             e.printStackTrace();
         } finally {
             if (session != null) {
@@ -102,7 +100,7 @@ public class LivroDAO implements LivroDatabase {
 
     // No método pesquisarLivro na classe LivroDAO
     @Override
-    public ArrayList<Livro> pesquisarLivro(String titulo, String autor, String categoria, String isbn) {
+    public ArrayList<Livro> pesquisarLivros(String titulo, String autor, String categoria, String isbn) {
         ArrayList<Livro> livros = new ArrayList<>();
         try {
             livros = (ArrayList<Livro>) DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
@@ -117,5 +115,139 @@ public class LivroDAO implements LivroDatabase {
         }
 
         return livros;
+    }
+
+    @Override
+    public void criarCategoria(String descricao) {
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            session = DatabaseManager.getDatabaseSessionFactory().openSession();
+            transaction = session.beginTransaction();
+
+            LivroCategoria categoria = new LivroCategoria(descricao);
+            session.save(categoria);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void criarStatus(String descricao) {
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            session = DatabaseManager.getDatabaseSessionFactory().openSession();
+            transaction = session.beginTransaction();
+
+            LivroStatus status = new LivroStatus(descricao);
+            session.save(status);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<LivroCategoria> pesquisarCategorias() {
+        List<LivroCategoria> categorias = new ArrayList<>();
+        try {
+            categorias = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
+                Query<LivroCategoria> query = session.createQuery("from LivroCategoria", LivroCategoria.class);
+                return query.getResultList();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return categorias;
+    }
+
+    @Override
+    public List<LivroStatus> pesquisarStatus() {
+        List<LivroStatus> status = new ArrayList<>();
+        try {
+            status = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
+                Query<LivroStatus> query = session.createQuery("from LivroStatus", LivroStatus.class);
+                return query.getResultList();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return status;
+    }
+
+    @Override
+    public LivroCategoria pesquisarCategoria(int idLivroCategoria, String descricao) {
+        LivroCategoria categoria = null;
+        try {
+            categoria = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
+                Query<LivroCategoria> query;
+                if (idLivroCategoria == 0) {
+                    query = session.createQuery("from LivroCategoria where descricao = :descricao", LivroCategoria.class);
+                    query.setParameter("descricao", descricao);
+                } else {
+                    query = session.createQuery("from LivroCategoria where idLivroCategoria = :idLivroCategoria", LivroCategoria.class);
+                    query.setParameter("idLivroCategoria", idLivroCategoria);
+                }
+                return query.getSingleResult();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return categoria;
+    }
+
+    @Override
+    public Livro pesquisarLivro(int idLivro) {
+        Livro livro = null;
+        try {
+            livro = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
+                Query<Livro> query = session.createQuery("from Livro where idLivro = :idLivro", Livro.class);
+                query.setParameter("idLivro", idLivro);
+                return query.getSingleResult();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return livro;
+    }
+
+    @Override
+    public LivroStatus pesquisarUmStatus(int idLivroStatus, String descricao) {
+        LivroStatus status = null;
+        try {
+            status = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
+                Query<LivroStatus> query;
+                if (idLivroStatus == 0) {
+                    query = session.createQuery("from LivroStatus where descricao = :descricao", LivroStatus.class);
+                    query.setParameter("descricao", descricao);
+                } else {
+                    query = session.createQuery("from LivroStatus where idLivroStatus = :idLivroStatus", LivroStatus.class);
+                    query.setParameter("idLivroStatus", idLivroStatus);
+                }
+                return query.getSingleResult();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return status;
     }
 }

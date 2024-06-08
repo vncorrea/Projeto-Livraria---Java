@@ -41,7 +41,7 @@ public class ServiceLocator {
     }
 
     public CadastroLivroView getCadastroLivroView() {
-        return new CadastroLivroViewImpl(getLivroController());
+        return new CadastroLivroViewImpl(getLivroController(), 0);
     }
 
     public PesquisaLivroView getPesquisaLivroView() {

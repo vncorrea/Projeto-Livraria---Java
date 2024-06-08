@@ -2,11 +2,15 @@ package controller;
 
 
 import models.Database.LivroDatabase;
+import models.Livro.Livro;
+import models.Livro.LivroCategoria;
+import models.Livro.LivroStatus;
 import views.CadastroLivroView;
 import views.PesquisaLivroView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class LivroControllerImpl implements LivroController {
     private CadastroLivroView cadastroLivroView;
@@ -14,7 +18,7 @@ public class LivroControllerImpl implements LivroController {
     private final LivroDatabase livroDatabase;
 
     @Override
-    public void setCadastroView(CadastroLivroView view) {
+    public void setCadastroView(CadastroLivroView view, int idLivro) {
         this.cadastroLivroView = view;
     }
 
@@ -40,6 +44,25 @@ public class LivroControllerImpl implements LivroController {
     }
 
     public ArrayList pesquisarLivro(String titulo, String autor, String categoria, String isbn) {
-       return livroDatabase.pesquisarLivro(titulo, autor, categoria, isbn);
+       return livroDatabase.pesquisarLivros(titulo, autor, categoria, isbn);
+    }
+
+    public List pesquisarCategorias() {
+        return livroDatabase.pesquisarCategorias();
+    }
+
+    public LivroCategoria pesquisarCategoria(int idLivroCategoria, String descricao) {
+        return livroDatabase.pesquisarCategoria(idLivroCategoria, descricao);
+    }
+
+    public Livro pesquisarLivro(int idLivro) {
+        return livroDatabase.pesquisarLivro(idLivro);
+    }
+
+    public LivroStatus pesquisarUmStatus(int idLivroStatus, String descricao) {
+        return livroDatabase.pesquisarUmStatus(idLivroStatus, descricao);
+    }
+    public List pesquisarStatus() {
+        return livroDatabase.pesquisarStatus();
     }
 }
