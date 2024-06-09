@@ -89,7 +89,9 @@ public class EmprestimoLivroViewImpl extends JFrame implements ActionListener, E
     @Override
     public void actionPerformed(ActionEvent e) {
         if ("emprestar".equals(e.getActionCommand())) {
-            livroController.emprestarLivro(idLivroAtual, comboBoxPessoa.getSelectedIndex(), jDateEmprestimo.getDate(), jDateDevolucao.getDate(), textFieldObservacoes.getText());
+            Pessoa pessoa = pessoaController.pesquisarPessoa(0, (String) comboBoxPessoa.getSelectedItem(), "", "");
+
+            livroController.emprestarLivro(idLivroAtual, pessoa.getIdPessoa(), jDateEmprestimo.getDate(), jDateDevolucao.getDate(), textFieldObservacoes.getText());
 
             JOptionPane.showMessageDialog(this, "Emprestimo cadastrado com sucesso!");
 

@@ -1,8 +1,10 @@
 package models.Database;
 
+import models.Livro.LivroStatus;
 import models.Pessoa.Pessoa;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,32 +75,23 @@ public class PessoaDAO implements PessoaDatabase {
 
     @Override
     public Pessoa pesquisarPessoa(int idPessoa, String nome, String cpf, String telefone) {
-        Session session = null;
-        Transaction transaction = null;
-
+        Pessoa pessoa = null;
         try {
-            session = DatabaseManager.getDatabaseSessionFactory().openSession();
-            transaction = session.beginTransaction();
-
-            Pessoa pessoa = session.get(Pessoa.class, idPessoa);
-
-            if (pessoa == null) {
-                pessoa = new Pessoa();
-            }
-
-            transaction.commit();
-            return pessoa;
+            pessoa = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
+                Query<Pessoa> query;
+                if (idPessoa == 0) {
+                    query = session.createQuery("from Pessoa where nome = :nome", Pessoa.class);
+                    query.setParameter("nome", nome);
+                } else {
+                    query = session.createQuery("from Pessoa where idPessoa = :idPessoa", Pessoa.class);
+                    query.setParameter("idPessoa", idPessoa);
+                }
+                return query.getSingleResult();
+            });
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             e.printStackTrace();
-            return null;
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
+        return pessoa;
     }
 
     @Override

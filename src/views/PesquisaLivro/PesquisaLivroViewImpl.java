@@ -33,16 +33,18 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
 
     private void initializeUI() {
         JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Ações");
+        JMenu menuLivro = new JMenu("Livro");
+        JMenu menuPessoa = new JMenu("Pessoa");
         JMenuItem menuItemAdicionarLivro = new JMenuItem("Adicionar Livro");
         JMenuItem menuItemAdicionarPessoa = new JMenuItem("Cadastrar Pessoa");
         menuItemAdicionarLivro.setActionCommand("adicionarLivro");
         menuItemAdicionarPessoa.setActionCommand("adicionarPessoa");
         menuItemAdicionarLivro.addActionListener(this);
         menuItemAdicionarPessoa.addActionListener(this);
-        menu.add(menuItemAdicionarLivro);
-        menu.add(menuItemAdicionarPessoa);
-        menuBar.add(menu);
+        menuLivro.add(menuItemAdicionarLivro);
+        menuPessoa.add(menuItemAdicionarPessoa);
+        menuBar.add(menuLivro);
+        menuBar.add(menuPessoa);
         setJMenuBar(menuBar);
 
         setTitle("Pesquisar Livros");
