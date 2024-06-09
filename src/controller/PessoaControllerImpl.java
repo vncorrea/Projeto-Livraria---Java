@@ -32,4 +32,9 @@ public class PessoaControllerImpl implements PessoaController {
     public ArrayList pesquisarPessoas() {
         return pessoaDatabase.pesquisarPessoas();
     }
+
+    @Override
+    public boolean login(String cpf, String senha) {
+       return pessoaDatabase.login(cpf, senha);
+    }
 }

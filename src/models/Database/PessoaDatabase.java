@@ -12,4 +12,6 @@ public interface PessoaDatabase {
     Pessoa pesquisarPessoa(int idPessoa, String nome, String cpf, String telefone);
 
     ArrayList pesquisarPessoas();
+
+    boolean login(String cpf, String senha);
 }

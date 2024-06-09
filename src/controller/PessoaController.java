@@ -24,6 +24,6 @@ public interface PessoaController {
 
     ArrayList pesquisarPessoas();
 
-
+    boolean login(String cpf, String senha);
 }
 

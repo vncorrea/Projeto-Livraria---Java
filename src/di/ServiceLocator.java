@@ -12,6 +12,8 @@ import views.CadastroLivro.CadastroLivroView;
 import views.CadastroLivro.CadastroLivroViewImpl;
 import views.CadastroPessoa.CadastroPessoaView;
 import views.CadastroPessoa.CadastroPessoaViewImpl;
+import views.Login.LoginPessoaView;
+import views.Login.LoginPessoaViewImpl;
 import views.PesquisaLivro.PesquisaLivroView;
 import views.PesquisaLivro.PesquisaLivroViewImpl;
 
@@ -75,5 +77,7 @@ public class ServiceLocator {
         return new CadastroPessoaViewImpl(getPessoaController(), getLivroController(), 0);
     }
 
-
+    public LoginPessoaView getLoginPessoaView() {
+        return new LoginPessoaViewImpl(getPessoaController(), getLivroController());
+    }
 }

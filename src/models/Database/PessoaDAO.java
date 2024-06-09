@@ -119,4 +119,43 @@ public class PessoaDAO implements PessoaDatabase {
             }
         }
     }
+
+    @Override
+    public boolean login(String cpf, String senha) {
+        Session session = null;
+        Transaction transaction = null;
+        boolean loginSuccessful = false;
+
+        try {
+            session = DatabaseManager.getDatabaseSessionFactory().openSession();
+            transaction = session.beginTransaction();
+
+            Query<Pessoa> query = session.createQuery("from Pessoa where cpf = :cpf and senha = :senha", Pessoa.class);
+            query.setParameter("cpf", cpf);
+            query.setParameter("senha", senha);
+
+            Pessoa pessoa = query.uniqueResult();
+
+            transaction.commit();
+
+            if (pessoa != null) {
+                loginSuccessful = true;
+                System.out.println("Login efetuado com sucesso!");
+            } else {
+                System.out.println("CPF ou senha incorretos!");
+            }
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
+        return loginSuccessful;
+    }
 }

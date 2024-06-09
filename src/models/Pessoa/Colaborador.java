@@ -19,15 +19,17 @@ public class Colaborador extends Pessoa {
     private Date dataRegistro;
     private String pis;
     private String rg;
+    private boolean administrador;
 
 
-    public Colaborador(String nome, String cpf, String email, String telefone, String logradouro, String cidade, String estado, String cep, Date dataCadastro, Date dataNascimento, String uf, String cargo, Date dataRegistro, String pis, String rg, String senha, int idPessoa) {
+    public Colaborador(String nome, String cpf, String email, String telefone, String logradouro, String cidade, String estado, String cep, Date dataCadastro, Date dataNascimento, String uf, String cargo, Date dataRegistro, String pis, String rg, String senha, int idPessoa, boolean administrador) {
         super(nome, cpf, email, telefone, logradouro, cidade, estado, cep, dataCadastro, dataNascimento, uf, senha);
         this.idPessoa = idPessoa;
         this.cargo = cargo;
         this.dataRegistro = dataRegistro;
         this.pis = pis;
         this.rg = rg;
+        this.administrador = administrador;
     }
 
     public Colaborador() {
@@ -64,5 +66,13 @@ public class Colaborador extends Pessoa {
 
     public void setRg(String rg) {
         this.rg = rg;
+    }
+
+    public boolean isAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(boolean administrador) {
+        this.administrador = administrador;
     }
 }
