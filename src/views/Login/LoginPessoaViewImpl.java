@@ -2,6 +2,11 @@ package views.Login;
 
 import controller.LivroController;
 import controller.PessoaController;
+import models.Pessoa.Pessoa;
+import views.CadastroLivro.CadastroLivroViewImpl;
+import views.Login.LoginSucessoViewImpl;
+import views.LoginSucesso.LoginSucessoView;
+import views.PesquisaLivro.PesquisaLivroViewImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,11 +76,19 @@ public class LoginPessoaViewImpl extends JFrame implements ActionListener, Login
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("login")) {
             boolean sucesso = pessoaController.login(textFieldCpf.getText(), new String(passwordFieldSenha.getPassword()));
+            Pessoa pessoa = pessoaController.pesquisarPessoa(0, "", textFieldCpf.getText(), "");
+
 
             if (sucesso) {
                 JOptionPane.showMessageDialog(this, "Login efetuado com sucesso!");
-                new views.PesquisaLivro.PesquisaLivroViewImpl(livroController, pessoaController).abrir();
-                dispose();
+
+                this.dispose();
+
+                SwingUtilities.invokeLater(() -> {
+                    LoginSucessoViewImpl loginSucessoView = new LoginSucessoViewImpl(pessoaController, livroController, pessoa);
+                    loginSucessoView.setVisible(true);
+                    this.dispose();
+                });
             } else {
                 JOptionPane.showMessageDialog(this, "CPF ou senha incorretos!");
             }

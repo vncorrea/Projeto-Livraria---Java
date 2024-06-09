@@ -79,13 +79,20 @@ public class PessoaDAO implements PessoaDatabase {
         try {
             pessoa = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
                 Query<Pessoa> query;
-                if (idPessoa == 0) {
-                    query = session.createQuery("from Pessoa where nome = :nome", Pessoa.class);
-                    query.setParameter("nome", nome);
-                } else {
+                if (idPessoa != 0) {
                     query = session.createQuery("from Pessoa where idPessoa = :idPessoa", Pessoa.class);
                     query.setParameter("idPessoa", idPessoa);
+                } else if(!nome.equals("")) {
+                    query = session.createQuery("from Pessoa where nome = :nome", Pessoa.class);
+                    query.setParameter("nome", nome);
+                } else if(!cpf.equals("")) {
+                    query = session.createQuery("from Pessoa where cpf = :cpf", Pessoa.class);
+                    query.setParameter("cpf", cpf);
+                } else {
+                    query = session.createQuery("from Pessoa where telefone = :telefone", Pessoa.class);
+                    query.setParameter("telefone", telefone);
                 }
+
                 return query.getSingleResult();
             });
         } catch (Exception e) {
