@@ -267,8 +267,40 @@ public class LivroDAO implements LivroDatabase {
             transaction.commit();
 
             transaction = session.beginTransaction();
-            LivroEmprestimo emprestimo = new LivroEmprestimo(idLivro, idPessoa, dataEmprestimo, dataDevolucao, false, observacao);
+            LivroEmprestimo emprestimo = new LivroEmprestimo(idLivro, idPessoa, dataEmprestimo, dataDevolucao, false, observacao, true);
             session.save(emprestimo);
+            transaction.commit();
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    @Override
+    public void devolverLivro(int idLivro) {
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            session = DatabaseManager.getDatabaseSessionFactory().openSession();
+
+            transaction = session.beginTransaction();
+            Livro livro = session.get(Livro.class, idLivro);
+            livro.setIdLivroStatus(1);
+            transaction.commit();
+
+            transaction = session.beginTransaction();
+            Query<LivroEmprestimo> query = session.createQuery("from LivroEmprestimo where idLivro = :idLivro and ativo = true", LivroEmprestimo.class);
+            query.setParameter("idLivro", idLivro);
+            LivroEmprestimo emprestimo = query.getSingleResult();
+            emprestimo.setAtivo(false);
             transaction.commit();
 
         } catch (Exception e) {

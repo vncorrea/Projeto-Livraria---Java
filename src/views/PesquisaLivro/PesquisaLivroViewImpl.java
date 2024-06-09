@@ -89,10 +89,6 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
             return;
         }
 
-        ImageIcon lapisIcon = new ImageIcon(getClass().getResource("/media/lapis.png"));
-        ImageIcon lixeiraIcon = new ImageIcon(getClass().getResource("/media/lixeira.png"));
-        ImageIcon livroEmprestimoIcon = new ImageIcon(getClass().getResource("/media/emprestar-livro.png"));
-
         JPanel escritaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel lblEscritaTitulo = new JLabel("Título");
         JLabel lblEscritaCategoria = new JLabel("Categoria");
@@ -116,7 +112,7 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
         novoPanel.add(escritaPanel);
 
         for (Livro livro : livrosEncontrados) {
-            carregarLivro(livro, novoPanel, lapisIcon, lixeiraIcon, livroEmprestimoIcon);
+            carregarLivro(livro, novoPanel);
         }
 
         resultadosPanel.removeAll();
@@ -125,7 +121,12 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
         resultadosPanel.repaint();
     }
 
-    public void carregarLivro(Livro livro, JPanel novoPanel, ImageIcon lapisIcon, ImageIcon lixeiraIcon, ImageIcon livroEmprestimoIcon) {
+    public void carregarLivro(Livro livro, JPanel novoPanel) {
+        ImageIcon lapisIcon = new ImageIcon(getClass().getResource("/media/lapis.png"));
+        ImageIcon lixeiraIcon = new ImageIcon(getClass().getResource("/media/lixeira.png"));
+        ImageIcon livroEmprestimoIcon = new ImageIcon(getClass().getResource("/media/emprestar-livro.png"));
+        ImageIcon livroDevolucaoIcon = new ImageIcon(getClass().getResource("/media/devolver-livro.png"));
+
         LivroCategoria livroCategoria = livroController.pesquisarCategoria(livro.getIdLivroCategoria(), null);
         LivroStatus livrostatus = livroController.pesquisarUmStatus(livro.getIdLivroStatus(), null);
 
@@ -150,22 +151,31 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
         JButton btnEditar = new JButton(lapisIcon);
         JButton btnExcluir = new JButton(lixeiraIcon);
         JButton btnEmprestarLivro = new JButton(livroEmprestimoIcon);
+        JButton btnDevolverLivro = new JButton(livroDevolucaoIcon);
 
         btnEditar.setActionCommand("editar:" + livro.getIdLivro());
         btnExcluir.setActionCommand("excluir:" + livro.getIdLivro());
-        btnEmprestarLivro.setActionCommand("emprestar:" + livro.getIdLivro());
 
         btnEditar.setPreferredSize(new Dimension(20, 20));
         btnExcluir.setPreferredSize(new Dimension(20, 20));
-        btnEmprestarLivro.setPreferredSize(new Dimension(20, 20));
 
         btnEditar.addActionListener(this);
         btnExcluir.addActionListener(this);
-        btnEmprestarLivro.addActionListener(this);
 
         btnPanel.add(btnEditar);
         btnPanel.add(btnExcluir);
-        btnPanel.add(btnEmprestarLivro);
+
+        if(livro.getIdLivroStatus() != 2) {
+            btnEmprestarLivro.setPreferredSize(new Dimension(20, 20));
+            btnEmprestarLivro.addActionListener(this);
+            btnEmprestarLivro.setActionCommand("emprestar:" + livro.getIdLivro());
+            btnPanel.add(btnEmprestarLivro);
+        } else {
+            btnDevolverLivro.setPreferredSize(new Dimension(20, 20));
+            btnDevolverLivro.addActionListener(this);
+            btnDevolverLivro.setActionCommand("devolver:" + livro.getIdLivro());
+            btnPanel.add(btnDevolverLivro);
+        }
 
         livroPanel.add(btnPanel);
         novoPanel.add(livroPanel);
@@ -222,6 +232,16 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
                         emprestimoLivroViewImpl.setVisible(true);
                         this.dispose();
                     });
+                } else if (e.getActionCommand().startsWith("devolver:")) {
+                    String idLivroStr = e.getActionCommand().substring("devolver:".length());
+                    int idLivroDevolver = Integer.parseInt(idLivroStr);
+
+                    int opcao = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja devolver o livro?", "Confirmação", JOptionPane.YES_NO_OPTION);
+
+                    if (opcao == JOptionPane.YES_OPTION) {
+                        livroController.devolverLivro(idLivroDevolver);
+                        pesquisarLivros(false);
+                    }
                 }
         }
     }

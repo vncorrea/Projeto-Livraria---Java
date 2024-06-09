@@ -33,4 +33,5 @@ public interface LivroController {
     LivroStatus pesquisarUmStatus(int idLivroStatus, String descricao);
 
     void emprestarLivro(int idLivro, int idPessoa, Date dataEmprestimo, Date dataDevolucao, String observacao);
+    void devolverLivro(int idLivro);
 }

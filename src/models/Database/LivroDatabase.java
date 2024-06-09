@@ -33,4 +33,5 @@ public interface LivroDatabase {
 
     void emprestarLivro(int idLivro, int idPessoa, Date dataEmprestimo, Date dataDevolucao, String observacao);
 
+    void devolverLivro(int idLivro);
 }

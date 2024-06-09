@@ -20,14 +20,16 @@ public class LivroEmprestimo {
     private Date dataDevolucao;
     private boolean multa;
     private String observacao;
+    private boolean ativo;
 
-    public LivroEmprestimo(int idLivro, int idPessoa, Date dataEmprestimo, Date dataDevolucao, boolean multa, String observacao) {
+    public LivroEmprestimo(int idLivro, int idPessoa, Date dataEmprestimo, Date dataDevolucao, boolean multa, String observacao, boolean ativo) {
         this.idLivro = idLivro;
         this.idPessoa = idPessoa;
         this.dataEmprestimo = dataEmprestimo;
         this.dataDevolucao = dataDevolucao;
         this.multa = multa;
         this.observacao = observacao;
+        this.ativo = ativo;
     }
 
     private static List<LivroEmprestimo> livroEmprestimos = new ArrayList<>();
@@ -106,5 +108,13 @@ public void setIdLivroEmprestimo(int idLivroEmprestimo) {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

@@ -76,4 +76,8 @@ public class LivroControllerImpl implements LivroController {
     public void emprestarLivro(int idLivro, int idPessoa, Date dataEmprestimo, Date dataDevolucao, String observacao) {
         livroDatabase.emprestarLivro(idLivro, idPessoa, dataEmprestimo, dataDevolucao, observacao);
     }
+
+    public void devolverLivro(int idLivro) {
+        livroDatabase.devolverLivro(idLivro);
+    }
 }
