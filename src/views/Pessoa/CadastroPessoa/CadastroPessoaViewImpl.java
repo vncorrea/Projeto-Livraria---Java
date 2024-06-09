@@ -5,6 +5,7 @@ import controller.LivroController;
 import controller.PessoaController;
 import models.Pessoa.Pessoa;
 import views.Livro.PesquisaLivro.PesquisaLivroViewImpl;
+import views.Pessoa.PesquisaPessoa.PesquisaPessoaViewImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
     private int idPessoaAtual;
     private JButton btnCadastrar, btnEditar, btnVoltar;
     JLabel labelNome, labelCpf, labelEmail, labelTelefone, labelLogradouro, labelCidade, labelEstado, labelCep, labelDataNascimento, labelUf, labelSenha;
-    JTextField textFieldNome, textFieldCpf, textFieldEmail, textFieldTelefone, textFieldLogradouro, textFieldCidade, textFieldEstado, textFieldCep, textFieldDataNascimento, textFieldUf, textFieldSenha;
+    JTextField textFieldNome, textFieldCpf, textFieldEmail, textFieldTelefone, textFieldLogradouro, textFieldCidade, textFieldEstado, textFieldCep, textFieldDataNascimento, textFieldUf, passwordField;
 
     private JDateChooser jDateNascimento;
 
@@ -30,16 +31,13 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
     }
 
     public void initializeUI(int idPessoa) {
-        setTitle("Cadastro de Livros");
+        setTitle("Cadastro de pessoa");
         setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-
-        JPanel formPanel = new JPanel();
-        formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel formPanel = new JPanel(new GridLayout(10, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         labelNome = new JLabel("Nome:");
@@ -89,8 +87,8 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
 
         labelSenha = new JLabel("Senha:");
         formPanel.add(labelSenha);
-        textFieldSenha = new JTextField();
-        formPanel.add(textFieldSenha);
+        passwordField = new JPasswordField();
+        formPanel.add(passwordField);
 
         mainPanel.add(formPanel, BorderLayout.CENTER);
 
@@ -133,6 +131,7 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
         textFieldUf.setText(pessoa.getUf());
         textFieldCep.setText(pessoa.getCep());
         jDateNascimento.setDate(pessoa.getDataNascimento());
+        passwordField.setText(pessoa.getSenha());
     }
 
 
@@ -150,7 +149,7 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
                     new java.util.Date(),
                     jDateNascimento.getDate(),
                     textFieldUf.getText(),
-                    textFieldSenha.getText());
+                    passwordField.getText());
 
             JOptionPane.showMessageDialog(this, "Pessoa cadastrada com sucesso!");
 
@@ -173,13 +172,17 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
                     new java.util.Date(),
                     jDateNascimento.getDate(),
                     textFieldUf.getText(),
-                    textFieldSenha.getText());
+                    passwordField.getText());
 
             JOptionPane.showMessageDialog(this, "Pessoa editada com sucesso!");
 
             this.dispose();
         } else if (e.getActionCommand().equals("voltar")) {
-            this.dispose();
+            SwingUtilities.invokeLater(() -> {
+                PesquisaPessoaViewImpl pesquisaPessoaView = new PesquisaPessoaViewImpl(livroController, pessoaController);
+                pesquisaPessoaView.setVisible(true);
+                this.dispose();
+            });
         }
     }
 

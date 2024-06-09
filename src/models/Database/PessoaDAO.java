@@ -180,4 +180,25 @@ public class PessoaDAO implements PessoaDatabase {
 
         return loginSuccessful;
     }
+
+    @Override
+    public void excluirPessoa(int idPessoa) {
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            session = DatabaseManager.getDatabaseSessionFactory().openSession();
+            transaction = session.beginTransaction();
+
+            Pessoa pessoa = session.get(Pessoa.class, idPessoa);
+            session.delete(pessoa);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
 }

@@ -6,6 +6,9 @@ import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
 import models.Pessoa.Pessoa;
+import views.Livro.CadastroLivro.CadastroLivroViewImpl;
+import views.Livro.PesquisaLivro.PesquisaLivroViewImpl;
+import views.Pessoa.CadastroPessoa.CadastroPessoaViewImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,18 +33,18 @@ public class PesquisaPessoaViewImpl extends JFrame implements PesquisaPessoaView
 
     private void initializeUI() {
         JMenuBar menuBar = new JMenuBar();
-        JMenu menuLivro = new JMenu("Livro");
         JMenu menuPessoa = new JMenu("Pessoa");
-        JMenuItem menuItemAdicionarLivro = new JMenuItem("Adicionar Livro");
+        JMenu menuLivro = new JMenu("Livro");
+        JMenuItem menuItemBuscarLivros = new JMenuItem("Buscar Livros");
         JMenuItem menuItemAdicionarPessoa = new JMenuItem("Cadastrar Pessoa");
-        menuItemAdicionarLivro.setActionCommand("adicionarLivro");
+        menuItemBuscarLivros.setActionCommand("buscarLivros");
         menuItemAdicionarPessoa.setActionCommand("adicionarPessoa");
-        menuItemAdicionarLivro.addActionListener(this);
+        menuItemBuscarLivros.addActionListener(this);
         menuItemAdicionarPessoa.addActionListener(this);
-        menuLivro.add(menuItemAdicionarLivro);
+        menuLivro.add(menuItemBuscarLivros);
         menuPessoa.add(menuItemAdicionarPessoa);
-        menuBar.add(menuLivro);
         menuBar.add(menuPessoa);
+        menuBar.add(menuLivro);
         setJMenuBar(menuBar);
 
         setTitle("Pesquisar Pessoas");
@@ -167,29 +170,28 @@ public class PesquisaPessoaViewImpl extends JFrame implements PesquisaPessoaView
         if ("pesquisarPessoa".equals(e.getActionCommand())) {
             pesquisarPessoas();
         } else if (e.getActionCommand().startsWith("editar:")) {
-//            int idPessoa = Integer.parseInt(e.getActionCommand().split(":")[1]);
-//            Pessoa pessoa = pessoaController.getPessoa(idPessoa);
-//            SwingUtilities.invokeLater(() -> {
-//                CadastrarPessoaViewImpl cadastrarPessoaView = new CadastrarPessoaViewImpl(pessoaController, pessoa);
-//                cadastrarPessoaView.setVisible(true);
-//                this.dispose();
-//            });
+            int idPessoa = Integer.parseInt(e.getActionCommand().split(":")[1]);
+            SwingUtilities.invokeLater(() -> {
+                CadastroPessoaViewImpl cadastrarPessoaView = new CadastroPessoaViewImpl(pessoaController, livroController, idPessoa);
+                cadastrarPessoaView.setVisible(true);
+                this.dispose();
+            });
         } else if (e.getActionCommand().startsWith("excluir:")) {
-//            int idPessoa = Integer.parseInt(e.getActionCommand().split(":")[1]);
-//            pessoaController.excluirPessoa(idPessoa);
-//            pesquisarPessoas();
-        } else if ("adicionarLivro".equals(e.getActionCommand())) {
-//            SwingUtilities.invokeLater(() -> {
-//                CadastrarLivroViewImpl cadastrarLivroView = new CadastrarLivroViewImpl(livroController, pessoaController);
-//                cadastrarLivroView.setVisible(true);
-//                this.dispose();
-//            });
+            int idPessoa = Integer.parseInt(e.getActionCommand().split(":")[1]);
+            pessoaController.excluirPessoa(idPessoa);
+            pesquisarPessoas();
+        } else if ("buscarLivros".equals(e.getActionCommand())) {
+            SwingUtilities.invokeLater(() -> {
+                PesquisaLivroViewImpl pesquisaLivroView = new PesquisaLivroViewImpl(livroController, pessoaController);
+                pesquisaLivroView.setVisible(true);
+                this.dispose();
+            });
         } else if ("adicionarPessoa".equals(e.getActionCommand())) {
-//            SwingUtilities.invokeLater(() -> {
-//                CadastrarPessoaViewImpl cadastrarPessoaView = new CadastrarPessoaViewImpl(pessoaController);
-//                cadastrarPessoaView.setVisible(true);
-//                this.dispose();
-//            });
+            SwingUtilities.invokeLater(() -> {
+                CadastroPessoaViewImpl cadastrarPessoaView = new CadastroPessoaViewImpl(pessoaController, livroController, 0);
+                cadastrarPessoaView.setVisible(true);
+                this.dispose();
+            });
         }
     }
 

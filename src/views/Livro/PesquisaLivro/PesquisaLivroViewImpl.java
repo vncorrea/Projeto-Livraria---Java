@@ -8,6 +8,7 @@ import models.Livro.LivroStatus;
 import views.Livro.CadastroLivro.CadastroLivroViewImpl;
 import views.Pessoa.CadastroPessoa.CadastroPessoaViewImpl;
 import views.Livro.EmprestimoLivro.EmprestimoLivroViewImpl;
+import views.Pessoa.PesquisaPessoa.PesquisaPessoaViewImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,13 +37,13 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
         JMenu menuLivro = new JMenu("Livro");
         JMenu menuPessoa = new JMenu("Pessoa");
         JMenuItem menuItemAdicionarLivro = new JMenuItem("Adicionar Livro");
-        JMenuItem menuItemAdicionarPessoa = new JMenuItem("Cadastrar Pessoa");
+        JMenuItem menuItemBuscarPessoas = new JMenuItem("Buscar Pessoas");
         menuItemAdicionarLivro.setActionCommand("adicionarLivro");
-        menuItemAdicionarPessoa.setActionCommand("adicionarPessoa");
+        menuItemBuscarPessoas.setActionCommand("buscarPessoas");
         menuItemAdicionarLivro.addActionListener(this);
-        menuItemAdicionarPessoa.addActionListener(this);
+        menuItemBuscarPessoas.addActionListener(this);
         menuLivro.add(menuItemAdicionarLivro);
-        menuPessoa.add(menuItemAdicionarPessoa);
+        menuPessoa.add(menuItemBuscarPessoas);
         menuBar.add(menuLivro);
         menuBar.add(menuPessoa);
         setJMenuBar(menuBar);
@@ -196,10 +197,10 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
                     this.dispose();
                 });
                 break;
-            case "adicionarPessoa":
+            case "buscarPessoas":
                 SwingUtilities.invokeLater(() -> {
-                    CadastroPessoaViewImpl cadastroPessoaViewImpl = new CadastroPessoaViewImpl(pessoaController, livroController, 0);
-                    cadastroPessoaViewImpl.setVisible(true);
+                    PesquisaPessoaViewImpl pesquisaPessoaViewImpl = new PesquisaPessoaViewImpl(livroController, pessoaController);
+                    pesquisaPessoaViewImpl.setVisible(true);
                     this.dispose();
                 });
                 break;

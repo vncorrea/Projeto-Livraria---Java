@@ -25,5 +25,7 @@ public interface PessoaController {
     ArrayList pesquisarPessoas(String nome, String cpf, String telefone);
 
     boolean login(String cpf, String senha);
+
+    void excluirPessoa(int idPessoa);
 }
 
