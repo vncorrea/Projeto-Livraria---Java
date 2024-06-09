@@ -1,9 +1,6 @@
 package models.Pessoa;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import models.Livro.LivroStatus;
 
 import java.util.Date;
@@ -12,6 +9,8 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Pessoa")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo")
 public class Pessoa {
     @Id
     @GeneratedValue
@@ -172,5 +171,9 @@ public class Pessoa {
         return pessoas.stream()
                 .map(Pessoa::getNome)
                 .collect(Collectors.toList());
+    }
+
+    public boolean isColaborador() {
+        return this instanceof Colaborador;
     }
 }

@@ -22,7 +22,7 @@ public interface PessoaController {
 
     Pessoa pesquisarPessoa(int idPessoa, String nome, String cpf, String telefone);
 
-    ArrayList pesquisarPessoas();
+    ArrayList pesquisarPessoas(String nome, String cpf, String telefone);
 
     boolean login(String cpf, String senha);
 }

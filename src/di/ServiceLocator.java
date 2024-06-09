@@ -8,14 +8,14 @@ import models.Database.LivroDAO;
 import models.Database.LivroDatabase;
 import models.Database.PessoaDAO;
 import models.Database.PessoaDatabase;
-import views.CadastroLivro.CadastroLivroView;
-import views.CadastroLivro.CadastroLivroViewImpl;
-import views.CadastroPessoa.CadastroPessoaView;
-import views.CadastroPessoa.CadastroPessoaViewImpl;
-import views.Login.LoginPessoaView;
-import views.Login.LoginPessoaViewImpl;
-import views.PesquisaLivro.PesquisaLivroView;
-import views.PesquisaLivro.PesquisaLivroViewImpl;
+import views.Livro.CadastroLivro.CadastroLivroView;
+import views.Livro.CadastroLivro.CadastroLivroViewImpl;
+import views.Pessoa.CadastroPessoa.CadastroPessoaView;
+import views.Pessoa.CadastroPessoa.CadastroPessoaViewImpl;
+import views.Pessoa.Login.LoginPessoaView;
+import views.Pessoa.Login.LoginPessoaViewImpl;
+import views.Livro.PesquisaLivro.PesquisaLivroView;
+import views.Livro.PesquisaLivro.PesquisaLivroViewImpl;
 
 public class ServiceLocator {
 

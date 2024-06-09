@@ -82,10 +82,10 @@ public class PessoaDAO implements PessoaDatabase {
                 if (idPessoa != 0) {
                     query = session.createQuery("from Pessoa where idPessoa = :idPessoa", Pessoa.class);
                     query.setParameter("idPessoa", idPessoa);
-                } else if(!nome.equals("")) {
-                    query = session.createQuery("from Pessoa where nome = :nome", Pessoa.class);
-                    query.setParameter("nome", nome);
-                } else if(!cpf.equals("")) {
+                } else if (!nome.equals("")) {
+                    query = session.createQuery("from Pessoa where lower(nome) like :nome", Pessoa.class);
+                    query.setParameter("nome", "%" + nome.toLowerCase() + "%");
+                } else if (!cpf.equals("")) {
                     query = session.createQuery("from Pessoa where cpf = :cpf", Pessoa.class);
                     query.setParameter("cpf", cpf);
                 } else {
@@ -102,7 +102,7 @@ public class PessoaDAO implements PessoaDatabase {
     }
 
     @Override
-    public ArrayList pesquisarPessoas() {
+    public ArrayList pesquisarPessoas(String nome, String cpf, String telefone) {
         Session session = null;
         Transaction transaction = null;
 
@@ -110,9 +110,24 @@ public class PessoaDAO implements PessoaDatabase {
             session = DatabaseManager.getDatabaseSessionFactory().openSession();
             transaction = session.beginTransaction();
 
-            ArrayList<Pessoa> pessoas = (ArrayList<Pessoa>) session.createQuery("FROM Pessoa").list();
+            Query<Pessoa> query;
+            if (!nome.equals("")) {
+                query = session.createQuery("from Pessoa where lower(nome) like :nome", Pessoa.class);
+                query.setParameter("nome", "%" + nome.toLowerCase() + "%");
+            } else if (!cpf.equals("")) {
+                query = session.createQuery("from Pessoa where cpf = :cpf", Pessoa.class);
+                query.setParameter("cpf", cpf);
+            } else if (!cpf.equals("")) {
+                query = session.createQuery("from Pessoa where telefone = :telefone", Pessoa.class);
+                query.setParameter("telefone", telefone);
+            } else {
+                query = session.createQuery("from Pessoa", Pessoa.class);
+            }
+
+            ArrayList<Pessoa> pessoas = (ArrayList<Pessoa>) query.getResultList();
 
             transaction.commit();
+
             return pessoas;
         } catch (Exception e) {
             if (transaction != null) {

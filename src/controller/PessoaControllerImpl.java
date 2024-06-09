@@ -29,8 +29,8 @@ public class PessoaControllerImpl implements PessoaController {
     }
 
     @Override
-    public ArrayList pesquisarPessoas() {
-        return pessoaDatabase.pesquisarPessoas();
+    public ArrayList pesquisarPessoas(String nome, String cpf, String telefone) {
+        return pessoaDatabase.pesquisarPessoas(nome, cpf, telefone);
     }
 
     @Override

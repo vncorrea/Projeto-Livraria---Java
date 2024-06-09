@@ -2,9 +2,9 @@ package controller;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
-import views.CadastroLivro.CadastroLivroView;
-import views.EmprestimoLivro.EmprestimoLivroView;
-import views.PesquisaLivro.PesquisaLivroView;
+import views.Livro.CadastroLivro.CadastroLivroView;
+import views.Livro.EmprestimoLivro.EmprestimoLivroView;
+import views.Livro.PesquisaLivro.PesquisaLivroView;
 
 import java.util.ArrayList;
 import java.util.Date;

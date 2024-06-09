@@ -106,9 +106,9 @@ public class LivroDAO implements LivroDatabase {
         ArrayList<Livro> livros = new ArrayList<>();
         try {
             livros = (ArrayList<Livro>) DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
-                Query<Livro> query = session.createQuery("from Livro where titulo = :titulo or autor = :autor or isbn = :isbn", Livro.class);
-                query.setParameter("titulo", titulo);
-                query.setParameter("autor", autor);
+                Query<Livro> query = session.createQuery("from Livro where lower(titulo) like :titulo or lower(autor) like :autor or isbn = :isbn", Livro.class);
+                query.setParameter("titulo", "%" + titulo.toLowerCase() + "%");
+                query.setParameter("autor", "%" + autor.toLowerCase() + "%");
                 query.setParameter("isbn", isbn);
                 return query.getResultList();
             });

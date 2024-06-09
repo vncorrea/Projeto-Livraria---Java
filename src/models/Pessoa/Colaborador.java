@@ -1,14 +1,11 @@
 package models.Pessoa;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "Colaborador")
+@DiscriminatorValue("Colaborador")
 public class Colaborador extends Pessoa {
     @Id
     @GeneratedValue
