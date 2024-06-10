@@ -5,6 +5,7 @@ import controller.LivroController;
 import controller.PessoaController;
 import models.Pessoa.Pessoa;
 import views.Livro.PesquisaLivro.PesquisaLivroViewImpl;
+import views.Pessoa.PesquisaPessoa.PesquisaPessoaViewImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -123,7 +124,7 @@ public class CadastroColaboradorViewImpl extends JFrame implements ActionListene
             JOptionPane.showMessageDialog(this, "Colaborador cadastrado com sucesso!");
 
             SwingUtilities.invokeLater(() -> {
-                PesquisaLivroViewImpl pesquisaPessoaViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
+                PesquisaPessoaViewImpl pesquisaPessoaViewImpl = new PesquisaPessoaViewImpl(livroController, pessoaController);
                 pesquisaPessoaViewImpl.setVisible(true);
                 this.dispose();
             });
