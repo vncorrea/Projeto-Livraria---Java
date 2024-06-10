@@ -7,11 +7,6 @@ import java.util.Date;
 @Entity
 @DiscriminatorValue("Colaborador")
 public class Colaborador extends Pessoa {
-    @Id
-    @GeneratedValue
-
-    private int idPessoa;
-
     private String cargo;
     private Date dataRegistro;
     private String pis;
@@ -19,9 +14,8 @@ public class Colaborador extends Pessoa {
     private boolean administrador;
 
 
-    public Colaborador(String nome, String cpf, String email, String telefone, String logradouro, String cidade, String estado, String cep, Date dataCadastro, Date dataNascimento, String uf, String cargo, Date dataRegistro, String pis, String rg, String senha, int idPessoa, boolean administrador) {
-        super(nome, cpf, email, telefone, logradouro, cidade, estado, cep, dataCadastro, dataNascimento, uf, senha);
-        this.idPessoa = idPessoa;
+    public Colaborador(String nome, String cpf, String email, String telefone, String logradouro, String cidade, String cep, Date dataCadastro, Date dataNascimento, String uf, String cargo, Date dataRegistro, String pis, String rg, String senha, boolean administrador) {
+        super(nome, cpf, email, telefone, logradouro, cidade, cep, dataCadastro, dataNascimento, uf, senha);
         this.cargo = cargo;
         this.dataRegistro = dataRegistro;
         this.pis = pis;

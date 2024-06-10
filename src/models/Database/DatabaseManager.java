@@ -4,6 +4,7 @@ import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroEmprestimo;
 import models.Livro.LivroStatus;
+import models.Pessoa.Colaborador;
 import models.Pessoa.Pessoa;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -33,6 +34,7 @@ public class DatabaseManager {
                     .addAnnotatedClass(LivroStatus.class)
                     .addAnnotatedClass(LivroEmprestimo.class)
                     .addAnnotatedClass(Pessoa.class)
+                    .addAnnotatedClass(Colaborador.class)
                     .buildMetadata()
                     .buildSessionFactory();
 

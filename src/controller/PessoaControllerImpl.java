@@ -13,12 +13,12 @@ public class PessoaControllerImpl implements PessoaController {
     }
 
     @Override
-    public void cadastrarPessoa(String nome, String cpf, String email, String telefone, String logradouro, String cidade, String cep, Date dataCadastro, Date dataNascimento, String uf, String senha) {
-        pessoaDatabase.cadastrarPessoa(nome, cpf, email, telefone, logradouro, cidade, cep, dataCadastro, dataNascimento, uf, senha);
+    public void cadastrarPessoa(String nome, String cpf, String email, String telefone, String logradouro, String cidade, String cep, Date dataCadastro, Date dataNascimento, String uf, String senha, boolean colaborador, String cargo, Date dataRegistro, String pis, String rg, boolean administrador) {
+        pessoaDatabase.cadastrarPessoa(nome, cpf, email, telefone, logradouro, cidade, cep, dataCadastro, dataNascimento, uf, senha, colaborador, cargo, dataRegistro, pis, rg, administrador);
     }
     @Override
-    public void editarPessoa(int idPessoa, String novoNome, String novoCpf, String novoEmail, String novoTelefone, String novoLogradouro, String novaCidade, String novoCep, Date novaDataCadastro, Date novaDataNascimento, String novoUf, String novaSenha) {
-        pessoaDatabase.editarPessoa(idPessoa, novoNome, novoCpf, novoEmail, novoTelefone, novoLogradouro, novaCidade, novoCep, novaDataCadastro, novaDataNascimento, novoUf, novaSenha);
+    public void editarPessoa(int idPessoa, String novoNome, String novoCpf, String novoEmail, String novoTelefone, String novoLogradouro, String novaCidade, String novoCep, Date novaDataCadastro, Date novaDataNascimento, String novoUf, String novaSenha, boolean colaborador, String novoCargo, Date novaDataRegistro, String novoPis, String novoRg, boolean novoAdministrador) {
+        pessoaDatabase.editarPessoa(idPessoa, novoNome, novoCpf, novoEmail, novoTelefone, novoLogradouro, novaCidade, novoCep, novaDataCadastro, novaDataNascimento, novoUf, novaSenha, colaborador, novoCargo, novaDataRegistro, novoPis, novoRg, novoAdministrador);
     }
     @Override
     public Pessoa pesquisarPessoa(int idPessoa, String nome, String cpf, String telefone) {

@@ -73,14 +73,14 @@ public class PesquisaPessoaViewImpl extends JFrame implements PesquisaPessoaView
         add(panel);
     }
 
-    private void pesquisarPessoas() {
+    private void pesquisarPessoas(boolean validaBuscaDePessoas) {
         String pesquisa = textFieldPesquisa.getText();
 
         ArrayList<Pessoa> pessoasEncontradas = pessoaController.pesquisarPessoas(pesquisa, pesquisa, pesquisa);
         JPanel novoPanel = new JPanel();
         novoPanel.setLayout(new BoxLayout(novoPanel, BoxLayout.Y_AXIS));
 
-        if (pessoasEncontradas.isEmpty()) {
+        if (pessoasEncontradas.isEmpty() && validaBuscaDePessoas) {
             JOptionPane.showMessageDialog(this, "Nenhuma pessoa encontrada.");
             resultadosPanel.removeAll();
             resultadosPanel.add(novoPanel);
@@ -168,18 +168,23 @@ public class PesquisaPessoaViewImpl extends JFrame implements PesquisaPessoaView
     @Override
     public void actionPerformed(ActionEvent e) {
         if ("pesquisarPessoa".equals(e.getActionCommand())) {
-            pesquisarPessoas();
+            pesquisarPessoas(true);
         } else if (e.getActionCommand().startsWith("editar:")) {
             int idPessoa = Integer.parseInt(e.getActionCommand().split(":")[1]);
             SwingUtilities.invokeLater(() -> {
                 CadastroPessoaViewImpl cadastrarPessoaView = new CadastroPessoaViewImpl(pessoaController, livroController, idPessoa);
                 cadastrarPessoaView.setVisible(true);
-                this.dispose();
             });
         } else if (e.getActionCommand().startsWith("excluir:")) {
             int idPessoa = Integer.parseInt(e.getActionCommand().split(":")[1]);
-            pessoaController.excluirPessoa(idPessoa);
-            pesquisarPessoas();
+
+
+            int opcao = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir?", "Confirmação", JOptionPane.YES_NO_OPTION);
+
+            if (opcao == JOptionPane.YES_OPTION) {
+                pessoaController.excluirPessoa(idPessoa);
+                pesquisarPessoas(false);
+            }
         } else if ("buscarLivros".equals(e.getActionCommand())) {
             SwingUtilities.invokeLater(() -> {
                 PesquisaLivroViewImpl pesquisaLivroView = new PesquisaLivroViewImpl(livroController, pessoaController);

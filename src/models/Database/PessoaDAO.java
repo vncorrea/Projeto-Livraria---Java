@@ -1,6 +1,7 @@
 package models.Database;
 
 import models.Livro.LivroStatus;
+import models.Pessoa.Colaborador;
 import models.Pessoa.Pessoa;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -12,7 +13,7 @@ import java.util.Date;
 public class PessoaDAO implements PessoaDatabase {
 
     @Override
-    public void cadastrarPessoa(String nome, String cpf, String email, String telefone, String logradouro, String cidade, String cep, Date dataCadastro, Date dataNascimento, String uf, String senha) {
+    public void cadastrarPessoa(String nome, String cpf, String email, String telefone, String logradouro, String cidade, String cep, Date dataCadastro, Date dataNascimento, String uf, String senha, boolean colaborador, String cargo, Date dataRegistro, String pis, String rg, boolean administrador) {
         Session session = null;
         Transaction transaction = null;
 
@@ -22,7 +23,18 @@ public class PessoaDAO implements PessoaDatabase {
 
             dataCadastro = new Date();
 
-            Pessoa pessoa = new Pessoa(nome, cpf, email, telefone, logradouro, cidade, cep, dataCadastro, dataNascimento, uf, senha);
+            Pessoa pessoa;
+            if (colaborador) {
+                pessoa = new Colaborador(nome, cpf, email, telefone, logradouro, cidade, cep, dataCadastro, dataNascimento, uf, null,
+                        null,
+                        null,
+                        null,
+                        senha,
+                        administrador);
+            } else {
+                pessoa = new Pessoa(nome, cpf, email, telefone, logradouro, cidade, cep, dataCadastro, dataNascimento, uf, senha);
+            }
+
             session.save(pessoa);
 
             transaction.commit();
@@ -39,7 +51,7 @@ public class PessoaDAO implements PessoaDatabase {
     }
 
     @Override
-    public void editarPessoa(int idPessoa, String novoNome, String novoCpf, String novoEmail, String novoTelefone, String novoLogradouro, String novaCidade, String novoCep, Date novaDataCadastro, Date novaDataNascimento, String novoUf, String novaSenha) {
+    public void editarPessoa(int idPessoa, String novoNome, String novoCpf, String novoEmail, String novoTelefone, String novoLogradouro, String novaCidade, String novoCep, Date novaDataCadastro, Date novaDataNascimento, String novoUf, String novaSenha, boolean colaborador, String novoCargo, Date novaDataRegistro, String novoPis, String novoRg, boolean novoAdministrador) {
         Session session = null;
         Transaction transaction = null;
 
@@ -59,6 +71,15 @@ public class PessoaDAO implements PessoaDatabase {
             pessoa.setDataNascimento(novaDataNascimento);
             pessoa.setUf(novoUf);
             pessoa.setSenha(novaSenha);
+
+            if (colaborador && pessoa instanceof Colaborador) {
+                Colaborador colaborador1 = (Colaborador) pessoa;
+                colaborador1.setCargo(novoCargo);
+                colaborador1.setDataRegistro(novaDataRegistro);
+                colaborador1.setPis(novoPis);
+                colaborador1.setRg(novoRg);
+                colaborador1.setAdministrador(novoAdministrador);
+            }
 
             transaction.commit();
         } catch (Exception e) {

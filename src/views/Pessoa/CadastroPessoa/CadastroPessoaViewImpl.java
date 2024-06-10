@@ -5,6 +5,7 @@ import controller.LivroController;
 import controller.PessoaController;
 import models.Pessoa.Pessoa;
 import views.Livro.PesquisaLivro.PesquisaLivroViewImpl;
+import views.Pessoa.CadastroColaborador.CadastroColaboradorViewImpl;
 import views.Pessoa.PesquisaPessoa.PesquisaPessoaViewImpl;
 
 import javax.swing.*;
@@ -17,10 +18,10 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
     private final LivroController livroController;
     private int idPessoaAtual;
     private JButton btnCadastrar, btnEditar, btnVoltar;
-    JLabel labelNome, labelCpf, labelEmail, labelTelefone, labelLogradouro, labelCidade, labelEstado, labelCep, labelDataNascimento, labelUf, labelSenha;
+    JLabel labelNome, labelCpf, labelEmail, labelTelefone, labelLogradouro, labelCidade, labelEstado, labelCep, labelDataNascimento, labelUf, labelSenha, labelColaborador;
     JTextField textFieldNome, textFieldCpf, textFieldEmail, textFieldTelefone, textFieldLogradouro, textFieldCidade, textFieldEstado, textFieldCep, textFieldDataNascimento, textFieldUf, passwordField;
-
     private JDateChooser jDateNascimento;
+    private JCheckBox checkboxColaborador;
 
     public CadastroPessoaViewImpl(PessoaController pessoaController, LivroController livroController, int idPessoa) {
         this.pessoaController = pessoaController;
@@ -37,7 +38,7 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
         setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
-        JPanel formPanel = new JPanel(new GridLayout(10, 2, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(11, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         labelNome = new JLabel("Nome:");
@@ -89,6 +90,11 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
         formPanel.add(labelSenha);
         passwordField = new JPasswordField();
         formPanel.add(passwordField);
+
+        labelColaborador = new JLabel("Colaborador:");
+        formPanel.add(labelColaborador);
+        checkboxColaborador = new JCheckBox();
+        formPanel.add(checkboxColaborador);
 
         mainPanel.add(formPanel, BorderLayout.CENTER);
 
@@ -149,16 +155,30 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
                     new java.util.Date(),
                     jDateNascimento.getDate(),
                     textFieldUf.getText(),
-                    passwordField.getText());
+                    passwordField.getText(),
+                    checkboxColaborador.isSelected(),
+                    "",
+                    null,
+                    "",
+                    "",
+                    false);
 
             JOptionPane.showMessageDialog(this, "Pessoa cadastrada com sucesso!");
 
-            SwingUtilities.invokeLater(() -> {
-                PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
-                PesquisaLivroViewImpl.setVisible(true);
-                this.dispose();
-            });
-
+            if(checkboxColaborador.isSelected()) {
+                Pessoa pessoa = pessoaController.pesquisarPessoa(0, "", textFieldCpf.getText(), "");
+                SwingUtilities.invokeLater(() -> {
+                    CadastroColaboradorViewImpl cadastroColaboradorView = new CadastroColaboradorViewImpl(livroController, pessoaController, pessoa);
+                    cadastroColaboradorView.setVisible(true);
+                    this.dispose();
+                });
+            } else {
+                SwingUtilities.invokeLater(() -> {
+                    PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
+                    PesquisaLivroViewImpl.setVisible(true);
+                    this.dispose();
+                });
+            }
         } else if (e.getActionCommand().equals("editar")) {
             pessoaController.editarPessoa(
                     idPessoaAtual,
@@ -172,16 +192,32 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
                     new java.util.Date(),
                     jDateNascimento.getDate(),
                     textFieldUf.getText(),
-                    passwordField.getText());
+                    passwordField.getText(),
+                    checkboxColaborador.isSelected(),
+                    "",
+                    null,
+                    "",
+                    "",
+                    false);
 
             JOptionPane.showMessageDialog(this, "Pessoa editada com sucesso!");
 
-            this.dispose();
+
+            SwingUtilities.invokeLater(() -> {
+                PesquisaLivroViewImpl pesquisaPessoaViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
+                pesquisaPessoaViewImpl.setVisible(true);
+                this.dispose();
+            });
         } else if (e.getActionCommand().equals("voltar")) {
             SwingUtilities.invokeLater(() -> {
                 PesquisaPessoaViewImpl pesquisaPessoaView = new PesquisaPessoaViewImpl(livroController, pessoaController);
                 pesquisaPessoaView.setVisible(true);
-                this.dispose();
+
+                SwingUtilities.invokeLater(() -> {
+                    PesquisaLivroViewImpl pesquisaPessoaViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
+                    pesquisaPessoaViewImpl.setVisible(true);
+                    this.dispose();
+                });
             });
         }
     }
