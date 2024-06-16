@@ -149,6 +149,11 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("cadastrar")) {
+            if (this.checkboxColaborador == null) {
+                this.checkboxColaborador = new JCheckBox();
+                this.checkboxColaborador.setSelected(false);
+            }
+
             pessoaController.cadastrarPessoa(
                     textFieldNome.getText(),
                     textFieldCpf.getText(),
