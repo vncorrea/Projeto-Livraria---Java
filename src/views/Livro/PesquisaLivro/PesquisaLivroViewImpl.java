@@ -32,17 +32,11 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
         this.pessoaController = pessoaController;
         this.colaboradorLogado = colaboradorLogado;
 
-        initializeUI(colaboradorLogado);
+        initializeUI();
         livroController.setPesquisaView(this);
     }
 
-    private void initializeUI(Pessoa colaboradorLogado) {
-        Colaborador colaborador = null;
-
-        if (colaboradorLogado instanceof Colaborador) {
-            colaborador = (Colaborador) colaboradorLogado;
-        }
-
+    private void initializeUI() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menuLivro = new JMenu("Livro");
         JMenuItem menuItemAdicionarLivro = new JMenuItem("Adicionar Livro");
@@ -50,16 +44,12 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
         menuItemAdicionarLivro.addActionListener(this);
         menuLivro.add(menuItemAdicionarLivro);
         menuBar.add(menuLivro);
-
-        if(colaborador != null && colaborador.isAdministrador()) {
             JMenu menuPessoa = new JMenu("Pessoa");
             JMenuItem menuItemBuscarPessoas = new JMenuItem("Buscar Pessoas");
             menuItemBuscarPessoas.setActionCommand("buscarPessoas");
             menuItemBuscarPessoas.addActionListener(this);
             menuPessoa.add(menuItemBuscarPessoas);
             menuBar.add(menuPessoa);
-        }
-
         setJMenuBar(menuBar);
 
         setTitle("Pesquisar Livros");

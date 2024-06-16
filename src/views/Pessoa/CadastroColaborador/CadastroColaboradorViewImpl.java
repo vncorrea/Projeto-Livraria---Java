@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 public class CadastroColaboradorViewImpl extends JFrame implements ActionListener, CadastroColaboradorView {
     private final LivroController livroController;
     private final PessoaController pessoaController;
-    private JLabel labelPessoa, labelCargo, labelDataRegistro, labelPis, labelRg, labelAdministrador;
+    private JLabel labelPessoa, labelCargo, labelDataRegistro, labelPis, labelRg, labelAdministrador, labelSenha;
     JComboBox comboBoxPessoa;
     Pessoa pessoa;
     private JTextField textFieldCargo, textFieldPis, textFieldRg;
@@ -23,6 +23,8 @@ public class CadastroColaboradorViewImpl extends JFrame implements ActionListene
     private JButton btnCadastrar, btnVoltar;
     private JDateChooser dateChooserDataRegistro;
     private Pessoa colaboradorLogado;
+
+    private JPasswordField passwordField;
 
     public CadastroColaboradorViewImpl(LivroController livroController, PessoaController pessoaController, Pessoa pessoa, Pessoa colaboradorLogado) {
         this.livroController = livroController;
@@ -67,6 +69,11 @@ public class CadastroColaboradorViewImpl extends JFrame implements ActionListene
         formPanel.add(labelRg);
         textFieldRg = new JTextField();
         formPanel.add(textFieldRg);
+
+        labelSenha = new JLabel("Senha:");
+        formPanel.add(labelSenha);
+        passwordField = new JPasswordField();
+        formPanel.add(passwordField);
 
         labelAdministrador = new JLabel("Administrador:");
         formPanel.add(labelAdministrador);
@@ -115,7 +122,7 @@ public class CadastroColaboradorViewImpl extends JFrame implements ActionListene
                     pessoa.getDataCadastro(),
                     pessoa.getDataNascimento(),
                     pessoa.getUf(),
-                    pessoa.getSenha(),
+                    passwordField.getText(),
                     true,
                     textFieldCargo.getText(),
                     dateChooserDataRegistro.getDate(),

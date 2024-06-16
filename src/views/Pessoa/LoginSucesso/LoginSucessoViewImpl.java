@@ -27,12 +27,6 @@ public class LoginSucessoViewImpl extends JFrame implements ActionListener, Logi
     }
 
     void initializeUI(Pessoa pessoa) {
-        Colaborador colaborador = null;
-
-        if (pessoa instanceof Colaborador) {
-            colaborador = (Colaborador) pessoa;
-        }
-
         setTitle("Tela principal");
         setSize(300, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,15 +41,13 @@ public class LoginSucessoViewImpl extends JFrame implements ActionListener, Logi
         JPanel buttonPanel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
-        if (colaborador != null && colaborador.isAdministrador()) {
-            JButton pessoaButton = new JButton("Pessoa");
-            pessoaButton.setFont(new Font("Arial", Font.BOLD, 24));
-            pessoaButton.setActionCommand("pessoa");
-            pessoaButton.addActionListener(this);
-            constraints.gridy = 0;
-            constraints.gridwidth = 1;
-            buttonPanel.add(pessoaButton, constraints);
-        }
+        JButton pessoaButton = new JButton("Pessoa");
+        pessoaButton.setFont(new Font("Arial", Font.BOLD, 24));
+        pessoaButton.setActionCommand("pessoa");
+        pessoaButton.addActionListener(this);
+        constraints.gridy = 0;
+        constraints.gridwidth = 1;
+        buttonPanel.add(pessoaButton, constraints);
 
         JButton livroButton = new JButton("Livro");
         livroButton.setFont(new Font("Arial", Font.BOLD, 24));

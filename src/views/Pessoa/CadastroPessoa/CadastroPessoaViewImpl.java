@@ -3,6 +3,7 @@ package views.Pessoa.CadastroPessoa;
 import com.toedter.calendar.JDateChooser;
 import controller.LivroController;
 import controller.PessoaController;
+import models.Pessoa.Colaborador;
 import models.Pessoa.Pessoa;
 import views.Livro.PesquisaLivro.PesquisaLivroViewImpl;
 import views.Pessoa.CadastroColaborador.CadastroColaboradorViewImpl;
@@ -18,8 +19,8 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
     private final LivroController livroController;
     private int idPessoaAtual;
     private JButton btnCadastrar, btnEditar, btnVoltar;
-    JLabel labelNome, labelCpf, labelEmail, labelTelefone, labelLogradouro, labelCidade, labelEstado, labelCep, labelDataNascimento, labelUf, labelSenha, labelColaborador;
-    JTextField textFieldNome, textFieldCpf, textFieldEmail, textFieldTelefone, textFieldLogradouro, textFieldCidade, textFieldEstado, textFieldCep, textFieldDataNascimento, textFieldUf, passwordField;
+    JLabel labelNome, labelCpf, labelEmail, labelTelefone, labelLogradouro, labelCidade, labelCep, labelDataNascimento, labelUf, labelColaborador;
+    JTextField textFieldNome, textFieldCpf, textFieldEmail, textFieldTelefone, textFieldLogradouro, textFieldCidade, textFieldCep, textFieldUf;
     private JDateChooser jDateNascimento;
     private JCheckBox checkboxColaborador;
     private Pessoa colaboradorLogado;
@@ -30,10 +31,16 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
         this.colaboradorLogado = colaboradorLogado;
         this.idPessoaAtual = idPessoa;
 
-        initializeUI(idPessoa);
+        initializeUI(idPessoa, colaboradorLogado);
     }
 
-    public void initializeUI(int idPessoa) {
+    public void initializeUI(int idPessoa, Pessoa colaboradorLogado) {
+        Colaborador colaborador = null;
+
+        if (colaboradorLogado instanceof Colaborador) {
+            colaborador = (Colaborador) colaboradorLogado;
+        }
+
         setTitle("Cadastro de pessoa");
         setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,15 +95,12 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
         jDateNascimento = new JDateChooser();
         formPanel.add(jDateNascimento);
 
-        labelSenha = new JLabel("Senha:");
-        formPanel.add(labelSenha);
-        passwordField = new JPasswordField();
-        formPanel.add(passwordField);
-
-        labelColaborador = new JLabel("Colaborador:");
-        formPanel.add(labelColaborador);
-        checkboxColaborador = new JCheckBox();
-        formPanel.add(checkboxColaborador);
+        if(colaborador != null && colaborador.isAdministrador()) {
+            labelColaborador = new JLabel("Colaborador:");
+            formPanel.add(labelColaborador);
+            checkboxColaborador = new JCheckBox();
+            formPanel.add(checkboxColaborador);
+        }
 
         mainPanel.add(formPanel, BorderLayout.CENTER);
 
@@ -139,7 +143,6 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
         textFieldUf.setText(pessoa.getUf());
         textFieldCep.setText(pessoa.getCep());
         jDateNascimento.setDate(pessoa.getDataNascimento());
-        passwordField.setText(pessoa.getSenha());
     }
 
 
@@ -157,7 +160,7 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
                     new java.util.Date(),
                     jDateNascimento.getDate(),
                     textFieldUf.getText(),
-                    passwordField.getText(),
+                    "",
                     checkboxColaborador.isSelected(),
                     "",
                     null,
@@ -194,7 +197,7 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
                     new java.util.Date(),
                     jDateNascimento.getDate(),
                     textFieldUf.getText(),
-                    passwordField.getText(),
+                    "",
                     checkboxColaborador.isSelected(),
                     "",
                     null,

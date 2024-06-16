@@ -5,6 +5,7 @@ import controller.PessoaController;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
+import models.Pessoa.Colaborador;
 import models.Pessoa.Pessoa;
 import views.Livro.CadastroLivro.CadastroLivroViewImpl;
 import views.Livro.PesquisaLivro.PesquisaLivroViewImpl;
@@ -124,6 +125,12 @@ public class PesquisaPessoaViewImpl extends JFrame implements PesquisaPessoaView
     }
 
     public void carregarPessoa(Pessoa pessoa, JPanel novoPanel) {
+        Colaborador colaborador = null;
+
+        if (this.colaboradorLogado instanceof Colaborador) {
+            colaborador = (Colaborador) this.colaboradorLogado;
+        }
+
         ImageIcon lapisIcon = new ImageIcon(getClass().getResource("/media/lapis.png"));
         ImageIcon lixeiraIcon = new ImageIcon(getClass().getResource("/media/lixeira.png"));
 
@@ -145,20 +152,18 @@ public class PesquisaPessoaViewImpl extends JFrame implements PesquisaPessoaView
 
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-        JButton btnEditar = new JButton(lapisIcon);
-        JButton btnExcluir = new JButton(lixeiraIcon);
-
-        btnEditar.setActionCommand("editar:" + pessoa.getIdPessoa());
-        btnExcluir.setActionCommand("excluir:" + pessoa.getIdPessoa());
-
-        btnEditar.setPreferredSize(new Dimension(20, 20));
-        btnExcluir.setPreferredSize(new Dimension(20, 20));
-
-        btnEditar.addActionListener(this);
-        btnExcluir.addActionListener(this);
-
-        btnPanel.add(btnEditar);
-        btnPanel.add(btnExcluir);
+        if(colaborador != null && colaborador.isAdministrador()) {
+            JButton btnEditar = new JButton(lapisIcon);
+            btnEditar.setActionCommand("editar:" + pessoa.getIdPessoa());
+            btnEditar.setPreferredSize(new Dimension(20, 20));
+            btnEditar.addActionListener(this);
+            btnPanel.add(btnEditar);
+            JButton btnExcluir = new JButton(lixeiraIcon);
+            btnExcluir.setActionCommand("excluir:" + pessoa.getIdPessoa());
+            btnExcluir.setPreferredSize(new Dimension(20, 20));
+            btnExcluir.addActionListener(this);
+            btnPanel.add(btnExcluir);
+        }
 
         livroPanel.add(btnPanel);
         novoPanel.add(livroPanel);
