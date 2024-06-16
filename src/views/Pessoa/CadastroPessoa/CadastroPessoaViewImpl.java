@@ -22,10 +22,12 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
     JTextField textFieldNome, textFieldCpf, textFieldEmail, textFieldTelefone, textFieldLogradouro, textFieldCidade, textFieldEstado, textFieldCep, textFieldDataNascimento, textFieldUf, passwordField;
     private JDateChooser jDateNascimento;
     private JCheckBox checkboxColaborador;
+    private Pessoa colaboradorLogado;
 
-    public CadastroPessoaViewImpl(PessoaController pessoaController, LivroController livroController, int idPessoa) {
+    public CadastroPessoaViewImpl(PessoaController pessoaController, LivroController livroController, int idPessoa, Pessoa colaboradorLogado) {
         this.pessoaController = pessoaController;
         this.livroController = livroController;
+        this.colaboradorLogado = colaboradorLogado;
         this.idPessoaAtual = idPessoa;
 
         initializeUI(idPessoa);
@@ -168,14 +170,14 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
             if(checkboxColaborador.isSelected()) {
                 Pessoa pessoa = pessoaController.pesquisarPessoa(0, "", textFieldCpf.getText(), "");
                 SwingUtilities.invokeLater(() -> {
-                    CadastroColaboradorViewImpl cadastroColaboradorView = new CadastroColaboradorViewImpl(livroController, pessoaController, pessoa);
+                    CadastroColaboradorViewImpl cadastroColaboradorView = new CadastroColaboradorViewImpl(livroController, pessoaController, pessoa, colaboradorLogado);
                     cadastroColaboradorView.setVisible(true);
                     this.dispose();
                 });
             } else {
                 SwingUtilities.invokeLater(() -> {
-                    PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
-                    PesquisaLivroViewImpl.setVisible(true);
+                    PesquisaPessoaViewImpl pesquisaPessoaView = new PesquisaPessoaViewImpl(livroController, pessoaController, colaboradorLogado);
+                    pesquisaPessoaView.setVisible(true);
                     this.dispose();
                 });
             }
@@ -203,22 +205,26 @@ public class CadastroPessoaViewImpl extends JFrame implements CadastroPessoaView
             JOptionPane.showMessageDialog(this, "Pessoa editada com sucesso!");
 
 
-            SwingUtilities.invokeLater(() -> {
-                PesquisaLivroViewImpl pesquisaPessoaViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
-                pesquisaPessoaViewImpl.setVisible(true);
-                this.dispose();
-            });
-        } else if (e.getActionCommand().equals("voltar")) {
-            SwingUtilities.invokeLater(() -> {
-                PesquisaPessoaViewImpl pesquisaPessoaView = new PesquisaPessoaViewImpl(livroController, pessoaController);
-                pesquisaPessoaView.setVisible(true);
-
+            if(checkboxColaborador.isSelected()) {
+                Pessoa pessoa = pessoaController.pesquisarPessoa(0, "", textFieldCpf.getText(), "");
                 SwingUtilities.invokeLater(() -> {
-                    PesquisaLivroViewImpl pesquisaPessoaViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
-                    pesquisaPessoaViewImpl.setVisible(true);
+                    CadastroColaboradorViewImpl cadastroColaboradorView = new CadastroColaboradorViewImpl(livroController, pessoaController, pessoa, colaboradorLogado);
+                    cadastroColaboradorView.setVisible(true);
                     this.dispose();
                 });
-            });
+            } else {
+                SwingUtilities.invokeLater(() -> {
+                    PesquisaPessoaViewImpl pesquisaPessoaView = new PesquisaPessoaViewImpl(livroController, pessoaController, colaboradorLogado);
+                    pesquisaPessoaView.setVisible(true);
+                    this.dispose();
+                });
+            }
+        } else if (e.getActionCommand().equals("voltar")) {
+                SwingUtilities.invokeLater(() -> {
+                    PesquisaPessoaViewImpl pesquisaPessoaView = new PesquisaPessoaViewImpl(livroController, pessoaController, colaboradorLogado);
+                    pesquisaPessoaView.setVisible(true);
+                    this.dispose();
+                });
         }
     }
 

@@ -5,6 +5,8 @@ import controller.PessoaController;
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
 import models.Livro.LivroStatus;
+import models.Pessoa.Colaborador;
+import models.Pessoa.Pessoa;
 import views.Livro.CadastroLivro.CadastroLivroViewImpl;
 import views.Pessoa.CadastroPessoa.CadastroPessoaViewImpl;
 import views.Livro.EmprestimoLivro.EmprestimoLivroViewImpl;
@@ -21,31 +23,43 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
     private JTextField textFieldPesquisa;
     private final LivroController livroController;
     private final PessoaController pessoaController;
+    private Pessoa colaboradorLogado;
     private JPanel resultadosPanel;
 
-    public PesquisaLivroViewImpl(LivroController livroController, PessoaController pessoaController) {
-        initializeUI();
+    public PesquisaLivroViewImpl(LivroController livroController, PessoaController pessoaController, Pessoa colaboradorLogado) {
 
         this.livroController = livroController;
         this.pessoaController = pessoaController;
+        this.colaboradorLogado = colaboradorLogado;
 
+        initializeUI(colaboradorLogado);
         livroController.setPesquisaView(this);
     }
 
-    private void initializeUI() {
+    private void initializeUI(Pessoa colaboradorLogado) {
+        Colaborador colaborador = null;
+
+        if (colaboradorLogado instanceof Colaborador) {
+            colaborador = (Colaborador) colaboradorLogado;
+        }
+
         JMenuBar menuBar = new JMenuBar();
         JMenu menuLivro = new JMenu("Livro");
-        JMenu menuPessoa = new JMenu("Pessoa");
         JMenuItem menuItemAdicionarLivro = new JMenuItem("Adicionar Livro");
-        JMenuItem menuItemBuscarPessoas = new JMenuItem("Buscar Pessoas");
         menuItemAdicionarLivro.setActionCommand("adicionarLivro");
-        menuItemBuscarPessoas.setActionCommand("buscarPessoas");
         menuItemAdicionarLivro.addActionListener(this);
-        menuItemBuscarPessoas.addActionListener(this);
         menuLivro.add(menuItemAdicionarLivro);
-        menuPessoa.add(menuItemBuscarPessoas);
         menuBar.add(menuLivro);
-        menuBar.add(menuPessoa);
+
+        if(colaborador != null && colaborador.isAdministrador()) {
+            JMenu menuPessoa = new JMenu("Pessoa");
+            JMenuItem menuItemBuscarPessoas = new JMenuItem("Buscar Pessoas");
+            menuItemBuscarPessoas.setActionCommand("buscarPessoas");
+            menuItemBuscarPessoas.addActionListener(this);
+            menuPessoa.add(menuItemBuscarPessoas);
+            menuBar.add(menuPessoa);
+        }
+
         setJMenuBar(menuBar);
 
         setTitle("Pesquisar Livros");
@@ -77,7 +91,7 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
     private void pesquisarLivros(boolean validaBuscaDeLivros) {
         String pesquisa = textFieldPesquisa.getText();
 
-        ArrayList<Livro> livrosEncontrados = livroController.pesquisarLivro(pesquisa, pesquisa, pesquisa, pesquisa);
+        ArrayList<Livro> livrosEncontrados = livroController.pesquisarLivros(pesquisa, pesquisa, pesquisa, pesquisa);
         JPanel novoPanel = new JPanel();
         novoPanel.setLayout(new BoxLayout(novoPanel, BoxLayout.Y_AXIS));
 
@@ -192,14 +206,14 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
                 break;
             case "adicionarLivro":
                 SwingUtilities.invokeLater(() -> {
-                    CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(livroController, pessoaController, 0);
+                    CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(livroController, pessoaController, 0, colaboradorLogado);
                     cadastroLivroViewImpl.setVisible(true);
                     this.dispose();
                 });
                 break;
             case "buscarPessoas":
                 SwingUtilities.invokeLater(() -> {
-                    PesquisaPessoaViewImpl pesquisaPessoaViewImpl = new PesquisaPessoaViewImpl(livroController, pessoaController);
+                    PesquisaPessoaViewImpl pesquisaPessoaViewImpl = new PesquisaPessoaViewImpl(livroController, pessoaController, colaboradorLogado);
                     pesquisaPessoaViewImpl.setVisible(true);
                     this.dispose();
                 });
@@ -210,7 +224,7 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
                     int idLivroEditar = Integer.parseInt(idLivroStr);
 
                     SwingUtilities.invokeLater(() -> {
-                        CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(livroController, pessoaController, idLivroEditar);
+                        CadastroLivroViewImpl cadastroLivroViewImpl = new CadastroLivroViewImpl(livroController, pessoaController, idLivroEditar, colaboradorLogado);
                         cadastroLivroViewImpl.setVisible(true);
                         this.dispose();
                     });
@@ -229,7 +243,7 @@ public class PesquisaLivroViewImpl extends JFrame implements ActionListener, Pes
                     int idLivroEmprestar = Integer.parseInt(idLivroStr);
 
                     SwingUtilities.invokeLater(() -> {
-                        EmprestimoLivroViewImpl emprestimoLivroViewImpl = new EmprestimoLivroViewImpl(livroController, pessoaController, idLivroEmprestar);
+                        EmprestimoLivroViewImpl emprestimoLivroViewImpl = new EmprestimoLivroViewImpl(livroController, pessoaController, idLivroEmprestar, colaboradorLogado);
                         emprestimoLivroViewImpl.setVisible(true);
                         this.dispose();
                     });

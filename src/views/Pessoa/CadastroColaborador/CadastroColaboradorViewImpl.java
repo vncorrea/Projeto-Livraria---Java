@@ -22,10 +22,12 @@ public class CadastroColaboradorViewImpl extends JFrame implements ActionListene
     private JCheckBox checkBoxAdministrador;
     private JButton btnCadastrar, btnVoltar;
     private JDateChooser dateChooserDataRegistro;
+    private Pessoa colaboradorLogado;
 
-    public CadastroColaboradorViewImpl(LivroController livroController, PessoaController pessoaController, Pessoa pessoa) {
+    public CadastroColaboradorViewImpl(LivroController livroController, PessoaController pessoaController, Pessoa pessoa, Pessoa colaboradorLogado) {
         this.livroController = livroController;
         this.pessoaController = pessoaController;
+        this.colaboradorLogado = colaboradorLogado;
         this.pessoa = pessoa;
 
         initializeUI(pessoa);
@@ -97,7 +99,7 @@ public class CadastroColaboradorViewImpl extends JFrame implements ActionListene
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("voltar")) {
             SwingUtilities.invokeLater(() -> {
-                PesquisaLivroViewImpl pesquisaPessoaViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
+                PesquisaPessoaViewImpl pesquisaPessoaViewImpl = new PesquisaPessoaViewImpl(livroController, pessoaController, colaboradorLogado);
                 pesquisaPessoaViewImpl.setVisible(true);
                 this.dispose();
             });
@@ -124,7 +126,7 @@ public class CadastroColaboradorViewImpl extends JFrame implements ActionListene
             JOptionPane.showMessageDialog(this, "Colaborador cadastrado com sucesso!");
 
             SwingUtilities.invokeLater(() -> {
-                PesquisaPessoaViewImpl pesquisaPessoaViewImpl = new PesquisaPessoaViewImpl(livroController, pessoaController);
+                PesquisaPessoaViewImpl pesquisaPessoaViewImpl = new PesquisaPessoaViewImpl(livroController, pessoaController, colaboradorLogado);
                 pesquisaPessoaViewImpl.setVisible(true);
                 this.dispose();
             });

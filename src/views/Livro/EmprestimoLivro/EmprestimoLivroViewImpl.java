@@ -20,12 +20,14 @@ public class EmprestimoLivroViewImpl extends JFrame implements ActionListener, E
     JTextField textFieldObservacoes;
     JComboBox comboBoxPessoa;
     private JDateChooser jDateEmprestimo, jDateDevolucao;
+    private Pessoa colaboradorLogado;
 
 
-    public EmprestimoLivroViewImpl(LivroController livroController, PessoaController pessoaController, int idLivro) {
+    public EmprestimoLivroViewImpl(LivroController livroController, PessoaController pessoaController, int idLivro, Pessoa colaboradorLogado) {
         this.livroController = livroController;
         this.pessoaController = pessoaController;
         this.idLivroAtual = idLivro;
+        this.colaboradorLogado = colaboradorLogado;
         livroController.setEmprestimoLivroView(this, idLivro);
 
         initializeUI(idLivro);
@@ -95,14 +97,14 @@ public class EmprestimoLivroViewImpl extends JFrame implements ActionListener, E
             JOptionPane.showMessageDialog(this, "Emprestimo cadastrado com sucesso!");
 
             SwingUtilities.invokeLater(() -> {
-                PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
+                PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController, colaboradorLogado);
                 PesquisaLivroViewImpl.setVisible(true);
                 this.dispose();
             });
 
         } else if ("voltar".equals(e.getActionCommand())) {
             SwingUtilities.invokeLater(() -> {
-                PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController);
+                PesquisaLivroViewImpl PesquisaLivroViewImpl = new PesquisaLivroViewImpl(livroController, pessoaController, colaboradorLogado);
                 PesquisaLivroViewImpl.setVisible(true);
                 this.dispose();
             });

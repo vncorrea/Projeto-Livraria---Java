@@ -3,6 +3,7 @@ package views.Pessoa.Login;
 import controller.LivroController;
 import controller.PessoaController;
 import models.Pessoa.Pessoa;
+import views.Pessoa.LoginSucesso.LoginSucessoViewImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,10 +64,7 @@ public class LoginPessoaViewImpl extends JFrame implements ActionListener, Login
         add(mainPanel);
     }
 
-    @Override
-    public void abrir() {
-        setVisible(true);
-    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -89,5 +87,10 @@ public class LoginPessoaViewImpl extends JFrame implements ActionListener, Login
                 JOptionPane.showMessageDialog(this, "CPF ou senha incorretos!");
             }
         }
+    }
+
+    @Override
+    public void abrir() {
+        setVisible(true);
     }
 }

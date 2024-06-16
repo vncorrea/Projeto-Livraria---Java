@@ -24,6 +24,7 @@ public class PessoaDAO implements PessoaDatabase {
             dataCadastro = new Date();
 
             Pessoa pessoa;
+
             if (colaborador) {
                 pessoa = new Colaborador(nome, cpf, email, telefone, logradouro, cidade, cep, dataCadastro, dataNascimento, uf, null,
                         null,
@@ -34,6 +35,8 @@ public class PessoaDAO implements PessoaDatabase {
             } else {
                 pessoa = new Pessoa(nome, cpf, email, telefone, logradouro, cidade, cep, dataCadastro, dataNascimento, uf, senha);
             }
+
+            System.out.println(pessoa);
 
             session.save(pessoa);
 
@@ -51,7 +54,7 @@ public class PessoaDAO implements PessoaDatabase {
     }
 
     @Override
-    public void editarPessoa(int idPessoa, String novoNome, String novoCpf, String novoEmail, String novoTelefone, String novoLogradouro, String novaCidade, String novoCep, Date novaDataCadastro, Date novaDataNascimento, String novoUf, String novaSenha, boolean colaborador, String novoCargo, Date novaDataRegistro, String novoPis, String novoRg, boolean novoAdministrador) {
+    public void editarPessoa(int idPessoa, String novoNome, String novoCpf, String novoEmail, String novoTelefone, String novoLogradouro, String novaCidade, String novoCep, Date novaDataCadastro, Date novaDataNascimento, String novoUf, String novaSenha, boolean colaborador, String novoCargo, Date novaDataRegistro, String novoPis, String novoRg, boolean administrador) {
         Session session = null;
         Transaction transaction = null;
 
@@ -61,24 +64,43 @@ public class PessoaDAO implements PessoaDatabase {
 
             Pessoa pessoa = session.get(Pessoa.class, idPessoa);
 
-            pessoa.setNome(novoNome);
-            pessoa.setCpf(novoCpf);
-            pessoa.setEmail(novoEmail);
-            pessoa.setTelefone(novoTelefone);
-            pessoa.setLogradouro(novoLogradouro);
-            pessoa.setCidade(novaCidade);
-            pessoa.setCep(novoCep);
-            pessoa.setDataNascimento(novaDataNascimento);
-            pessoa.setUf(novoUf);
-            pessoa.setSenha(novaSenha);
+            System.out.println(!(pessoa instanceof Colaborador));
+            System.out.println(colaborador);
 
-            if (colaborador && pessoa instanceof Colaborador) {
-                Colaborador colaborador1 = (Colaborador) pessoa;
-                colaborador1.setCargo(novoCargo);
-                colaborador1.setDataRegistro(novaDataRegistro);
-                colaborador1.setPis(novoPis);
-                colaborador1.setRg(novoRg);
-                colaborador1.setAdministrador(novoAdministrador);
+            if (colaborador && !(pessoa instanceof Colaborador)) {
+                session.delete(pessoa);
+                transaction.commit();
+
+                transaction = session.beginTransaction();
+                Colaborador novoColaborador = new Colaborador(novoNome, novoCpf, novoEmail, novoTelefone, novoLogradouro, novaCidade, novoCep, novaDataCadastro, novaDataNascimento, novoUf, null,
+                        null,
+                        null,
+                        null,
+                        novaSenha,
+                        administrador);
+
+                novoColaborador.setIdPessoa(pessoa.getIdPessoa());
+                pessoa = novoColaborador;
+                session.save(pessoa);
+            } else {
+                pessoa.setNome(novoNome);
+                pessoa.setCpf(novoCpf);
+                pessoa.setEmail(novoEmail);
+                pessoa.setTelefone(novoTelefone);
+                pessoa.setLogradouro(novoLogradouro);
+                pessoa.setCidade(novaCidade);
+                pessoa.setCep(novoCep);
+                pessoa.setDataNascimento(novaDataNascimento);
+                pessoa.setUf(novoUf);
+                pessoa.setSenha(novaSenha);
+
+                if (pessoa instanceof Colaborador pessoaColaborador) {
+                    pessoaColaborador.setCargo(novoCargo);
+                    pessoaColaborador.setDataRegistro(novaDataRegistro);
+                    pessoaColaborador.setPis(novoPis);
+                    pessoaColaborador.setRg(novoRg);
+                    pessoaColaborador.setAdministrador(administrador);
+                }
             }
 
             transaction.commit();

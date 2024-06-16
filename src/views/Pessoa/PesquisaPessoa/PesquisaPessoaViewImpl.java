@@ -23,10 +23,12 @@ public class PesquisaPessoaViewImpl extends JFrame implements PesquisaPessoaView
     private JTextField textFieldPesquisa;
 
     private JPanel resultadosPanel;
+    private Pessoa colaboradorLogado;
 
-    public PesquisaPessoaViewImpl(LivroController livroController, PessoaController pessoaController) {
+    public PesquisaPessoaViewImpl(LivroController livroController, PessoaController pessoaController, Pessoa colaboradorLogado) {
         this.livroController = livroController;
         this.pessoaController = pessoaController;
+        this.colaboradorLogado = colaboradorLogado;
 
         initializeUI();
     }
@@ -172,8 +174,9 @@ public class PesquisaPessoaViewImpl extends JFrame implements PesquisaPessoaView
         } else if (e.getActionCommand().startsWith("editar:")) {
             int idPessoa = Integer.parseInt(e.getActionCommand().split(":")[1]);
             SwingUtilities.invokeLater(() -> {
-                CadastroPessoaViewImpl cadastrarPessoaView = new CadastroPessoaViewImpl(pessoaController, livroController, idPessoa);
+                CadastroPessoaViewImpl cadastrarPessoaView = new CadastroPessoaViewImpl(pessoaController, livroController, idPessoa, colaboradorLogado);
                 cadastrarPessoaView.setVisible(true);
+                this.dispose();
             });
         } else if (e.getActionCommand().startsWith("excluir:")) {
             int idPessoa = Integer.parseInt(e.getActionCommand().split(":")[1]);
@@ -187,13 +190,13 @@ public class PesquisaPessoaViewImpl extends JFrame implements PesquisaPessoaView
             }
         } else if ("buscarLivros".equals(e.getActionCommand())) {
             SwingUtilities.invokeLater(() -> {
-                PesquisaLivroViewImpl pesquisaLivroView = new PesquisaLivroViewImpl(livroController, pessoaController);
+                PesquisaLivroViewImpl pesquisaLivroView = new PesquisaLivroViewImpl(livroController, pessoaController, colaboradorLogado);
                 pesquisaLivroView.setVisible(true);
                 this.dispose();
             });
         } else if ("adicionarPessoa".equals(e.getActionCommand())) {
             SwingUtilities.invokeLater(() -> {
-                CadastroPessoaViewImpl cadastrarPessoaView = new CadastroPessoaViewImpl(pessoaController, livroController, 0);
+                CadastroPessoaViewImpl cadastrarPessoaView = new CadastroPessoaViewImpl(pessoaController, livroController, 0, colaboradorLogado);
                 cadastrarPessoaView.setVisible(true);
                 this.dispose();
             });

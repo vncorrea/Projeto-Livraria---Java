@@ -66,15 +66,15 @@ public class ServiceLocator {
     }
 
     public CadastroLivroView getCadastroLivroView() {
-        return new CadastroLivroViewImpl(getLivroController(), getPessoaController(), 0);
+        return new CadastroLivroViewImpl(getLivroController(), getPessoaController(), 0, null);
     }
 
     public PesquisaLivroView getPesquisaLivroView() {
-        return new PesquisaLivroViewImpl(getLivroController(), getPessoaController());
+        return new PesquisaLivroViewImpl(getLivroController(), getPessoaController(), null);
     }
 
     public CadastroPessoaView getCadastroPessoaView() {
-        return new CadastroPessoaViewImpl(getPessoaController(), getLivroController(), 0);
+        return new CadastroPessoaViewImpl(getPessoaController(), getLivroController(), 0, null);
     }
 
     public LoginPessoaView getLoginPessoaView() {
