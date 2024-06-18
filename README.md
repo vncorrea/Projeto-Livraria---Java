@@ -9,8 +9,8 @@ Feito por:
 - Rafael do Nascimento - 838776 
 
 Vídeo mostrando o projeto na prática:
-https://www.youtube.com/watch?v=THjAnyQmGBE&ab_channel=Vin%C3%ADciusCorr%C3%AAa
+https://youtu.be/MBUBFeYniBE
 
 Foto do diagrama de classes:
-https://drive.google.com/file/d/1Bme9NLk7gaQS0BNzzefoeltWkh34DLDk/view?usp=sharing
+https://drive.google.com/file/d/1Wmd_x9XYxsI43TJfM0XQs-Fzg3y_5_Pj/view?usp=sharing
 
