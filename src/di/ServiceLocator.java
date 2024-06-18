@@ -19,7 +19,6 @@ import views.Livro.PesquisaLivro.PesquisaLivroViewImpl;
 
 public class ServiceLocator {
 
-    // Instancia para o singleton
     private static ServiceLocator instance;
 
     public static ServiceLocator getInstance() {

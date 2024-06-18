@@ -9,9 +9,11 @@ import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 
 public class PessoaDAO implements PessoaDatabase {
 
+    @Override
     public void cadastrarPessoa(String nome, String cpf, String email, String telefone, String logradouro, String cidade, String cep, Date dataCadastro, Date dataNascimento, String uf, String senha, boolean colaborador, String cargo, Date dataRegistro, String pis, String rg, boolean administrador) {
         Session session = null;
         Transaction transaction = null;
@@ -19,15 +21,6 @@ public class PessoaDAO implements PessoaDatabase {
         try {
             session = DatabaseManager.getDatabaseSessionFactory().openSession();
             transaction = session.beginTransaction();
-            
-            Query<Pessoa> query = session.createQuery("from Pessoa where cpf = :cpf", Pessoa.class);
-            query.setParameter("cpf", cpf);
-            Pessoa pessoaExistente = query.uniqueResult();
-
-            if (pessoaExistente != null) {
-                System.out.println("CPF já cadastrado!");
-                return;
-            }
 
             dataCadastro = new Date();
 
@@ -43,7 +36,6 @@ public class PessoaDAO implements PessoaDatabase {
             } else {
                 pessoa = new Pessoa(nome, cpf, email, telefone, logradouro, cidade, cep, dataCadastro, dataNascimento, uf, senha);
             }
-
 
             session.save(pessoa);
 
@@ -127,7 +119,7 @@ public class PessoaDAO implements PessoaDatabase {
     public Pessoa pesquisarPessoa(int idPessoa, String nome, String cpf, String telefone) {
         Pessoa pessoa = null;
         try {
-            pessoa = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
+            Optional<Pessoa> pessoaOptional = DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
                 Query<Pessoa> query;
                 if (idPessoa != 0) {
                     query = session.createQuery("from Pessoa where idPessoa = :idPessoa", Pessoa.class);
@@ -143,8 +135,12 @@ public class PessoaDAO implements PessoaDatabase {
                     query.setParameter("telefone", telefone);
                 }
 
-                return query.getSingleResult();
+                return query.uniqueResultOptional();
             });
+
+            if (pessoaOptional.isPresent()) {
+                pessoa = pessoaOptional.get();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

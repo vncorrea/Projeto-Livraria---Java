@@ -20,9 +20,7 @@ import java.util.ArrayList;
 public class PesquisaPessoaViewImpl extends JFrame implements PesquisaPessoaView, ActionListener {
     private LivroController livroController;
     private PessoaController pessoaController;
-
     private JTextField textFieldPesquisa;
-
     private JPanel resultadosPanel;
     private Pessoa colaboradorLogado;
 
