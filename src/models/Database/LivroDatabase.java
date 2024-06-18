@@ -18,12 +18,20 @@ public interface LivroDatabase {
     ArrayList pesquisarLivros(String titulo, String autor, String categoria, String isbn);
 
     void criarCategoria(String descricao);
+
     void criarStatus(String descricao);
+
     List pesquisarStatus();
+
     List pesquisarCategorias();
 
     LivroCategoria pesquisarCategoria(int idLivroCategoria, String descricao);
+
     Livro pesquisarLivro(int idLivro);
 
     LivroStatus pesquisarUmStatus(int idLivroStatus, String descricao);
+
+    void emprestarLivro(int idLivro, int idPessoa, Date dataEmprestimo, Date dataDevolucao, String observacao);
+
+    void devolverLivro(int idLivro);
 }

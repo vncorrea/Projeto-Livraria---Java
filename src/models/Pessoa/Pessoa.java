@@ -1,14 +1,16 @@
 package models.Pessoa;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import models.Livro.LivroStatus;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Pessoa")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo")
 public class Pessoa {
     @Id
     @GeneratedValue
@@ -30,27 +32,23 @@ public class Pessoa {
 
     private String senha;
 
-    public Pessoa(int idPessoa,
-                  String nome,
+    public Pessoa(String nome,
                   String cpf,
                   String email,
                   String telefone,
                   String logradouro,
                   String cidade,
-                  String estado,
                   String cep,
                   Date dataCadastro,
                   Date dataNascimento,
                   String uf,
                   String senha) {
-        this.idPessoa = idPessoa;
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
         this.logradouro = logradouro;
         this.cidade = cidade;
-        this.estado = estado;
         this.cep = cep;
         this.dataCadastro = dataCadastro;
         this.dataNascimento = dataNascimento;
@@ -60,6 +58,9 @@ public class Pessoa {
 
     public Pessoa() {
 
+    }
+
+    public Pessoa(String nome, String cpf, String email, String telefone, String logradouro, String cidade, String estado, String cep, Date dataCadastro, Date dataNascimento, String uf, String senha) {
     }
 
     public int getIdPessoa() {
@@ -164,5 +165,15 @@ public class Pessoa {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public static List<String> listarNomePessoas(List<Pessoa> pessoas) {
+        return pessoas.stream()
+                .map(Pessoa::getNome)
+                .collect(Collectors.toList());
+    }
+
+    public boolean isColaborador() {
+        return this instanceof Colaborador;
     }
 }

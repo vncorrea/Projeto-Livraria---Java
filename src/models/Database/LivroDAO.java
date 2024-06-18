@@ -2,7 +2,9 @@ package models.Database;
 
 import models.Livro.Livro;
 import models.Livro.LivroCategoria;
+import models.Livro.LivroEmprestimo;
 import models.Livro.LivroStatus;
+import models.Pessoa.Pessoa;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -104,9 +106,9 @@ public class LivroDAO implements LivroDatabase {
         ArrayList<Livro> livros = new ArrayList<>();
         try {
             livros = (ArrayList<Livro>) DatabaseManager.getDatabaseSessionFactory().fromTransaction(session -> {
-                Query<Livro> query = session.createQuery("from Livro where titulo = :titulo or autor = :autor or isbn = :isbn", Livro.class);
-                query.setParameter("titulo", titulo);
-                query.setParameter("autor", autor);
+                Query<Livro> query = session.createQuery("from Livro where lower(titulo) like :titulo or lower(autor) like :autor or isbn = :isbn", Livro.class);
+                query.setParameter("titulo", "%" + titulo.toLowerCase() + "%");
+                query.setParameter("autor", "%" + autor.toLowerCase() + "%");
                 query.setParameter("isbn", isbn);
                 return query.getResultList();
             });
@@ -249,5 +251,67 @@ public class LivroDAO implements LivroDatabase {
         }
 
         return status;
+    }
+
+    @Override
+    public void emprestarLivro(int idLivro, int idPessoa, Date dataEmprestimo, Date dataDevolucao, String observacao) {
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            session = DatabaseManager.getDatabaseSessionFactory().openSession();
+
+            transaction = session.beginTransaction();
+            Livro livro = session.get(Livro.class, idLivro);
+            livro.setIdLivroStatus(2);
+            transaction.commit();
+
+            transaction = session.beginTransaction();
+            LivroEmprestimo emprestimo = new LivroEmprestimo(idLivro, idPessoa, dataEmprestimo, dataDevolucao, false, observacao, true);
+            session.save(emprestimo);
+            transaction.commit();
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    @Override
+    public void devolverLivro(int idLivro) {
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            session = DatabaseManager.getDatabaseSessionFactory().openSession();
+
+            transaction = session.beginTransaction();
+            Livro livro = session.get(Livro.class, idLivro);
+            livro.setIdLivroStatus(1);
+            transaction.commit();
+
+            transaction = session.beginTransaction();
+            Query<LivroEmprestimo> query = session.createQuery("from LivroEmprestimo where idLivro = :idLivro and ativo = true", LivroEmprestimo.class);
+            query.setParameter("idLivro", idLivro);
+            LivroEmprestimo emprestimo = query.getSingleResult();
+            emprestimo.setAtivo(false);
+            transaction.commit();
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
